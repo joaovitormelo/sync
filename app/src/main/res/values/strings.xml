@@ -1,3 +1,17 @@
 <resources>
     <string name="app_name">Sync</string>
+    <string name="taskTitle">Adicionar título</string>
+    <string name="descriptionPlaceholder">Adicionar descrição</string>
+    <string name="descriptionDescriptionIcon">Ícone de descrição</string>
+    <string name="descriptionCalendarIcon">Ícone de calendário</string>
+    <string name="descriptionScheduleIcon">Ícone de horário</string>
+    <string name="descriptionNotificationIcon">Ícone de notificação</string>
+    <string name="descriptionTitleTask">Ícone de título</string>
+    <string name="descriptionCheckbox">Ícone de checkbox</string>
+    <string name="descriptionCircleColorIcon">Ícone de cor</string>
+    <string name="receiveNotification">Receber notificação</string>
+    <string name="colorTask">Cor da tarefa</string>
+    <string name="fullDay">Dia inteiro</string>
+    <string name="cancel">Cancelar</string>
+    <string name="save">Salvar</string>
 </resources>
