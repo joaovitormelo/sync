@@ -14,4 +14,12 @@
     <string name="fullDay">Dia inteiro</string>
     <string name="cancel">Cancelar</string>
     <string name="save">Salvar</string>
+    <string name="login">Login</string>
+    <string name="email">E-mail</string>
+    <string name="password">Senha</string>
+    <string name="noregister"> Ainda não possui cadastro? </string>
+    <string name="register">Cadastrar </string>
+    <string name="saveData">Manter Logado</string>
+    <string name="EnterEmail">Digite seu e-mail</string>
+    <string name="EnterPassword">Digite sua senha </string>
 </resources>
