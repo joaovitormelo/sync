@@ -13,7 +13,7 @@
         android:layout_marginTop="8dp"
         android:adjustViewBounds="true"
         android:scaleType="fitCenter"
-        android:src="@drawable/Logo" />
+        android:src="@drawable/logo" />
     <TextView
         android:id="@+id/ViewLogin"
         android:layout_width="wrap_content"

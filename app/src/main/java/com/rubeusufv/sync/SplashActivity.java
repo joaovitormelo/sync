@@ -23,9 +23,8 @@ public class SplashActivity extends AppCompatActivity {
                 Intent intent = new Intent(SplashActivity.this, Tela_Cadastro.class);
                 startActivity(intent);
                 finish();
-                    }
-                }, 5000);
             }
-        }
+            },5000);
+
     }
 }

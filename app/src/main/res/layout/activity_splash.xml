@@ -21,10 +21,10 @@
         android:id="@+id/imageLogo"
         android:layout_width="221dp"
         android:layout_height="210dp"
+        android:layout_marginTop="-60dp"
         android:adjustViewBounds="true"
         android:scaleType="fitCenter"
-        android:src="@drawable/Logo"
-        android:layout_marginTop="-60dp" />
+        android:src="@drawable/logo" />
 
 
 </LinearLayout>
