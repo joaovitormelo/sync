@@ -10,21 +10,22 @@
     tools:context=".SplashActivity">
 
     <ImageView
+        android:id="@+id/imageLogo"
+        android:layout_width="150dp"
+        android:layout_height="140dp"
+        android:adjustViewBounds="true"
+        android:scaleType="fitCenter"
+        android:src="@drawable/Logo" />
+
+    <ImageView
         android:id="@+id/imageSync"
         android:layout_width="221dp"
         android:layout_height="210dp"
+        android:layout_marginTop="-45dp"
         android:adjustViewBounds="true"
         android:scaleType="fitCenter"
         android:src="@drawable/sync_nome" />
 
-    <ImageView
-        android:id="@+id/imageLogo"
-        android:layout_width="221dp"
-        android:layout_height="210dp"
-        android:layout_marginTop="-60dp"
-        android:adjustViewBounds="true"
-        android:scaleType="fitCenter"
-        android:src="@drawable/logo" />
 
 
 </LinearLayout>
