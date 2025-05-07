@@ -8,7 +8,9 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 
-public class Tela_Cadastro extends Activity {
+import androidx.appcompat.app.AppCompatActivity;
+
+public class Tela_Cadastro extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
