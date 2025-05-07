@@ -6,4 +6,7 @@
     </style>
 
     <style name="Theme.Sync" parent="Base.Theme.Sync" />
+
+    <style name="Theme.MySplash" parent="Theme.Material3.DayNight.NoActionBar">
+    </style>
 </resources>
