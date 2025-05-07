@@ -22,4 +22,6 @@
     <string name="saveData">Manter Logado</string>
     <string name="EnterEmail">Digite seu e-mail</string>
     <string name="EnterPassword">Digite sua senha </string>
+    <string name="selectDate">Selecione uma data</string>
+    <string name="selectTime">Selecione um horário</string>
 </resources>
