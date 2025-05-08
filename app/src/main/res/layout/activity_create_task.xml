@@ -238,25 +238,25 @@
                 android:layout_height="wrap_content"
                 android:contentDescription="@string/descriptionCategoryIcon"
                 android:src="@drawable/category_icon"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/selectCategory"
-                android:layout_marginHorizontal="10dp"/>
-<!--            <com.google.android.material.textfield.TextInputLayout-->
-<!--                android:layout_width="match_parent"-->
+<!--            <TextView-->
+<!--                android:layout_width="wrap_content"-->
 <!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginHorizontal="10dp"-->
-<!--                style="@style/Widget.Material3.TextInputLayout.FilledBox.ExposedDropdownMenu"-->
-<!--                android:backgroundTint="@android:color/transparent">-->
-<!--                <com.google.android.material.textfield.MaterialAutoCompleteTextView-->
-<!--                    android:id="@+id/categoryDropdown"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:padding="0dp"-->
-<!--                    android:background="@android:color/transparent"-->
-<!--                    android:inputType="none" />-->
-<!--            </com.google.android.material.textfield.TextInputLayout>-->
+<!--                android:text="@string/selectCategory"-->
+<!--                android:layout_marginHorizontal="10dp"/>-->
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                style="@style/Widget.Material3.TextInputLayout.FilledBox.ExposedDropdownMenu"
+                android:backgroundTint="@android:color/transparent">
+                <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                    android:id="@+id/categoryDropdown"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="0dp"
+                    android:background="@android:color/transparent"
+                    android:inputType="none" />
+            </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
 
 

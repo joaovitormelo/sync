@@ -16,18 +16,18 @@ import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.google.android.material.timepicker.MaterialTimePicker;
 import com.google.android.material.timepicker.TimeFormat;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 public class CreateTask extends AppCompatActivity {
 
     // Todas as variáveis para criar uma tarefa
-    private TextView nameTask;
+    private TextView nameTask, dateTask, timeTask;
     private EditText descriptionTask;
-    private TextView dateTask;
-    private TextView timeTask;
-    private MaterialButton dateButton;
-    private MaterialButton timeButtonStart;
-    private MaterialButton timeButtonEnd;
-    private MaterialAutoCompleteTextView repeatDropdown;
-    private MaterialAutoCompleteTextView categoryDropdown;
+    private MaterialButton dateButton, timeButtonStart, timeButtonEnd;
+    private MaterialAutoCompleteTextView repeatDropdown, categoryDropdown;
+    private String dateTaskString;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +36,7 @@ public class CreateTask extends AppCompatActivity {
 
         nameTask = findViewById(R.id.editTextTaskTitle);
         descriptionTask = findViewById(R.id.editTextTaskDescription);
-        dateTask = findViewById(R.id.textViewDate);
+        //dateTask = findViewById(R.id.textViewDate);
         timeTask = findViewById(R.id.textViewTime);
         dateButton = findViewById(R.id.btnDatePicker);
 
@@ -49,6 +49,11 @@ public class CreateTask extends AppCompatActivity {
         dateButton.setOnClickListener(v -> datePicker.show(getSupportFragmentManager(), "DATE_PICKER"));
         datePicker.addOnPositiveButtonClickListener(selection -> {
             dateButton.setText(datePicker.getHeaderText());
+
+            // Formatação para ser usado na intent
+            Date date = new Date(selection);
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+            dateTaskString = sdf.format(date);
         });
 
 
@@ -91,11 +96,24 @@ public class CreateTask extends AppCompatActivity {
                 "Não repetir",
                 "Todos os dias",
                 "Todas as semanas",
-                "Todos os meses"
+                "Todos os meses",
+                "Personalizar..."
         };
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, repeatOptions);
-        repeatDropdown.setAdapter(adapter);
+        ArrayAdapter<String> adapterRepeat = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, repeatOptions);
+        repeatDropdown.setAdapter(adapterRepeat);
         repeatDropdown.setText("Não repetir", false);
+
+
+        // Opções de categoria
+        categoryDropdown = findViewById(R.id.categoryDropdown);
+        String[] categoryOptions = new String[] {
+                "Reunião",
+                "Prova",
+                "Personalizar..."
+        };
+        ArrayAdapter<String> adapterCategory = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, categoryOptions);
+        categoryDropdown.setAdapter(adapterCategory);
+        categoryDropdown.setText("Selecione uma categoria", false);
     }
 
     public void receiveNotification(View v) {
@@ -106,10 +124,10 @@ public class CreateTask extends AppCompatActivity {
         // Converte todas as valores em string
         String nameTaskString = nameTask.getText().toString();
         String descriptionTaskString = descriptionTask.getText().toString();
-        String dateTaskString = dateTask.getText().toString();
+        //String dateTaskString = dateTask.getText().toString();
         String timeTaskString = timeTask.getText().toString();
 
-        Intent it = new Intent(getBaseContext(), MainActivity.class);
+        Intent it = new Intent(getBaseContext(), Task.class);
         Bundle newTask = new Bundle();
 
         // Coloca todos os valores no bundle
