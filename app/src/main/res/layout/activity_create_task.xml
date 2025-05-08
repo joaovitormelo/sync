@@ -14,7 +14,6 @@
         android:layout_marginTop="50dp"
         android:layout_marginHorizontal="30dp"
         tools:ignore="UselessParent">
-
 <!--        Título da tarefa-->
         <LinearLayout
             android:layout_width="wrap_content"
@@ -38,6 +37,7 @@
                 android:background="@null"
                 tools:ignore="Autofill" />
         </LinearLayout>
+
 
 <!--         Descrição da tarefa-->
         <LinearLayout
@@ -63,6 +63,7 @@
                 tools:ignore="Autofill" />
         </LinearLayout>
 
+
 <!--        Dia da tarefa-->
         <LinearLayout
             android:layout_width="wrap_content"
@@ -70,21 +71,24 @@
             android:orientation="horizontal"
             android:layout_marginVertical="5dp"
             android:gravity="center">
-
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/descriptionCalendarIcon"
+                android:src="@drawable/calendar_icon" />
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnDatePicker"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/selectDate"
                 android:layout_margin="0dp"
-                style="?android:attr/buttonBarButtonStyle"
-                app:icon="@drawable/calendar_icon"
-                app:iconSize="24dp"/>
+                style="?android:attr/buttonBarButtonStyle" />
             <TextView
                 android:id="@+id/textViewDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
         </LinearLayout>
+
 
 <!--        Horário da tarefa-->
         <LinearLayout
@@ -93,16 +97,30 @@
             android:orientation="horizontal"
             android:layout_marginVertical="5dp"
             android:gravity="center">
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnTimePicker"
+            <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:icon="@drawable/schedule_icon"
-                app:iconSize="24dp"
+                android:contentDescription="@string/descriptionScheduleIcon"
+                android:src="@drawable/schedule_icon" />
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnTimePickerStart"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_margin="0dp"
                 style="?android:attr/buttonBarButtonStyle"
-                android:text="@string/selectTime" />
+                android:text="@string/startTime" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="-"
+                tools:ignore="HardcodedText" />
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnTimePickerEnd"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="0dp"
+                style="?android:attr/buttonBarButtonStyle"
+                android:text="@string/endTime" />
             <TextView
                 android:id="@+id/textViewTime"
                 android:layout_width="wrap_content"
@@ -116,13 +134,43 @@
                 android:text="@string/fullDay"/>
         </LinearLayout>
 
+
+<!--        Repetição das tarefas-->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center" >
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/descriptionRepeatIcon"
+                android:src="@drawable/repeat_icon"
+                android:layout_marginTop="5dp"/>
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                style="@style/Widget.Material3.TextInputLayout.FilledBox.ExposedDropdownMenu"
+                android:backgroundTint="@android:color/transparent">
+                <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                    android:id="@+id/repeatDropdown"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="0dp"
+                    android:background="@android:color/transparent"
+                    android:inputType="none" />
+            </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
+
+
 <!--        Notificação da tarefa-->
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center"
-            android:layout_marginVertical="10dp">
+            android:layout_marginVertical="15dp">
             <ImageView
                 android:id="@+id/imageViewNotification"
                 android:layout_width="wrap_content"
@@ -137,12 +185,13 @@
                 android:layout_marginHorizontal="10dp"/>
         </LinearLayout>
 
+
 <!--        Cor da tarefa-->
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:layout_marginVertical="10dp"
+            android:layout_marginVertical="15dp"
             android:orientation="horizontal">
             <ImageView
                 android:layout_width="wrap_content"
@@ -156,6 +205,91 @@
                 android:layout_marginHorizontal="10dp"/>
         </LinearLayout>
 
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginVertical="15dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/descriptionLocationIcon"
+                android:src="@drawable/location_icon"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/selectLocation"
+                android:layout_marginHorizontal="10dp"/>
+        </LinearLayout>
+
+
+<!--        Categoria das tarefas-->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginVertical="15dp">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/descriptionCategoryIcon"
+                android:src="@drawable/category_icon"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/selectCategory"
+                android:layout_marginHorizontal="10dp"/>
+<!--            <com.google.android.material.textfield.TextInputLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginHorizontal="10dp"-->
+<!--                style="@style/Widget.Material3.TextInputLayout.FilledBox.ExposedDropdownMenu"-->
+<!--                android:backgroundTint="@android:color/transparent">-->
+<!--                <com.google.android.material.textfield.MaterialAutoCompleteTextView-->
+<!--                    android:id="@+id/categoryDropdown"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:padding="0dp"-->
+<!--                    android:background="@android:color/transparent"-->
+<!--                    android:inputType="none" />-->
+<!--            </com.google.android.material.textfield.TextInputLayout>-->
+        </LinearLayout>
+
+
+<!--        CheckBox para sincronizar com a Rubeus e a Google-->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginVertical="10dp">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/sync_icon"/>
+            <CheckBox
+                android:id="@+id/checkboxSyncToRubeus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/syncToRubeus"/>
+            <CheckBox
+                android:id="@+id/checkboxSyncToGoogle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/syncToGoogle"/>
+        </LinearLayout>
+
+
 <!--        Botões da tarefa-->
         <LinearLayout
             style="?android:attr/buttonBarStyle"
@@ -164,7 +298,6 @@
             android:orientation="horizontal"
             android:gravity="center"
             android:layout_marginVertical="10dp">
-
             <Button
                 android:id="@+id/btnCancel"
                 style="?android:attr/buttonBarButtonStyle"
@@ -173,7 +306,6 @@
                 android:text="@string/cancel"
                 android:layout_marginHorizontal="20dp"
                 android:onClick="cancelTask" />
-
             <Button
                 android:id="@+id/btnSave"
                 style="?android:attr/buttonBarButtonStyle"
@@ -183,7 +315,5 @@
                 android:layout_marginHorizontal="20dp"
                 android:onClick="createTask"/>
         </LinearLayout>
-
     </LinearLayout>
-
 </RelativeLayout>

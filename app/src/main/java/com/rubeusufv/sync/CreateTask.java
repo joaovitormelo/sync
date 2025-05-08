@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -11,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.datepicker.MaterialDatePicker;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.google.android.material.timepicker.MaterialTimePicker;
 import com.google.android.material.timepicker.TimeFormat;
 
@@ -22,7 +24,10 @@ public class CreateTask extends AppCompatActivity {
     private TextView dateTask;
     private TextView timeTask;
     private MaterialButton dateButton;
-    private MaterialButton timeButton;
+    private MaterialButton timeButtonStart;
+    private MaterialButton timeButtonEnd;
+    private MaterialAutoCompleteTextView repeatDropdown;
+    private MaterialAutoCompleteTextView categoryDropdown;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,21 +52,50 @@ public class CreateTask extends AppCompatActivity {
         });
 
 
-        // Criação do horário
-        timeButton = findViewById(R.id.btnTimePicker);
-        MaterialTimePicker timePicker = new MaterialTimePicker.Builder()
+        // Criação do horário inicial
+        timeButtonStart= findViewById(R.id.btnTimePickerStart);
+        MaterialTimePicker timePickerStart = new MaterialTimePicker.Builder()
                 .setTimeFormat(TimeFormat.CLOCK_24H)
                 .setHour(12)
                 .setMinute(0)
                 .setTitleText("Escolha um horário")
                 .build();
-        timeButton.setOnClickListener(v -> timePicker.show(getSupportFragmentManager(), "TIME_PICKER"));
-        timePicker.addOnPositiveButtonClickListener(v -> {
-            int hour = timePicker.getHour();
-            int minute = timePicker.getMinute();
+        timeButtonStart.setOnClickListener(v -> timePickerStart.show(getSupportFragmentManager(), "TIME_PICKER"));
+        timePickerStart.addOnPositiveButtonClickListener(v -> {
+            int hour = timePickerStart.getHour();
+            int minute = timePickerStart.getMinute();
             @SuppressLint("DefaultLocale") String formattedTime = String.format("%02d:%02d", hour, minute);
-            timeButton.setText(formattedTime);
+            timeButtonStart.setText(formattedTime);
         });
+
+
+        // Criação do horário final
+        timeButtonEnd = findViewById(R.id.btnTimePickerEnd);
+        MaterialTimePicker timePickerEnd = new MaterialTimePicker.Builder()
+                .setTimeFormat(TimeFormat.CLOCK_24H)
+                .setHour(12)
+                .setMinute(0)
+                .setTitleText("Escolha um horário")
+                .build();
+        timeButtonEnd.setOnClickListener(v -> timePickerEnd.show(getSupportFragmentManager(), "TIME_PICKER"));
+        timePickerEnd.addOnPositiveButtonClickListener(v -> {
+            int hour = timePickerEnd.getHour();
+            int minute = timePickerEnd.getMinute();
+            @SuppressLint("DefaultLocale") String formattedTime = String.format("%02d:%02d", hour, minute);
+            timeButtonEnd.setText(formattedTime);
+        });
+
+        // Opções de repetição
+        repeatDropdown = findViewById(R.id.repeatDropdown);
+        String[] repeatOptions = new String[] {
+                "Não repetir",
+                "Todos os dias",
+                "Todas as semanas",
+                "Todos os meses"
+        };
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, repeatOptions);
+        repeatDropdown.setAdapter(adapter);
+        repeatDropdown.setText("Não repetir", false);
     }
 
     public void receiveNotification(View v) {

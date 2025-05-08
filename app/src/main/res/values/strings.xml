@@ -9,6 +9,9 @@
     <string name="descriptionTitleTask">Ícone de título</string>
     <string name="descriptionCheckbox">Ícone de checkbox</string>
     <string name="descriptionCircleColorIcon">Ícone de cor</string>
+    <string name="descriptionRepeatIcon">Ícone de repetir</string>
+    <string name="descriptionCategoryIcon">Ícone de categoria</string>
+    <string name="descriptionLocationIcon">Ícone de localização</string>
     <string name="receiveNotification">Receber notificação</string>
     <string name="colorTask">Cor da tarefa</string>
     <string name="fullDay">Dia inteiro</string>
@@ -24,4 +27,14 @@
     <string name="EnterPassword">Digite sua senha </string>
     <string name="selectDate">Selecione uma data</string>
     <string name="selectTime">Selecione um horário</string>
+    <string name="startTime">Início</string>
+    <string name="endTime">Fim</string>
+    <string name="noRepeat">Não repetir</string>
+    <string name="everyDay">Todos os dias</string>
+    <string name="everyWeek">Todas as semanas</string>
+    <string name="everyMonth">Todos os meses</string>
+    <string name="syncToRubeus">Rubeus</string>
+    <string name="syncToGoogle">Google</string>
+    <string name="selectLocation">Escolha uma localização</string>
+    <string name="selectCategory">Escolha uma categoria</string>
 </resources>
