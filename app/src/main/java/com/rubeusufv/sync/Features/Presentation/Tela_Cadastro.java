@@ -1,6 +1,5 @@
-package com.rubeusufv.sync;
+package com.rubeusufv.sync.Features.Presentation;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -9,6 +8,8 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.rubeusufv.sync.R;
 
 public class Tela_Cadastro extends AppCompatActivity {
 

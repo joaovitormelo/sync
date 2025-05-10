@@ -1,7 +1,9 @@
-package com.rubeusufv.sync;
+package com.rubeusufv.sync.Features.Presentation;
 
 import android.app.Activity;
 import android.os.Bundle;
+
+import com.rubeusufv.sync.R;
 
 public class MainActivity extends Activity {
 

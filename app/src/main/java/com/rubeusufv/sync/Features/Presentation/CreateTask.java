@@ -1,4 +1,4 @@
-package com.rubeusufv.sync;
+package com.rubeusufv.sync.Features.Presentation;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -15,6 +15,7 @@ import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.google.android.material.timepicker.MaterialTimePicker;
 import com.google.android.material.timepicker.TimeFormat;
+import com.rubeusufv.sync.R;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

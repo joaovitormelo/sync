@@ -1,9 +1,11 @@
-package com.rubeusufv.sync;
+package com.rubeusufv.sync.Features.Presentation;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TextView;
+
+import com.rubeusufv.sync.R;
 
 public class Task extends Activity {
 
@@ -26,6 +28,5 @@ public class Task extends Activity {
         nameTask.setText(task.getString("nameTask"));
         descriptionTask.setText(task.getString("descriptionTask"));
         dateTask.setText(task.getString("dateTask"));
-
     }
 }
