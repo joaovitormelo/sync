@@ -1,43 +1,62 @@
 package com.rubeusufv.sync.Features.Presentation.Screens;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
-
-import com.google.android.material.appbar.CollapsingToolbarLayout;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
 import android.view.View;
+import android.widget.ListView;
 
+import com.rubeusufv.sync.Features.Domain.Models.Event;
+import com.rubeusufv.sync.Features.Domain.Usecases.EventUsecases;
+import com.rubeusufv.sync.Features.Presentation.Screens.Adapters.EventDayListAdapter;
+import com.rubeusufv.sync.Features.Presentation.Screens.ListItems.EventDayListItem;
 import com.rubeusufv.sync.R;
-import com.rubeusufv.sync.databinding.ActivityScrollingBinding;
 
-public class EventsActivity extends AppCompatActivity {
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
-    private ActivityScrollingBinding binding;
+public class EventsActivity extends Activity {
+    EventDayListAdapter eventDayListAdapter;
+    ArrayList<Event> eventList;
+    ArrayList<EventDayListItem> eventDayList;
+    Map<Date, ArrayList<Event>> eventsPerDayMap;
+    EventUsecases usecases;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_events);
 
-        binding = ActivityScrollingBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
+        usecases = EventUsecases.getInstance();
+        eventList = usecases.fetchEvents();
 
-        Toolbar toolbar = binding.toolbar;
-        setSupportActionBar(toolbar);
-        CollapsingToolbarLayout toolBarLayout = binding.toolbarLayout;
-        toolBarLayout.setTitle(getTitle());
+        eventsPerDayMap = new HashMap<Date, ArrayList<Event>>();
+        for (Event e : eventList) {
+            ArrayList<Event> eventList = eventsPerDayMap.get(e.getDate());
+            if (eventList == null) eventList = new ArrayList<Event>();
+            eventList.add(e);
+            eventsPerDayMap.put(e.getDate(), eventList);
+        }
 
-        FloatingActionButton fab = binding.fab;
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null)
-                        .setAnchorView(R.id.fab).show();
-            }
-        });
+        eventDayList = new ArrayList<EventDayListItem>();
+        for (Date date : eventsPerDayMap.keySet()) {
+            eventDayList.add(new EventDayListItem(
+                    date, eventsPerDayMap.get(date)
+            ));
+        }
+
+
+        ListView eventDayListView = findViewById(R.id.eventDayList);
+        eventDayListAdapter = new EventDayListAdapter(
+            getBaseContext(), R.layout.event_day_list_item, eventDayList
+        );
+        eventDayListView.setAdapter(eventDayListAdapter);
+    }
+
+    public void openEventCreationScreen(View v) {
+        Intent it = new Intent(getBaseContext(), CreateTask.class);
+        startActivity(it);
     }
 }

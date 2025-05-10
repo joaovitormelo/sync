@@ -14,13 +14,8 @@
         android:theme="@style/Theme.Sync"
         tools:targetApi="31">
         <activity
-            android:name=".Features.Presentation.Screens.EventsActivity2"
-            android:exported="false" />
-        <activity
             android:name=".Features.Presentation.Screens.EventsActivity"
-            android:exported="false"
-            android:label="@string/title_activity_scrolling"
-            android:theme="@style/Theme.Sync.NoActionBar" />
+            android:exported="false" />
         <activity
             android:name=".Features.Presentation.Screens.Task"
             android:exported="false" />
