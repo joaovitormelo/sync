@@ -5,8 +5,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.GridLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -42,8 +44,11 @@ public class EventDayListAdapter extends ArrayAdapter<EventDayListItem> {
         int month = eventDay.getDate().getMonth();
         String dateMonth = String.format("%02d", date) + "/" + String.format("%02d", month);
 
+        Toast.makeText(view.getContext(), String.valueOf(eventDay.getEventList().size()), Toast.LENGTH_SHORT).show();
+
         weekdayTextView.setText(weekDay);
         dayTextView.setText(dateMonth);
+
         return view;
     }
 

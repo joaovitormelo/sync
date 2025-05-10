@@ -1,14 +1,19 @@
 package com.rubeusufv.sync.Features.Presentation.Screens.Adapters;
 
+import static android.view.View.INVISIBLE;
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 
 import com.rubeusufv.sync.Features.Domain.Models.Event;
 import com.rubeusufv.sync.R;
@@ -32,6 +37,20 @@ public class EventListAdapter extends ArrayAdapter<Event> {
         String time = event.getStartHour() + " - " + event.getEndHour();
         listName.setText(event.getTitle());
         listTime.setText(time);
+
+        CardView eventDayItem = view.findViewById(R.id.eventItem);
+        ImageView rubeusIcon = view.findViewById(R.id.rubeusIcon);
+        ImageView googleIcon = view.findViewById(R.id.googleIcon);
+
+        if (!event.isRubeusSynchronized()) {
+            eventDayItem.setCardBackgroundColor(view.getResources().getColor(R.color.grey));
+            rubeusIcon.setVisibility(INVISIBLE);
+        }
+        if (!event.isGoogleSynchronized()) {
+            googleIcon.setVisibility(INVISIBLE);
+        }
+
+
         return view;
     }
 }

@@ -44,8 +44,11 @@
             android:id="@+id/eventDayList"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:listitem="event_list"
+            tools:listitem="@layout/event_day_list_item"
             android:layout_below="@id/events_app_bar"
+            android:scrollbars="vertical"
+            android:divider="@android:color/transparent"
+            android:dividerHeight="10.0sp"
         />
     </RelativeLayout>
 
