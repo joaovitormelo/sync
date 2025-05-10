@@ -44,7 +44,5 @@ public class Tela_Cadastro extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-
     }
 }
