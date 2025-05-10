@@ -1,4 +1,4 @@
-package com.rubeusufv.sync.Features.Presentation;
+package com.rubeusufv.sync.Features.Presentation.Screens;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -32,7 +33,7 @@ public class Tela_Cadastro extends AppCompatActivity {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Tela_Cadastro.this, CreateTask.class);
+                Intent intent = new Intent(getBaseContext(), EventsActivity2.class);
                 startActivity(intent);
              }
         });
@@ -40,8 +41,7 @@ public class Tela_Cadastro extends AppCompatActivity {
         newLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Tela_Cadastro.this, CreateTask.class);
-                startActivity(intent);
+                Toast.makeText(getBaseContext(), "Ainda não implementado!", Toast.LENGTH_SHORT).show();
             }
         });
     }

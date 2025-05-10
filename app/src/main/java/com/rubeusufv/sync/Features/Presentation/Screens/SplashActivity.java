@@ -1,4 +1,4 @@
-package com.rubeusufv.sync.Features.Presentation;
+package com.rubeusufv.sync.Features.Presentation.Screens;
 
 import android.app.Activity;
 import android.content.Intent;

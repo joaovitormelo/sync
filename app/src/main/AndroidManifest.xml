@@ -12,13 +12,20 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Sync"
-        tools:targetApi="31"
-        >
+        tools:targetApi="31">
         <activity
-            android:name=".Features.Presentation.Task"
+            android:name=".Features.Presentation.Screens.EventsActivity2"
             android:exported="false" />
         <activity
-            android:name=".Features.Presentation.SplashActivity"
+            android:name=".Features.Presentation.Screens.EventsActivity"
+            android:exported="false"
+            android:label="@string/title_activity_scrolling"
+            android:theme="@style/Theme.Sync.NoActionBar" />
+        <activity
+            android:name=".Features.Presentation.Screens.Task"
+            android:exported="false" />
+        <activity
+            android:name=".Features.Presentation.Screens.SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -27,13 +34,13 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Features.Presentation.Tela_Cadastro"
-            android:exported="false"></activity>
-        <activity
-            android:name=".Features.Presentation.CreateTask"
+            android:name=".Features.Presentation.Screens.Tela_Cadastro"
             android:exported="false" />
         <activity
-            android:name=".Features.Presentation.MainActivity"
+            android:name=".Features.Presentation.Screens.CreateTask"
+            android:exported="false" />
+        <activity
+            android:name=".Features.Presentation.Screens.MainActivity"
             android:exported="false" />
     </application>
 
