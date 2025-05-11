@@ -27,6 +27,11 @@ public final class EventRepository implements EventRepositoryContract {
                 "09:00", "10:00", true, Color.PURPLE, "Atividades",
                 true, false
         ));
+        eventList.add(new Event(
+                "Evento 4", "Um outro evento", new Date(2025, 5, 11),
+                "20:00", "21:00", true, Color.GREEN, "Atividades",
+                true, false
+        ));
     }
 
     public static EventRepository createInstance(

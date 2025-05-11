@@ -36,6 +36,7 @@ public class EventDayListAdapter extends ArrayAdapter<EventDayListItem> {
         eventListAdapter = new EventListAdapter(
                 view.getContext(), R.layout.event_list_item, eventDay.getEventList()
         );
+        setListViewHeightBasedOnChildren(eventListView);
         eventListView.setAdapter(eventListAdapter);
         TextView weekdayTextView = view.findViewById(R.id.day_header_weekday);
         TextView dayTextView = view.findViewById(R.id.day_header_day);
@@ -69,5 +70,17 @@ public class EventDayListAdapter extends ArrayAdapter<EventDayListItem> {
             default:
                 return "Sáb";
         }
+    }
+    private void setListViewHeightBasedOnChildren(ListView listView) {
+        int totalHeight = 0;
+        for (int i = 0; i < eventListAdapter.getCount(); i++) {
+            View listItem = eventListAdapter.getView(i, null, listView);
+            listItem.measure(0, 0);
+            totalHeight += listItem.getMeasuredHeight();
+        }
+
+        ViewGroup.LayoutParams params = listView.getLayoutParams();
+        params.height = totalHeight + (listView.getDividerHeight() * (eventListAdapter.getCount() - 1));
+        listView.setLayoutParams(params);
     }
 }

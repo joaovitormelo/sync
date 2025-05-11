@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 public class EventsActivity extends Activity {
     EventDayListAdapter eventDayListAdapter;
@@ -32,7 +33,7 @@ public class EventsActivity extends Activity {
         usecases = EventUsecases.getInstance();
         eventList = usecases.fetchEvents();
 
-        eventsPerDayMap = new HashMap<Date, ArrayList<Event>>();
+        eventsPerDayMap = new TreeMap<Date, ArrayList<Event>>();
         for (Event e : eventList) {
             ArrayList<Event> eventList = eventsPerDayMap.get(e.getDate());
             if (eventList == null) eventList = new ArrayList<Event>();
