@@ -4,7 +4,9 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Spinner;
 
 import com.rubeusufv.sync.Features.Domain.Models.Event;
 import com.rubeusufv.sync.Features.Domain.Usecases.EventUsecases;
@@ -47,7 +49,6 @@ public class EventsActivity extends Activity {
                     date, eventsPerDayMap.get(date)
             ));
         }
-
 
         ListView eventDayListView = findViewById(R.id.eventDayList);
         eventDayListAdapter = new EventDayListAdapter(

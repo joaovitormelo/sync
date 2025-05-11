@@ -15,6 +15,7 @@ import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 
 import com.rubeusufv.sync.Features.Domain.Models.Event;
+import com.rubeusufv.sync.Features.Domain.Types.Color;
 import com.rubeusufv.sync.R;
 
 import java.util.ArrayList;
@@ -39,14 +40,29 @@ public class EventListAdapter extends ArrayAdapter<Event> {
 
         CardView eventDayItem = view.findViewById(R.id.eventItem);
         ImageView rubeusIcon = view.findViewById(R.id.rubeusIcon);
+        CardView rubeusIconWrapper = view.findViewById(R.id.rubeusIconWrapper);
         ImageView googleIcon = view.findViewById(R.id.googleIcon);
+        CardView googleIconWrapper = view.findViewById(R.id.googleIconWrapper);
 
         if (!event.isRubeusSynchronized()) {
             eventDayItem.setCardBackgroundColor(view.getResources().getColor(R.color.grey));
             rubeusIcon.setVisibility(INVISIBLE);
+            rubeusIconWrapper.setVisibility(INVISIBLE);
+        } else {
+            switch (event.getColor()) {
+                case GREEN:
+                    eventDayItem.setCardBackgroundColor(view.getResources().getColor(R.color.green));
+                    break;
+                case BLUE:
+                    eventDayItem.setCardBackgroundColor(view.getResources().getColor(R.color.blue));
+                    break;
+                default:
+                    eventDayItem.setCardBackgroundColor(view.getResources().getColor(R.color.purple));
+            }
         }
         if (!event.isGoogleSynchronized()) {
             googleIcon.setVisibility(INVISIBLE);
+            googleIconWrapper.setVisibility(INVISIBLE);
         }
 
 

@@ -19,12 +19,12 @@ public final class EventRepository implements EventRepositoryContract {
         ));
         eventList.add(new Event(
             "Evento 2", "Um outro evento", new Date(2025, 5, 8),
-            "08:00", "09:00", false, Color.BLUE, "Atividades",
+            "08:00", "09:00", false, Color.GREEN, "Atividades",
             false, true
         ));
         eventList.add(new Event(
                 "Evento 3", "Um outro evento", new Date(2025, 5, 8),
-                "09:00", "10:00", true, Color.PURPLE, "Atividades",
+                "09:00", "10:00", true, Color.BLUE, "Atividades",
                 true, false
         ));
         eventList.add(new Event(

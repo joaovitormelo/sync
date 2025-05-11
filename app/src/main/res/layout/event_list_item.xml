@@ -47,21 +47,42 @@
             </RelativeLayout>
             <RelativeLayout
                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="6dp"
             >
-                <ImageView
-                    android:id="@+id/rubeusIcon"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:src="@drawable/rubeus"
-                    android:layout_marginEnd="10dp"
-                />
-                <ImageView
-                    android:id="@+id/googleIcon"
-                    android:layout_width="23dp"
-                    android:layout_height="23dp"
-                    android:src="@drawable/google"
-                    android:layout_toEndOf="@id/rubeusIcon"
-                />
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/rubeusIconWrapper"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    app:cardCornerRadius="20dp"
+                >
+                    <ImageView
+                        android:id="@+id/rubeusIcon"
+                        android:layout_width="@dimen/sync_icon_size"
+                        android:layout_height="@dimen/sync_icon_size"
+                        android:src="@drawable/rubeus"
+                        android:layout_margin="5dp"
+                    />
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/googleIconWrapper"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    app:cardCornerRadius="20dp"
+                    android:layout_toRightOf="@id/rubeusIconWrapper"
+                    android:layout_marginStart="10dp"
+                >
+                    <ImageView
+                        android:id="@+id/googleIcon"
+                        android:layout_width="@dimen/sync_icon_size"
+                        android:layout_height="@dimen/sync_icon_size"
+                        android:src="@drawable/google"
+                        android:layout_margin="5dp"
+                    />
+                </androidx.cardview.widget.CardView>
             </RelativeLayout>
         </GridLayout>
     </androidx.cardview.widget.CardView>
