@@ -15,7 +15,6 @@ import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 
 import com.rubeusufv.sync.Features.Domain.Models.Event;
-import com.rubeusufv.sync.Features.Domain.Types.Color;
 import com.rubeusufv.sync.R;
 
 import java.util.ArrayList;
@@ -64,7 +63,6 @@ public class EventListAdapter extends ArrayAdapter<Event> {
             googleIcon.setVisibility(INVISIBLE);
             googleIconWrapper.setVisibility(INVISIBLE);
         }
-
 
         return view;
     }

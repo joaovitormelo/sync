@@ -1,5 +1,6 @@
 package com.rubeusufv.sync.Features.Domain.Repositories;
 import com.rubeusufv.sync.Exceptions.SingletonViolationException;
+import com.rubeusufv.sync.Features.Data.RubeusDataContract;
 import com.rubeusufv.sync.Features.Domain.Models.Event;
 import com.rubeusufv.sync.Features.Domain.Types.Color;
 
@@ -8,9 +9,11 @@ import java.util.Date;
 
 public final class EventRepository implements EventRepositoryContract {
     private static EventRepository instance;
+    private RubeusDataContract rubeusData;
     private ArrayList<Event> eventList;
 
-    private EventRepository() {
+    private EventRepository(RubeusDataContract rubeusData) {
+        this.rubeusData = rubeusData;
         eventList = new ArrayList<Event>();
         eventList.add(new Event(
             "Evento 1", "Um evento", new Date(2025, 5, 10),
@@ -35,9 +38,10 @@ public final class EventRepository implements EventRepositoryContract {
     }
 
     public static EventRepository createInstance(
+            RubeusDataContract rubeusData
     ) throws SingletonViolationException {
         if (instance != null) throw new SingletonViolationException();
-        return instance = new EventRepository();
+        return instance = new EventRepository(rubeusData);
     }
 
     public static EventRepository getInstance() {
@@ -46,7 +50,7 @@ public final class EventRepository implements EventRepositoryContract {
 
     @Override
     public ArrayList<Event> fetchEvents() {
-        return eventList;
+        ArrayList<Event> eventsRubeus = rubeusData.fetchEvents();
     }
 }
 

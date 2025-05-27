@@ -21,3 +21,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "Sync"
 include(":app")
+include(":mylibrary")
