@@ -7,7 +7,8 @@ import java.util.List;
 public interface DatabaseContract {
     void insert(String table, List<String> values) throws DatabaseException;
     List<DatabaseEntry> select(
-        String table, List<String> fields, String where, List<String> whereArgs
+        String table, List<String> fields, String where, List<String> whereArgs,
+        String groupBy
     ) throws DatabaseException;
     void update(
             String table, List<String> fields, List<String> values,
