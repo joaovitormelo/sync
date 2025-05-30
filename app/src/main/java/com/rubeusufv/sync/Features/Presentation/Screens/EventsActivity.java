@@ -8,7 +8,9 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
 
+import com.rubeusufv.sync.Core.Injector;
 import com.rubeusufv.sync.Features.Domain.Models.Event;
+import com.rubeusufv.sync.Features.Domain.Types.Month;
 import com.rubeusufv.sync.Features.Domain.Usecases.EventUsecases;
 import com.rubeusufv.sync.Features.Presentation.Screens.Adapters.EventDayListAdapter;
 import com.rubeusufv.sync.Features.Presentation.Screens.ListItems.EventDayListItem;
@@ -32,8 +34,8 @@ public class EventsActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_events);
 
-        usecases = EventUsecases.getInstance();
-        eventList = usecases.fetchEvents();
+        usecases = Injector.getInstance().getEventUsecases();
+        eventList = usecases.fetchEvents(Month.JANUARY);
 
         eventsPerDayMap = new TreeMap<Date, ArrayList<Event>>();
         for (Event e : eventList) {

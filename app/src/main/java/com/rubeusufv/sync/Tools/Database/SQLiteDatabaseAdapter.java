@@ -5,13 +5,11 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.rubeusufv.sync.Core.SyncApplication;
 import com.rubeusufv.sync.Exceptions.DatabaseException;
-import com.rubeusufv.sync.Exceptions.SingletonViolationException;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public final class SQLiteDatabaseAdapter implements DatabaseContract {
-    private static SQLiteDatabaseAdapter instance;
+public class SQLiteDatabaseAdapter implements DatabaseContract {
     protected SQLiteDatabase db;
     private final String DATABASE_NAME = "sync";
     private final String[] DATABASE_CREATION_SCRIPT = new String[] {
@@ -19,7 +17,7 @@ public final class SQLiteDatabaseAdapter implements DatabaseContract {
         "title TEXT NOT NULL, date DATE);"
     };
 
-    private SQLiteDatabaseAdapter() {
+    public SQLiteDatabaseAdapter() {
         Context ctx = SyncApplication.getAppContext();
 
         db = ctx.openOrCreateDatabase(DATABASE_NAME, Context.MODE_PRIVATE, null);
@@ -40,16 +38,6 @@ public final class SQLiteDatabaseAdapter implements DatabaseContract {
                 null
         );
         return results.size() == 1;
-    }
-
-    public static SQLiteDatabaseAdapter createInstance(
-    ) throws SingletonViolationException {
-        if (instance != null) throw new SingletonViolationException();
-        return instance = new SQLiteDatabaseAdapter();
-    }
-
-    public static SQLiteDatabaseAdapter getInstance() {
-        return instance;
     }
 
     @Override
