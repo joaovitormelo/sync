@@ -21,6 +21,8 @@ public class EventUsecases {
         this.eventsData = eventsData;
     }
 
+    //---------------------------CASOS DE USO-----------------------------------------
+
     public ArrayList<Event> fetchEvents(int month) {
         ArrayList<Event> rubeusEvents = rubeusData.fetchEvents(month);
         ArrayList<Event> googleEvents = googleData.fetchEvents(month);
@@ -34,6 +36,8 @@ public class EventUsecases {
 
         return localEvents;
     }
+
+    //---------------------------FUNÇÕES AUXILIARES--------------------------------------
 
     private void updateLocalEventsFromOutsideEvents(
         ArrayList<Event> localEvents, ArrayList<Event> outsideEvents
