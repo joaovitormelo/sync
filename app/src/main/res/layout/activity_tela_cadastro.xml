@@ -1,99 +1,71 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="24dp"
-    android:gravity="center_horizontal">
-
-
-    <ImageView
-        android:id="@+id/imageLogo"
-        android:layout_width="180dp"
-        android:layout_height="152dp"
-        android:layout_marginTop="8dp"
-        android:adjustViewBounds="true"
-        android:scaleType="fitCenter"
-        android:src="@drawable/logo" />
-    <TextView
-        android:id="@+id/ViewLogin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/login"
-        android:textSize="32sp"
-        android:textStyle="bold"
-        android:layout_marginBottom="40dp" />
-
-    <TextView
-        android:id="@+id/ViewEmail"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/email"
-        android:textSize="16sp" />
-
-    <EditText
-        android:id="@+id/EditEmail"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:hint="@string/EnterEmail"
-        android:inputType="textEmailAddress" />
-
-    <TextView
-        android:id="@+id/ViewPassword"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/password"
-        android:textSize="16sp" />
-
-    <EditText
-        android:id="@+id/EditPassword"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:hint="@string/EnterPassword"
-        android:inputType="textPassword" />
-
-    <CheckBox
-        android:id="@+id/CheckboxLogin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/saveData"
-        android:layout_marginBottom="24dp" />
-
-
-    <Button
-        android:id="@+id/ButtonLogin"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp"
-        android:text="@string/login"
-        android:textSize="18sp"
-        android:textStyle="bold" />
+    android:fillViewport="true">
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
+        android:orientation="vertical"
+        android:padding="24dp"
+        android:gravity="center">
 
-        <TextView
-            android:id="@+id/ViewSemCadastro"
+        <ImageView
+            android:id="@+id/imageLogo"
+            android:layout_width="180dp"
+            android:layout_height="152dp"
+            android:layout_marginTop="8dp"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter"
+            android:src="@drawable/logo" />
+
+        <EditText
+            android:id="@+id/editTextEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="E-mail"
+            android:drawablePadding="10dp"
+            android:padding="12dp"
+            android:drawableStart="@drawable/person"
+            android:background="@drawable/edittext_borda"
+            android:layout_marginBottom="16dp" />
+
+        <EditText
+            android:id="@+id/editTextSenha"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/password"
+            android:inputType="textPassword"
+            android:drawablePadding="10dp"
+            android:padding="12dp"
+            android:drawableStart="@drawable/lock"
+            android:background="@drawable/edittext_borda"
+            android:layout_marginBottom="8dp" />
+
+        <CheckBox
+            android:id="@+id/checkboxSalvarSenha"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/noregister"
-            android:textSize="14sp" />
+            android:text="Salvar senha"
+            android:layout_marginBottom="16dp" />
 
         <Button
-            android:id="@+id/buttonNewLogin"
+            android:id="@+id/buttonLogin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Login"
+            android:backgroundTint="@color/green"
+            android:textColor="@color/black"
+            android:layout_marginBottom="16dp" />
+
+        <TextView
+            android:id="@+id/textViewEsqueceuSenha"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:text="@string/register"
-            android:textSize="14sp"
-            android:textStyle="bold" />
+            android:text="Esqueceu a senha?"
+            android:textColor="@color/green"
+            android:layout_gravity="end"
+            android:padding="8dp" />
 
     </LinearLayout>
-
-
-
-</LinearLayout>
+</ScrollView>
