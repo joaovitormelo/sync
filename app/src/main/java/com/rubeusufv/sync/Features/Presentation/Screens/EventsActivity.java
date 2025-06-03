@@ -4,21 +4,18 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Spinner;
 
 import com.rubeusufv.sync.Core.Injector;
 import com.rubeusufv.sync.Features.Domain.Models.Event;
 import com.rubeusufv.sync.Features.Domain.Types.Month;
-import com.rubeusufv.sync.Features.Domain.Usecases.EventUsecases;
+import com.rubeusufv.sync.Features.Domain.Usecases.ViewEventsUsecase;
 import com.rubeusufv.sync.Features.Presentation.Screens.Adapters.EventDayListAdapter;
 import com.rubeusufv.sync.Features.Presentation.Screens.ListItems.EventDayListItem;
 import com.rubeusufv.sync.R;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -27,7 +24,7 @@ public class EventsActivity extends Activity {
     ArrayList<Event> eventList;
     ArrayList<EventDayListItem> eventDayList;
     Map<Date, ArrayList<Event>> eventsPerDayMap;
-    EventUsecases usecases;
+    ViewEventsUsecase usecases;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +32,8 @@ public class EventsActivity extends Activity {
         setContentView(R.layout.activity_events);
 
         usecases = Injector.getInstance().getEventUsecases();
-        eventList = usecases.fetchEvents(Month.JANUARY);
+
+        eventList = usecases.viewEvents(Month.JANUARY);
 
         eventsPerDayMap = new TreeMap<Date, ArrayList<Event>>();
         for (Event e : eventList) {

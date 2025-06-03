@@ -4,13 +4,13 @@ import com.rubeusufv.sync.Features.Domain.Models.Event;
 
 import java.util.ArrayList;
 
-public class RubeusData implements RubeusDataContract {
-    public RubeusData() {
+public class RubeusDataMock implements RubeusDataContract {
+    public RubeusDataMock() {
 
     }
 
     @Override
-    public ArrayList<Event> fetchEvents(int month) {
+    public ArrayList<Event> viewEvents(int month) {
         return new ArrayList<>();
     }
 

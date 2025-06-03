@@ -1,9 +1,9 @@
 package com.rubeusufv.sync.Core;
 
-import com.rubeusufv.sync.Features.Data.EventsData;
-import com.rubeusufv.sync.Features.Data.GoogleData;
-import com.rubeusufv.sync.Features.Data.RubeusData;
-import com.rubeusufv.sync.Features.Domain.Usecases.EventUsecases;
+import com.rubeusufv.sync.Features.Data.EventsDataMock;
+import com.rubeusufv.sync.Features.Data.GoogleDataMock;
+import com.rubeusufv.sync.Features.Data.RubeusDataMock;
+import com.rubeusufv.sync.Features.Domain.Usecases.ViewEventsUsecase;
 
 /*
 Classe responsável por criar as instâncias de todas as classes de ação do sistema
@@ -11,10 +11,10 @@ e injetar as dependências necessárias
  */
 public final class Injector {
     private static Injector instance;
-    private EventUsecases eventUsecases;
-    private EventsData eventsData;
-    private GoogleData googleData;
-    private RubeusData rubeusData;
+    private ViewEventsUsecase viewEventsUsecase;
+    private EventsDataMock eventsDataMock;
+    private GoogleDataMock googleDataMock;
+    private RubeusDataMock rubeusDataMock;
 
     private Injector() {
         initialize();
@@ -26,13 +26,13 @@ public final class Injector {
     }
 
     private void initialize() {
-        eventsData = new EventsData();
-        googleData = new GoogleData();
-        rubeusData = new RubeusData();
-        eventUsecases = new EventUsecases(rubeusData, googleData, eventsData);
+        eventsDataMock = new EventsDataMock();
+        googleDataMock = new GoogleDataMock();
+        rubeusDataMock = new RubeusDataMock();
+        viewEventsUsecase = new ViewEventsUsecase(rubeusDataMock, googleDataMock, eventsDataMock);
     }
 
-    public EventUsecases getEventUsecases() {
-        return this.eventUsecases;
+    public ViewEventsUsecase getEventUsecases() {
+        return this.viewEventsUsecase;
     }
 }
