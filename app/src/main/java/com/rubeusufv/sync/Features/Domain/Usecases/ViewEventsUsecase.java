@@ -7,12 +7,12 @@ import com.rubeusufv.sync.Features.Domain.Models.Event;
 
 import java.util.ArrayList;
 
-public class EventUsecases {
+public class ViewEventsUsecase {
     private RubeusDataContract rubeusData;
     private GoogleDataContract googleData;
     private EventsDataContract eventsData;
 
-    public EventUsecases(
+    public ViewEventsUsecase(
         RubeusDataContract rubeusData, GoogleDataContract googleData,
         EventsDataContract eventsData
     ) {
@@ -23,10 +23,10 @@ public class EventUsecases {
 
     //---------------------------CASOS DE USO-----------------------------------------
 
-    public ArrayList<Event> fetchEvents(int month) {
-        ArrayList<Event> rubeusEvents = rubeusData.fetchEvents(month);
-        ArrayList<Event> googleEvents = googleData.fetchEvents(month);
-        ArrayList<Event> localEvents = eventsData.fetchEvents(month);
+    public ArrayList<Event> viewEvents(int month) {
+        ArrayList<Event> rubeusEvents = rubeusData.viewEvents(month);
+        ArrayList<Event> googleEvents = googleData.viewEvents(month);
+        ArrayList<Event> localEvents = eventsData.viewEvents(month);
 
         // Sincroniza eventos da Rubeus com o banco de dadps
         updateLocalEventsFromOutsideEvents(localEvents, rubeusEvents);

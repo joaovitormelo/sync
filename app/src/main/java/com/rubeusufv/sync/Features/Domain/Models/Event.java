@@ -1,11 +1,12 @@
 package com.rubeusufv.sync.Features.Domain.Models;
 
 import com.rubeusufv.sync.Features.Domain.Types.Color;
+import com.rubeusufv.sync.Features.Domain.Types.ContactType;
 
 import java.util.Date;
 
 public class Event {
-
+    private int id;
     private String title;
     private String description;
     private Date date;
@@ -15,23 +16,41 @@ public class Event {
     private Color color;
     private String category;
     private boolean rubeusSynchronized;
+    private int rubeusId;
+    private ContactType contactType;
     private boolean googleSynchronized;
+    private int googleId;
 
-    public Event(
-        String title, String description, Date date, String startHour, String endHour,
-        boolean allDay, Color color, String category, boolean rubeusSynchronized,
-        boolean googleSynchronized
-    ) {
-        this.title = title;
-        this.description = description;
-        this.date = date;
-        this.endHour = endHour;
-        this.startHour = startHour;
-        this.allDay = allDay;
-        this.color = color;
-        this.category = category;
-        this.rubeusSynchronized = rubeusSynchronized;
-        this.googleSynchronized = googleSynchronized;
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getRubeusId() {
+        return rubeusId;
+    }
+
+    public void setRubeusId(int rubeusId) {
+        this.rubeusId = rubeusId;
+    }
+
+    public ContactType getContactType() {
+        return contactType;
+    }
+
+    public void setContactType(ContactType contactType) {
+        this.contactType = contactType;
+    }
+
+    public int getGoogleId() {
+        return googleId;
+    }
+
+    public void setGoogleId(int googleId) {
+        this.googleId = googleId;
     }
 
     public String getTitle() {
@@ -112,5 +131,46 @@ public class Event {
 
     public void setGoogleSynchronized(boolean googleSynchronized) {
         this.googleSynchronized = googleSynchronized;
+    }
+
+    public Event(int id, String title, String description, Date date, String startHour, String endHour, boolean allDay, Color color, String category, boolean rubeusSynchronized, int rubeusId, ContactType contactType, boolean googleSynchronized, int googleId) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.date = date;
+        this.startHour = startHour;
+        this.endHour = endHour;
+        this.allDay = allDay;
+        this.color = color;
+        this.category = category;
+        this.rubeusSynchronized = rubeusSynchronized;
+        this.rubeusId = rubeusId;
+        this.contactType = contactType;
+        this.googleSynchronized = googleSynchronized;
+        this.googleId = googleId;
+    }
+
+    public Event(
+        String title, String description, Date date, String startHour, String endHour,
+        boolean allDay, Color color, String category, boolean rubeusSynchronized,
+        boolean googleSynchronized
+    ) {
+        this.title = title;
+        this.description = description;
+        this.date = date;
+        this.endHour = endHour;
+        this.startHour = startHour;
+        this.allDay = allDay;
+        this.color = color;
+        this.category = category;
+        this.rubeusSynchronized = rubeusSynchronized;
+        this.googleSynchronized = googleSynchronized;
+    }
+
+    public static Event getMock() {
+        return new Event(
+            "Evento 1", "Descrição", new Date(), "09:00", "10:00",
+            false, Color.BLUE, "A", true, false
+        );
     }
 }

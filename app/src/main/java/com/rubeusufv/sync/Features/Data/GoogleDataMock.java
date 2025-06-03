@@ -4,9 +4,9 @@ import com.rubeusufv.sync.Features.Domain.Models.Event;
 
 import java.util.ArrayList;
 
-public class GoogleData implements GoogleDataContract {
+public class GoogleDataMock implements GoogleDataContract {
     @Override
-    public ArrayList<Event> fetchEvents(int month) {
+    public ArrayList<Event> viewEvents(int month) {
         return new ArrayList<Event>();
     }
 }
