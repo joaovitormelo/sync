@@ -1,10 +1,10 @@
 package com.rubeusufv.sync.Features.Data;
 
-import com.rubeusufv.sync.Features.Domain.Models.Event;
+import com.rubeusufv.sync.Features.Domain.Models.EventModel;
 
 import java.util.ArrayList;
 
 public interface EventsDataContract {
-    ArrayList<Event> viewEvents(int month);
-    Event createEvent(Event event);
+    ArrayList<EventModel> viewEvents(int month);
+    EventModel createEvent(EventModel eventModel);
 }

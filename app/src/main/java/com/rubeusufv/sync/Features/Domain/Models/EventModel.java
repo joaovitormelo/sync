@@ -5,7 +5,7 @@ import com.rubeusufv.sync.Features.Domain.Types.ContactType;
 
 import java.util.Date;
 
-public class Event {
+public class EventModel {
     private int id;
     private String title;
     private String description;
@@ -133,7 +133,7 @@ public class Event {
         this.googleSynchronized = googleSynchronized;
     }
 
-    public Event(int id, String title, String description, Date date, String startHour, String endHour, boolean allDay, Color color, String category, boolean rubeusSynchronized, int rubeusId, ContactType contactType, boolean googleSynchronized, int googleId) {
+    public EventModel(int id, String title, String description, Date date, String startHour, String endHour, boolean allDay, Color color, String category, boolean rubeusSynchronized, int rubeusId, ContactType contactType, boolean googleSynchronized, int googleId) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -150,7 +150,7 @@ public class Event {
         this.googleId = googleId;
     }
 
-    public Event(
+    public EventModel(
         String title, String description, Date date, String startHour, String endHour,
         boolean allDay, Color color, String category, boolean rubeusSynchronized,
         boolean googleSynchronized
@@ -167,8 +167,8 @@ public class Event {
         this.googleSynchronized = googleSynchronized;
     }
 
-    public static Event getMock() {
-        return new Event(
+    public static EventModel getMock() {
+        return new EventModel(
             "Evento 1", "Descrição", new Date(), "09:00", "10:00",
             false, Color.BLUE, "A", true, false
         );

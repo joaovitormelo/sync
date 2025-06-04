@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.ListView;
 
 import com.rubeusufv.sync.Core.Injector;
-import com.rubeusufv.sync.Features.Domain.Models.Event;
+import com.rubeusufv.sync.Features.Domain.Models.EventModel;
 import com.rubeusufv.sync.Features.Domain.Types.Month;
 import com.rubeusufv.sync.Features.Domain.Usecases.ViewEventsUsecase;
 import com.rubeusufv.sync.Features.Presentation.Screens.Adapters.EventDayListAdapter;
@@ -21,9 +21,9 @@ import java.util.TreeMap;
 
 public class EventsActivity extends Activity {
     EventDayListAdapter eventDayListAdapter;
-    ArrayList<Event> eventList;
+    ArrayList<EventModel> eventModelList;
     ArrayList<EventDayListItem> eventDayList;
-    Map<Date, ArrayList<Event>> eventsPerDayMap;
+    Map<Date, ArrayList<EventModel>> eventsPerDayMap;
     ViewEventsUsecase usecases;
 
     @Override
@@ -33,14 +33,14 @@ public class EventsActivity extends Activity {
 
         usecases = Injector.getInstance().getEventUsecases();
 
-        eventList = usecases.viewEvents(Month.JANUARY);
+        eventModelList = usecases.viewEvents(Month.JANUARY);
 
-        eventsPerDayMap = new TreeMap<Date, ArrayList<Event>>();
-        for (Event e : eventList) {
-            ArrayList<Event> eventList = eventsPerDayMap.get(e.getDate());
-            if (eventList == null) eventList = new ArrayList<Event>();
-            eventList.add(e);
-            eventsPerDayMap.put(e.getDate(), eventList);
+        eventsPerDayMap = new TreeMap<Date, ArrayList<EventModel>>();
+        for (EventModel e : eventModelList) {
+            ArrayList<EventModel> eventModelList = eventsPerDayMap.get(e.getDate());
+            if (eventModelList == null) eventModelList = new ArrayList<EventModel>();
+            eventModelList.add(e);
+            eventsPerDayMap.put(e.getDate(), eventModelList);
         }
 
         eventDayList = new ArrayList<EventDayListItem>();

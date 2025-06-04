@@ -3,7 +3,7 @@ package com.rubeusufv.sync.Features.Domain.Usecases;
 import com.rubeusufv.sync.Features.Data.EventsDataContract;
 import com.rubeusufv.sync.Features.Data.GoogleDataContract;
 import com.rubeusufv.sync.Features.Data.RubeusDataContract;
-import com.rubeusufv.sync.Features.Domain.Models.Event;
+import com.rubeusufv.sync.Features.Domain.Models.EventModel;
 
 import java.util.ArrayList;
 
@@ -23,29 +23,27 @@ public class ViewEventsUsecase {
 
     //---------------------------CASOS DE USO-----------------------------------------
 
-    public ArrayList<Event> viewEvents(int month) {
-        ArrayList<Event> rubeusEvents = rubeusData.viewEvents(month);
-        ArrayList<Event> googleEvents = googleData.viewEvents(month);
-        ArrayList<Event> localEvents = eventsData.viewEvents(month);
+    public ArrayList<EventModel> viewEvents(int month) {
+        ArrayList<EventModel> rubeusEventModels = rubeusData.viewEvents(month);
+        ArrayList<EventModel> googleEventModels = googleData.viewEvents(month);
+        ArrayList<EventModel> localEventModels = eventsData.viewEvents(month);
 
         // Sincroniza eventos da Rubeus com o banco de dadps
-        updateLocalEventsFromOutsideEvents(localEvents, rubeusEvents);
+        updateLocalEventsFromOutsideEvents(localEventModels, rubeusEventModels);
 
         // Sincroniza eventos da Google com o banco de dados
-        updateLocalEventsFromOutsideEvents(localEvents, googleEvents);
+        updateLocalEventsFromOutsideEvents(localEventModels, googleEventModels);
 
-        return localEvents;
+        return localEventModels;
     }
 
-    //---------------------------FUNÇÕES AUXILIARES--------------------------------------
-
     private void updateLocalEventsFromOutsideEvents(
-        ArrayList<Event> localEvents, ArrayList<Event> outsideEvents
+            ArrayList<EventModel> localEventModels, ArrayList<EventModel> outsideEventModels
     ) {
-        for (Event rEvent : outsideEvents) {
-            if (!localEvents.contains(rEvent)) {
-                Event newEvent = eventsData.createEvent(rEvent);
-                localEvents.add(newEvent);
+        for (EventModel outsideEventModel : outsideEventModels) {
+            if (!localEventModels.contains(outsideEventModel)) {
+                EventModel newEventModel = eventsData.createEvent(outsideEventModel);
+                localEventModels.add(newEventModel);
             }
         }
     }

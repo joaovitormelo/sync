@@ -1,16 +1,17 @@
 package com.rubeusufv.sync.Features.Data;
 
-import com.rubeusufv.sync.Features.Domain.Models.Event;
+import com.rubeusufv.sync.Features.Domain.Models.EventModel;
+
 import java.util.ArrayList;
 
 public class EventsDataMock implements EventsDataContract {
     @Override
-    public ArrayList<Event> viewEvents(int month) {
-        return new ArrayList<Event>();
+    public ArrayList<EventModel> viewEvents(int month) {
+        return new ArrayList<EventModel>();
     }
 
     @Override
-    public Event createEvent(Event event) {
-        return Event.getMock();
+    public EventModel createEvent(EventModel eventModel) {
+        return EventModel.getMock();
     }
 }
