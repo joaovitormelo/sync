@@ -1,32 +1,13 @@
 package com.rubeusufv.sync.Features.Presentation.Screens;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
-import android.widget.TextView;
 
-import com.rubeusufv.sync.R;
+import androidx.appcompat.app.AppCompatActivity;
 
-public class Task extends Activity {
-
-    // Variáveis da tarefa
-    private TextView nameTask, descriptionTask, dateTask;
+public class Task extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_task);
-
-        Intent it = getIntent();
-        Bundle task = it.getExtras();
-
-        nameTask = findViewById(R.id.textViewTitleTask);
-        descriptionTask = findViewById(R.id.textViewDescriptionTask);
-        dateTask = findViewById(R.id.textViewDateTask);
-
-        assert task != null;
-        nameTask.setText(task.getString("nameTask"));
-        descriptionTask.setText(task.getString("descriptionTask"));
-        dateTask.setText(task.getString("dateTask"));
     }
 }

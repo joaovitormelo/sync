@@ -2,6 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <permission android:name="com.rubeusufv.sync" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name=".Core.SyncApplication"
         android:allowBackup="true"
@@ -13,6 +17,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Sync"
         tools:targetApi="31">
+
         <activity
             android:name=".Features.Presentation.Screens.EventsActivity"
             android:exported="false" />
