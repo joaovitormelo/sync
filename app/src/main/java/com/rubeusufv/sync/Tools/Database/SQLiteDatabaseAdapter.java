@@ -4,7 +4,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.rubeusufv.sync.Core.SyncApplication;
-import com.rubeusufv.sync.Exceptions.DatabaseException;
+import com.rubeusufv.sync.Core.Exceptions.DatabaseException;
 
 import java.util.ArrayList;
 import java.util.List;

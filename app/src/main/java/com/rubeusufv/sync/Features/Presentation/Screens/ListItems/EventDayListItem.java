@@ -1,17 +1,17 @@
 package com.rubeusufv.sync.Features.Presentation.Screens.ListItems;
 
-import com.rubeusufv.sync.Features.Domain.Models.Event;
+import com.rubeusufv.sync.Features.Domain.Models.EventModel;
 
 import java.util.ArrayList;
 import java.util.Date;
 
 public class EventDayListItem {
     private Date date;
-    private ArrayList<Event> eventList;
+    private ArrayList<EventModel> eventModelList;
 
-    public EventDayListItem(Date date, ArrayList<Event> eventList) {
+    public EventDayListItem(Date date, ArrayList<EventModel> eventModelList) {
         this.date = date;
-        this.eventList = eventList;
+        this.eventModelList = eventModelList;
     }
 
     public Date getDate() {
@@ -22,12 +22,12 @@ public class EventDayListItem {
         this.date = date;
     }
 
-    public ArrayList<Event> getEventList() {
-        return eventList;
+    public ArrayList<EventModel> getEventList() {
+        return eventModelList;
     }
 
-    public void setEventList(ArrayList<Event> eventList) {
-        this.eventList = eventList;
+    public void setEventList(ArrayList<EventModel> eventModelList) {
+        this.eventModelList = eventModelList;
     }
 
 

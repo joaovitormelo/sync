@@ -1,10 +1,11 @@
 package com.rubeusufv.sync.Features.Data;
 
-import com.rubeusufv.sync.Features.Domain.Models.Event;
-import com.rubeusufv.sync.Features.Domain.Types.Month;
+import com.rubeusufv.sync.Features.Domain.Models.EventModel;
+import com.rubeusufv.sync.Features.Domain.Models.User;
 
 import java.util.ArrayList;
 
 public interface RubeusDataContract {
-    ArrayList<Event> fetchEvents(int month);
+    ArrayList<EventModel> viewEvents(int month);
+    User fetchUser(String login);
 }

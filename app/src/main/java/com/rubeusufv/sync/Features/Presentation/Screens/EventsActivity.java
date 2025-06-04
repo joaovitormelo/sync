@@ -4,30 +4,27 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Spinner;
 
 import com.rubeusufv.sync.Core.Injector;
-import com.rubeusufv.sync.Features.Domain.Models.Event;
+import com.rubeusufv.sync.Features.Domain.Models.EventModel;
 import com.rubeusufv.sync.Features.Domain.Types.Month;
-import com.rubeusufv.sync.Features.Domain.Usecases.EventUsecases;
+import com.rubeusufv.sync.Features.Domain.Usecases.ViewEventsUsecase;
 import com.rubeusufv.sync.Features.Presentation.Screens.Adapters.EventDayListAdapter;
 import com.rubeusufv.sync.Features.Presentation.Screens.ListItems.EventDayListItem;
 import com.rubeusufv.sync.R;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
 public class EventsActivity extends Activity {
     EventDayListAdapter eventDayListAdapter;
-    ArrayList<Event> eventList;
+    ArrayList<EventModel> eventModelList;
     ArrayList<EventDayListItem> eventDayList;
-    Map<Date, ArrayList<Event>> eventsPerDayMap;
-    EventUsecases usecases;
+    Map<Date, ArrayList<EventModel>> eventsPerDayMap;
+    ViewEventsUsecase usecases;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,14 +32,15 @@ public class EventsActivity extends Activity {
         setContentView(R.layout.activity_events);
 
         usecases = Injector.getInstance().getEventUsecases();
-        eventList = usecases.fetchEvents(Month.JANUARY);
 
-        eventsPerDayMap = new TreeMap<Date, ArrayList<Event>>();
-        for (Event e : eventList) {
-            ArrayList<Event> eventList = eventsPerDayMap.get(e.getDate());
-            if (eventList == null) eventList = new ArrayList<Event>();
-            eventList.add(e);
-            eventsPerDayMap.put(e.getDate(), eventList);
+        eventModelList = usecases.viewEvents(Month.JANUARY);
+
+        eventsPerDayMap = new TreeMap<Date, ArrayList<EventModel>>();
+        for (EventModel e : eventModelList) {
+            ArrayList<EventModel> eventModelList = eventsPerDayMap.get(e.getDate());
+            if (eventModelList == null) eventModelList = new ArrayList<EventModel>();
+            eventModelList.add(e);
+            eventsPerDayMap.put(e.getDate(), eventModelList);
         }
 
         eventDayList = new ArrayList<EventDayListItem>();

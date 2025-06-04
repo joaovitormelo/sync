@@ -1,6 +1,6 @@
 package com.rubeusufv.sync.Tools.Database;
 
-import com.rubeusufv.sync.Exceptions.DatabaseException;
+import com.rubeusufv.sync.Core.Exceptions.DatabaseException;
 
 import java.util.List;
 

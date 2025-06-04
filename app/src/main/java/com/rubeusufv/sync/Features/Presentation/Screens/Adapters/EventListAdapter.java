@@ -14,27 +14,27 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 
-import com.rubeusufv.sync.Features.Domain.Models.Event;
+import com.rubeusufv.sync.Features.Domain.Models.EventModel;
 import com.rubeusufv.sync.R;
 
 import java.util.ArrayList;
 
-public class EventListAdapter extends ArrayAdapter<Event> {
-    public EventListAdapter(@NonNull Context context, int resource, @NonNull ArrayList<Event> objects) {
+public class EventListAdapter extends ArrayAdapter<EventModel> {
+    public EventListAdapter(@NonNull Context context, int resource, @NonNull ArrayList<EventModel> objects) {
         super(context, resource, objects);
     }
 
     @NonNull
     @Override
     public View getView(int position, @Nullable View view, @NonNull ViewGroup parent) {
-        Event event = getItem(position);
+        EventModel eventModel = getItem(position);
         if (view == null){
             view = LayoutInflater.from(getContext()).inflate(R.layout.event_list_item, parent, false);
         }
         TextView listName = view.findViewById(R.id.eventlistName);
         TextView listTime = view.findViewById(R.id.eventListTime);
-        String time = event.getStartHour() + " - " + event.getEndHour();
-        listName.setText(event.getTitle());
+        String time = eventModel.getStartHour() + " - " + eventModel.getEndHour();
+        listName.setText(eventModel.getTitle());
         listTime.setText(time);
 
         CardView eventDayItem = view.findViewById(R.id.eventItem);
@@ -43,12 +43,12 @@ public class EventListAdapter extends ArrayAdapter<Event> {
         ImageView googleIcon = view.findViewById(R.id.googleIcon);
         CardView googleIconWrapper = view.findViewById(R.id.googleIconWrapper);
 
-        if (!event.isRubeusSynchronized()) {
+        if (!eventModel.isRubeusSynchronized()) {
             eventDayItem.setCardBackgroundColor(view.getResources().getColor(R.color.grey));
             rubeusIcon.setVisibility(INVISIBLE);
             rubeusIconWrapper.setVisibility(INVISIBLE);
         } else {
-            switch (event.getColor()) {
+            switch (eventModel.getColor()) {
                 case GREEN:
                     eventDayItem.setCardBackgroundColor(view.getResources().getColor(R.color.green));
                     break;
@@ -59,7 +59,7 @@ public class EventListAdapter extends ArrayAdapter<Event> {
                     eventDayItem.setCardBackgroundColor(view.getResources().getColor(R.color.purple));
             }
         }
-        if (!event.isGoogleSynchronized()) {
+        if (!eventModel.isGoogleSynchronized()) {
             googleIcon.setVisibility(INVISIBLE);
             googleIconWrapper.setVisibility(INVISIBLE);
         }
