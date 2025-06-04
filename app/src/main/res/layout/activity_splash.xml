@@ -11,8 +11,8 @@
 
     <ImageView
         android:id="@+id/imageLogo"
-        android:layout_width="150dp"
-        android:layout_height="140dp"
+        android:layout_width="351dp"
+        android:layout_height="335dp"
         android:adjustViewBounds="true"
         android:scaleType="fitCenter"
         android:src="@drawable/logo" />
@@ -25,7 +25,6 @@
         android:adjustViewBounds="true"
         android:scaleType="fitCenter"
         android:src="@drawable/sync_nome" />
-
 
 
 </LinearLayout>
