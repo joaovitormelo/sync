@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.rubeusufv.sync.Core.Injector;
 import com.rubeusufv.sync.Features.Domain.Models.EventModel;
 import com.rubeusufv.sync.Features.Domain.Types.Month;
@@ -19,7 +21,7 @@ import java.util.Date;
 import java.util.Map;
 import java.util.TreeMap;
 
-public class EventsActivity extends Activity {
+public class EventsActivity extends AppCompatActivity {
     EventDayListAdapter eventDayListAdapter;
     ArrayList<EventModel> eventModelList;
     ArrayList<EventDayListItem> eventDayList;
@@ -55,6 +57,9 @@ public class EventsActivity extends Activity {
             getBaseContext(), R.layout.event_day_list_item, eventDayList
         );
         eventDayListView.setAdapter(eventDayListAdapter);
+        // essa parte é a parte que  mostra o action bar
+        this.getSupportActionBar().setHomeAsUpIndicator(R.drawable.baseline_dehaze_24);
+        this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     public void openEventCreationScreen(View v) {
