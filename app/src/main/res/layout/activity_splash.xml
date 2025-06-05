@@ -7,6 +7,7 @@
     android:orientation="vertical"
     android:gravity="center"
     android:padding="16dp"
+    android:backgroundTint="@color/bege"
     tools:context=".Features.Presentation.Screens.SplashActivity">
 
     <ImageView
@@ -15,16 +16,8 @@
         android:layout_height="335dp"
         android:adjustViewBounds="true"
         android:scaleType="fitCenter"
-        android:src="@drawable/logo" />
+        android:src="@drawable/sync_splash" />
 
-    <ImageView
-        android:id="@+id/imageSync"
-        android:layout_width="221dp"
-        android:layout_height="210dp"
-        android:layout_marginTop="-45dp"
-        android:adjustViewBounds="true"
-        android:scaleType="fitCenter"
-        android:src="@drawable/sync_nome" />
 
 
 </LinearLayout>
