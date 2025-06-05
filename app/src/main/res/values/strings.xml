@@ -24,6 +24,7 @@
     <string name="fullDay">Dia inteiro</string>
     <string name="cancel">Cancelar</string>
     <string name="save">Salvar</string>
+    <string name="space">-</string>
     <string name="login">Login</string>
     <string name="email">E-mail</string>
     <string name="password">Senha</string>
