@@ -9,7 +9,6 @@
         android:orientation="vertical"
         android:paddingHorizontal="10dp"
         android:paddingTop="0dp"
-        android:background="@color/bege"
         android:gravity="top|center_horizontal">
 
         <ImageView
