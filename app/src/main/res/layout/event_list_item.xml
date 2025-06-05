@@ -103,14 +103,16 @@
                     android:layout_marginTop="4dp">
 
 
-                        <Button
-                            android:id="@+id/button1"
-                            android:layout_width="@dimen/mini_button_size"
-                            android:layout_height="@dimen/mini_button_size"
-                            android:layout_margin="5dp"
-                            android:background="@drawable/rounded_button"
-                            android:textColor="@color/white"
-                            android:textSize="14sp" />
+                    <Button
+                        android:id="@+id/button1"
+                        android:layout_width="@dimen/mini_button_size"
+                        android:layout_height="@dimen/mini_button_size"
+                        android:layout_margin="5dp"
+                        android:background="@drawable/rounded_button"
+                        android:drawableStart="@drawable/add_icon"
+                        android:drawablePadding="4dp"
+                        android:textColor="@color/white"
+                        android:textSize="14sp" />
 
                     <Button
                         android:id="@+id/button2"
@@ -118,9 +120,11 @@
                         android:layout_height="@dimen/mini_button_size"
                         android:layout_margin="5dp"
                         android:background="@drawable/rounded_button"
-                        android:text="B"
+                        android:drawableStart="@drawable/add_icon"
+                        android:drawablePadding="4dp"
                         android:textColor="@color/white"
                         android:textSize="14sp" />
+
 
                 </LinearLayout>
             </LinearLayout>
