@@ -103,8 +103,7 @@
                     android:orientation="horizontal"
                     android:layout_marginTop="4dp">
 
-
-                    <Button
+                    <androidx.appcompat.widget.AppCompatButton
                         android:id="@+id/button1"
                         android:layout_width="@dimen/mini_button_size"
                         android:layout_height="@dimen/mini_button_size"
@@ -115,7 +114,7 @@
                         android:textColor="@color/white"
                         android:textSize="14sp" />
 
-                    <Button
+                    <androidx.appcompat.widget.AppCompatButton
                         android:id="@+id/button2"
                         android:layout_width="@dimen/mini_button_size"
                         android:layout_height="@dimen/mini_button_size"
@@ -125,6 +124,7 @@
                         android:drawablePadding="4dp"
                         android:textColor="@color/white"
                         android:textSize="14sp" />
+
 
 
                 </LinearLayout>

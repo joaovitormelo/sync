@@ -142,7 +142,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="-"
+                    android:text="@string/space"
                     android:textColor="@color/green"
                     android:textSize="16sp"
                     android:layout_marginHorizontal="4dp" />
@@ -323,6 +323,7 @@
                         android:id="@+id/checkboxSyncToGoogleandRubbeus"
                         android:layout_width="36dp"
                         android:layout_height="36dp" />
+
                     <ImageView
                         android:layout_width="28dp"
                         android:layout_height="28dp"
@@ -345,7 +346,7 @@
         android:paddingVertical="16dp"
         android:background="@android:color/white">
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnCancel"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -353,16 +354,22 @@
             android:text="@string/cancel"
             android:textColor="@color/red"
             android:layout_marginEnd="8dp"
-            android:background="@drawable/border_red" />
+            android:background="@drawable/border_red"
+            android:backgroundTint="@null"
+            android:theme="@style/NoMaterialTint" />
 
-        <Button
+
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnSave"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/save"
             android:textColor="@color/green"
-            android:background="@drawable/border_red" />
+            android:background="@drawable/border_green"
+            android:backgroundTint="@null"
+            android:theme="@style/NoMaterialTint"/>
+
     </LinearLayout>
 
 </RelativeLayout>
