@@ -108,8 +108,8 @@
                         android:layout_width="@dimen/mini_button_size"
                         android:layout_height="@dimen/mini_button_size"
                         android:layout_margin="5dp"
-                        android:background="@drawable/rounded_button"
-                        android:drawableStart="@drawable/add_icon"
+                        android:background="@drawable/border_red"
+                        android:drawableStart="@drawable/edit_calendar"
                         android:drawablePadding="4dp"
                         android:textColor="@color/white"
                         android:textSize="14sp" />
@@ -119,11 +119,12 @@
                         android:layout_width="@dimen/mini_button_size"
                         android:layout_height="@dimen/mini_button_size"
                         android:layout_margin="5dp"
-                        android:background="@drawable/rounded_button"
-                        android:drawableStart="@drawable/add_icon"
+                        android:background="@drawable/border_red"
+                        android:drawableStart="@drawable/delete"
                         android:drawablePadding="4dp"
                         android:textColor="@color/white"
                         android:textSize="14sp" />
+
 
 
 
