@@ -105,27 +105,22 @@
 
                         <Button
                             android:id="@+id/button1"
-                            android:layout_width="@dimen/sync_icon_size"
-                            android:layout_height="@dimen/sync_icon_size"
+                            android:layout_width="@dimen/mini_button_size"
+                            android:layout_height="@dimen/mini_button_size"
                             android:layout_margin="5dp"
                             android:background="@drawable/rounded_button"
-                            android:text="A"
                             android:textColor="@color/white"
                             android:textSize="14sp" />
 
-
-
-
-
-                        <Button
-                            android:id="@+id/button2"
-                            android:layout_width="@dimen/sync_icon_size"
-                            android:layout_height="@dimen/sync_icon_size"
-                            android:layout_margin="5dp"
-                            android:background="@drawable/rounded_button"
-                            android:text="B"
-                            android:textColor="@color/white"
-                            android:textSize="14sp" />
+                    <Button
+                        android:id="@+id/button2"
+                        android:layout_width="@dimen/mini_button_size"
+                        android:layout_height="@dimen/mini_button_size"
+                        android:layout_margin="5dp"
+                        android:background="@drawable/rounded_button"
+                        android:text="B"
+                        android:textColor="@color/white"
+                        android:textSize="14sp" />
 
                 </LinearLayout>
             </LinearLayout>
