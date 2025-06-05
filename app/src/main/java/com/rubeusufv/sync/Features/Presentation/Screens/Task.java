@@ -20,9 +20,9 @@ public class Task extends Activity {
         Intent it = getIntent();
         Bundle task = it.getExtras();
 
-        nameTask = findViewById(R.id.textViewTitleTask);
-        descriptionTask = findViewById(R.id.textViewDescriptionTask);
-        dateTask = findViewById(R.id.textViewDateTask);
+        nameTask = findViewById(R.id.textViewTitle);
+        descriptionTask = findViewById(R.id.textViewDescription);
+        dateTask = findViewById(R.id.textViewDate);
 
         assert task != null;
         nameTask.setText(task.getString("nameTask"));

@@ -58,7 +58,7 @@ public class EventsActivity extends Activity {
     }
 
     public void openEventCreationScreen(View v) {
-        Intent it = new Intent(getBaseContext(), CreateTask.class);
+        Intent it = new Intent(getBaseContext(), CreateEventActivity.class);
         startActivity(it);
     }
 }

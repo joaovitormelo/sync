@@ -21,7 +21,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-public class CreateTask extends AppCompatActivity {
+public class CreateEventActivity extends AppCompatActivity {
 
     // Todas as variáveis para criar uma tarefa
     private TextView nameTask, dateTask, timeTask;
@@ -106,7 +106,7 @@ public class CreateTask extends AppCompatActivity {
 
 
         // Opções de categoria
-        categoryDropdown = findViewById(R.id.categoryDropdown);
+        /*categoryDropdown = findViewById(R.id.categoryDropdown);
         String[] categoryOptions = new String[] {
                 "Reunião",
                 "Prova",
@@ -114,7 +114,7 @@ public class CreateTask extends AppCompatActivity {
         };
         ArrayAdapter<String> adapterCategory = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, categoryOptions);
         categoryDropdown.setAdapter(adapterCategory);
-        categoryDropdown.setText("Selecione uma categoria", false);
+        categoryDropdown.setText("Selecione uma categoria", false);*/
     }
 
     public void receiveNotification(View v) {

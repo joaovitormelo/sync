@@ -6,13 +6,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.rubeusufv.sync.R;
 
-public class Tela_Cadastro extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity {
     public void onClickLogin(View v) {
         Intent intent = new Intent(getBaseContext(), EventsActivity.class);
         startActivity(intent);

@@ -29,10 +29,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Features.Presentation.Screens.Tela_Cadastro"
+            android:name=".Features.Presentation.Screens.LoginActivity"
             android:exported="false" />
         <activity
-            android:name=".Features.Presentation.Screens.CreateTask"
+            android:name=".Features.Presentation.Screens.CreateEventActivity"
             android:exported="false" />
         <activity
             android:name=".Features.Presentation.Screens.MainActivity"
