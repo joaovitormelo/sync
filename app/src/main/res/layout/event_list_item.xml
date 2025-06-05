@@ -63,6 +63,7 @@
                     android:layout_marginBottom="4dp">
 
                     <androidx.cardview.widget.CardView
+                        android:id="@+id/rubeusIconWrapper"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="4dp"
@@ -71,7 +72,7 @@
                         app:cardElevation="4dp">
 
                         <ImageView
-                            android:id="@+id/rubeusIcon2"
+                            android:id="@+id/rubeusIcon"
                             android:layout_width="@dimen/sync_icon_size"
                             android:layout_height="@dimen/sync_icon_size"
                             android:layout_margin="5dp"
@@ -79,6 +80,7 @@
                     </androidx.cardview.widget.CardView>
 
                     <androidx.cardview.widget.CardView
+                        android:id="@+id/googleIconWrapper"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="4dp"
@@ -87,7 +89,7 @@
                         app:cardElevation="4dp">
 
                         <ImageView
-                            android:id="@+id/googleIcon2"
+                            android:id="@+id/googleIcon"
                             android:layout_width="@dimen/sync_icon_size"
                             android:layout_height="@dimen/sync_icon_size"
                             android:layout_margin="5dp"
