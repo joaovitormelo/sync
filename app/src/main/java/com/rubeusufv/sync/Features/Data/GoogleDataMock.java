@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class GoogleDataMock implements GoogleDataContract {
     @Override
-    public ArrayList<EventModel> viewEvents(int month) {
+    public ArrayList<EventModel> viewEvents(int year, int month) {
         return new ArrayList<EventModel>();
     }
 }

@@ -13,36 +13,24 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.rubeusufv.sync.R;
 
 public class Tela_Cadastro extends AppCompatActivity {
+    public void onClickLogin(View v) {
+        Intent intent = new Intent(getBaseContext(), EventsActivity.class);
+        startActivity(intent);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tela_cadastro);
         //Recuperando os id's
-        EditText email=findViewById(R.id.EditEmail);
-        EditText password= findViewById(R.id.EditPassword);
-        CheckBox on_login=findViewById(R.id.CheckboxLogin);
-        Button login=findViewById(R.id.ButtonLogin);
-        Button newLogin=findViewById(R.id.buttonNewLogin);
+        EditText email=findViewById(R.id.editTextEmail);
+        EditText password= findViewById(R.id.editTextSenha);
+        CheckBox on_login=findViewById(R.id.checkboxSalvarSenha);
+        Button login=findViewById(R.id.buttonLogin);
+        Button newLogin=findViewById(R.id.buttonLogin);
 
         // Converte todas as valores em string
         String Emailstring = email.getText().toString();
         String PasswordString = password.getText().toString();
-
-        //vai realizar a ação do botão de login para a tela create task
-        login.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getBaseContext(), EventsActivity.class);
-                startActivity(intent);
-             }
-        });
-        //Ainda esta levando para a mesma tela por que estamos sem tela de login
-        newLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getBaseContext(), "Ainda não implementado!", Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 }

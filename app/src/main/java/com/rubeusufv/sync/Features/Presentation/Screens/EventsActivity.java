@@ -10,8 +10,8 @@ import com.rubeusufv.sync.Core.Injector;
 import com.rubeusufv.sync.Features.Domain.Models.EventModel;
 import com.rubeusufv.sync.Features.Domain.Types.Month;
 import com.rubeusufv.sync.Features.Domain.Usecases.ViewEventsUsecase;
-import com.rubeusufv.sync.Features.Presentation.Screens.Adapters.EventDayListAdapter;
-import com.rubeusufv.sync.Features.Presentation.Screens.ListItems.EventDayListItem;
+import com.rubeusufv.sync.Features.Presentation.Adapters.EventDayListAdapter;
+import com.rubeusufv.sync.Features.Presentation.Types.EventDayListItem;
 import com.rubeusufv.sync.R;
 
 import java.util.ArrayList;
@@ -33,7 +33,7 @@ public class EventsActivity extends Activity {
 
         usecases = Injector.getInstance().getEventUsecases();
 
-        eventModelList = usecases.viewEvents(Month.JANUARY);
+        eventModelList = usecases.viewEvents(2025, Month.JANUARY);
 
         eventsPerDayMap = new TreeMap<Date, ArrayList<EventModel>>();
         for (EventModel e : eventModelList) {

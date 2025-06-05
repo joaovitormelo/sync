@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public class RubeusDataMock implements RubeusDataContract {
     @Override
-    public ArrayList<EventModel> viewEvents(int month) {
+    public ArrayList<EventModel> viewEvents(int year, int month) {
         EventModel eventModel = EventModel.getMock();
         eventModel.setRubeusSynchronized(true);
         ArrayList<EventModel> eventModelList = new ArrayList<EventModel>();

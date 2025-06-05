@@ -1,11 +1,10 @@
-package com.rubeusufv.sync.Features.Presentation.Screens.Adapters;
+package com.rubeusufv.sync.Features.Presentation.Adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.GridLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -13,7 +12,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.rubeusufv.sync.Features.Presentation.Screens.ListItems.EventDayListItem;
+import com.rubeusufv.sync.Features.Presentation.Types.EventDayListItem;
 import com.rubeusufv.sync.R;
 
 import java.util.ArrayList;
@@ -32,7 +31,7 @@ public class EventDayListAdapter extends ArrayAdapter<EventDayListItem> {
         if (view == null) {
             view = LayoutInflater.from(getContext()).inflate(R.layout.event_day_list_item, parent, false);
         }
-        ListView eventListView = view.findViewById(R.id.eventList);
+        ListView eventListView = view.findViewById(R.id.eventModelList);
         eventListAdapter = new EventListAdapter(
                 view.getContext(), R.layout.event_list_item, eventDay.getEventList()
         );

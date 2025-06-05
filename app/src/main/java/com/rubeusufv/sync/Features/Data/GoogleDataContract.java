@@ -6,5 +6,5 @@ import java.util.ArrayList;
 
 public interface GoogleDataContract {
 
-    ArrayList<EventModel> viewEvents(int month);
+    ArrayList<EventModel> viewEvents(int year, int month);
 }

@@ -1,4 +1,4 @@
-package com.rubeusufv.sync.Features.Presentation.Screens.ListItems;
+package com.rubeusufv.sync.Features.Presentation.Types;
 
 import com.rubeusufv.sync.Features.Domain.Models.EventModel;
 

@@ -23,10 +23,10 @@ public class ViewEventsUsecase {
 
     //---------------------------CASOS DE USO-----------------------------------------
 
-    public ArrayList<EventModel> viewEvents(int month) {
-        ArrayList<EventModel> rubeusEventModels = rubeusData.viewEvents(month);
-        ArrayList<EventModel> googleEventModels = googleData.viewEvents(month);
-        ArrayList<EventModel> localEventModels = eventsData.viewEvents(month);
+    public ArrayList<EventModel> viewEvents(int year, int month) {
+        ArrayList<EventModel> rubeusEventModels = rubeusData.viewEvents(year, month);
+        ArrayList<EventModel> googleEventModels = googleData.viewEvents(year, month);
+        ArrayList<EventModel> localEventModels = eventsData.viewEvents(year, month);
 
         // Sincroniza eventos da Rubeus com o banco de dadps
         updateLocalEventsFromOutsideEvents(localEventModels, rubeusEventModels);

@@ -1,4 +1,4 @@
-package com.rubeusufv.sync.Features.Presentation.Screens.Adapters;
+package com.rubeusufv.sync.Features.Presentation.Adapters;
 
 import static android.view.View.INVISIBLE;
 
