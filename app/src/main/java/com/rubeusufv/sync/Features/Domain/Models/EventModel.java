@@ -15,10 +15,10 @@ public class EventModel {
     private boolean allDay;
     private Color color;
     private String category;
-    private boolean rubeusSynchronized;
+    private boolean rubeusImported;
     private int rubeusId;
     private ContactType contactType;
-    private boolean googleSynchronized;
+    private boolean googleImported;
     private int googleId;
 
     public int getId() {
@@ -117,23 +117,23 @@ public class EventModel {
         this.category = category;
     }
 
-    public boolean isRubeusSynchronized() {
-        return rubeusSynchronized;
+    public boolean isRubeusImported() {
+        return rubeusImported;
     }
 
-    public void setRubeusSynchronized(boolean rubeusSynchronized) {
-        this.rubeusSynchronized = rubeusSynchronized;
+    public void setRubeusImported(boolean rubeusImported) {
+        this.rubeusImported = rubeusImported;
     }
 
-    public boolean isGoogleSynchronized() {
-        return googleSynchronized;
+    public boolean isGoogleImported() {
+        return googleImported;
     }
 
-    public void setGoogleSynchronized(boolean googleSynchronized) {
-        this.googleSynchronized = googleSynchronized;
+    public void setGoogleImported(boolean googleImported) {
+        this.googleImported = googleImported;
     }
 
-    public EventModel(int id, String title, String description, Date date, String startHour, String endHour, boolean allDay, Color color, String category, boolean rubeusSynchronized, int rubeusId, ContactType contactType, boolean googleSynchronized, int googleId) {
+    public EventModel(int id, String title, String description, Date date, String startHour, String endHour, boolean allDay, Color color, String category, boolean rubeusImported, int rubeusId, ContactType contactType, boolean googleImported, int googleId) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -143,17 +143,17 @@ public class EventModel {
         this.allDay = allDay;
         this.color = color;
         this.category = category;
-        this.rubeusSynchronized = rubeusSynchronized;
+        this.rubeusImported = rubeusImported;
         this.rubeusId = rubeusId;
         this.contactType = contactType;
-        this.googleSynchronized = googleSynchronized;
+        this.googleImported = googleImported;
         this.googleId = googleId;
     }
 
     public EventModel(
         String title, String description, Date date, String startHour, String endHour,
-        boolean allDay, Color color, String category, boolean rubeusSynchronized,
-        boolean googleSynchronized
+        boolean allDay, Color color, String category, boolean rubeusImported,
+        boolean googleImported
     ) {
         this.title = title;
         this.description = description;
@@ -163,8 +163,8 @@ public class EventModel {
         this.allDay = allDay;
         this.color = color;
         this.category = category;
-        this.rubeusSynchronized = rubeusSynchronized;
-        this.googleSynchronized = googleSynchronized;
+        this.rubeusImported = rubeusImported;
+        this.googleImported = googleImported;
     }
 
     public static EventModel getMock() {

@@ -9,6 +9,8 @@ import com.rubeusufv.sync.Features.Data.GoogleDataMock;
 import com.rubeusufv.sync.Features.Data.RubeusDataContract;
 import com.rubeusufv.sync.Features.Data.RubeusDataMock;
 import com.rubeusufv.sync.Features.Domain.Usecases.DoLoginUsecase;
+import com.rubeusufv.sync.Features.Domain.Usecases.EditEventUsecase;
+import com.rubeusufv.sync.Features.Domain.Usecases.RegisterNewEventUsecase;
 import com.rubeusufv.sync.Features.Domain.Usecases.ViewEventsUsecase;
 import com.rubeusufv.sync.Tools.Criptography.CriptographyContract;
 import com.rubeusufv.sync.Tools.Criptography.CriptographyMock;
@@ -26,6 +28,8 @@ public final class Injector {
     private EventsDataContract eventsData;
     private GoogleDataContract googleData;
     private RubeusDataContract rubeusData;
+    private RegisterNewEventUsecase registerNewEventUsecase;
+    private EditEventUsecase editEventUsecase;
 
     private Injector() {
         initialize();
@@ -44,6 +48,8 @@ public final class Injector {
         sessionManager = new SessionManagerMock();
         viewEventsUsecase = new ViewEventsUsecase(rubeusData, googleData, eventsData);
         doLoginUsecase = new DoLoginUsecase(rubeusData, criptography, sessionManager);
+        registerNewEventUsecase = new RegisterNewEventUsecase(rubeusData, googleData, eventsData);
+        editEventUsecase = new EditEventUsecase(rubeusData, googleData, eventsData);
     }
 
     public ViewEventsUsecase getEventUsecases() {
@@ -51,4 +57,7 @@ public final class Injector {
     }
 
     public DoLoginUsecase getDoLoginUsecase() { return this.doLoginUsecase; }
+
+    public RegisterNewEventUsecase getRegisterNewEventUsecase() { return this.registerNewEventUsecase; }
+    public EditEventUsecase getEditEventUsecase() { return this.editEventUsecase; }
 }

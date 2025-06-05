@@ -1,7 +1,7 @@
 package com.rubeusufv.sync.Features.Data;
 
 import com.rubeusufv.sync.Features.Domain.Models.EventModel;
-import com.rubeusufv.sync.Features.Domain.Models.User;
+import com.rubeusufv.sync.Features.Domain.Models.UserModel;
 
 import java.util.ArrayList;
 
@@ -9,14 +9,24 @@ public class RubeusDataMock implements RubeusDataContract {
     @Override
     public ArrayList<EventModel> viewEvents(int year, int month) {
         EventModel eventModel = EventModel.getMock();
-        eventModel.setRubeusSynchronized(true);
+        eventModel.setRubeusImported(true);
         ArrayList<EventModel> eventModelList = new ArrayList<EventModel>();
         eventModelList.add(eventModel);
         return eventModelList;
     }
 
     @Override
-    public User fetchUser(String login) {
-        return User.getMock();
+    public UserModel fetchUser(String login) {
+        return UserModel.getMock();
+    }
+
+    @Override
+    public EventModel createNewEvent(EventModel event) {
+        return EventModel.getMock();
+    }
+
+    @Override
+    public void updateEvent(EventModel event) {
+
     }
 }

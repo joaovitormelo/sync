@@ -21,8 +21,6 @@ public class ViewEventsUsecase {
         this.eventsData = eventsData;
     }
 
-    //---------------------------CASOS DE USO-----------------------------------------
-
     public ArrayList<EventModel> viewEvents(int year, int month) {
         ArrayList<EventModel> rubeusEventModels = rubeusData.viewEvents(year, month);
         ArrayList<EventModel> googleEventModels = googleData.viewEvents(year, month);
@@ -42,7 +40,7 @@ public class ViewEventsUsecase {
     ) {
         for (EventModel outsideEventModel : outsideEventModels) {
             if (!localEventModels.contains(outsideEventModel)) {
-                EventModel newEventModel = eventsData.createEvent(outsideEventModel);
+                EventModel newEventModel = eventsData.createNewEvent(outsideEventModel);
                 localEventModels.add(newEventModel);
             }
         }

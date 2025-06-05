@@ -7,4 +7,6 @@ import java.util.ArrayList;
 public interface GoogleDataContract {
 
     ArrayList<EventModel> viewEvents(int year, int month);
+    EventModel createNewEvent(EventModel event);
+    void updateEvent(EventModel event);
 }

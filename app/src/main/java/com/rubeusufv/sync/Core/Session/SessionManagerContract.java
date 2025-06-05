@@ -1,7 +1,7 @@
 package com.rubeusufv.sync.Core.Session;
 
-import com.rubeusufv.sync.Features.Domain.Models.User;
+import com.rubeusufv.sync.Features.Domain.Models.UserModel;
 
 public interface SessionManagerContract {
-    void saveSession(User user);
+    void saveSession(UserModel userModel);
 }

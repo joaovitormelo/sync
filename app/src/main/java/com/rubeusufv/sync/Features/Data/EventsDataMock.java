@@ -11,7 +11,12 @@ public class EventsDataMock implements EventsDataContract {
     }
 
     @Override
-    public EventModel createEvent(EventModel eventModel) {
+    public EventModel createNewEvent(EventModel event) {
         return EventModel.getMock();
+    }
+
+    @Override
+    public void updateEvent(EventModel event) {
+
     }
 }

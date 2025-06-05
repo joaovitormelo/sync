@@ -6,5 +6,6 @@ import java.util.ArrayList;
 
 public interface EventsDataContract {
     ArrayList<EventModel> viewEvents(int year, int month);
-    EventModel createEvent(EventModel eventModel);
+    EventModel createNewEvent(EventModel event);
+    void updateEvent(EventModel event);
 }

@@ -1,8 +1,9 @@
 package com.rubeusufv.sync.Features.Domain.Models;
 
-public class User {
+public class UserModel {
 
     private int id;
+    private String tokenRubeus;
     private int idRubeus;
     private int idGoogle;
     private String name;
@@ -48,15 +49,26 @@ public class User {
         this.name = name;
     }
 
-    public User(int id, int idRubeus, int idGoogle, String name, String password) {
+    public String getTokenRubeus() {
+        return tokenRubeus;
+    }
+
+    public void setTokenRubeus(String tokenRubeus) {
+        this.tokenRubeus = tokenRubeus;
+    }
+
+    public UserModel(
+        int id, String tokenRubeus, int idRubeus, int idGoogle, String name, String password
+    ) {
         this.id = id;
+        this.tokenRubeus = tokenRubeus;
         this.idRubeus = idRubeus;
         this.idGoogle = idGoogle;
         this.name = name;
         this.password = password;
     }
 
-    public static User getMock() {
-        return new User(1, 1, 1, "Joao", "123");
+    public static UserModel getMock() {
+        return new UserModel(1, "123",1, 1, "Joao", "123");
     }
 }

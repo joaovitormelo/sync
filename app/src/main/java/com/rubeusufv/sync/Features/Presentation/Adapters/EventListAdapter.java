@@ -43,7 +43,7 @@ public class EventListAdapter extends ArrayAdapter<EventModel> {
         ImageView googleIcon = view.findViewById(R.id.googleIcon);
         CardView googleIconWrapper = view.findViewById(R.id.googleIconWrapper);
 
-        if (!eventModel.isRubeusSynchronized()) {
+        if (!eventModel.isRubeusImported()) {
             eventDayItem.setCardBackgroundColor(view.getResources().getColor(R.color.grey));
             rubeusIcon.setVisibility(INVISIBLE);
             rubeusIconWrapper.setVisibility(INVISIBLE);
@@ -59,7 +59,7 @@ public class EventListAdapter extends ArrayAdapter<EventModel> {
                     eventDayItem.setCardBackgroundColor(view.getResources().getColor(R.color.purple));
             }
         }
-        if (!eventModel.isGoogleSynchronized()) {
+        if (!eventModel.isGoogleImported()) {
             googleIcon.setVisibility(INVISIBLE);
             googleIconWrapper.setVisibility(INVISIBLE);
         }

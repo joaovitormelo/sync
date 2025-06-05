@@ -9,4 +9,14 @@ public class GoogleDataMock implements GoogleDataContract {
     public ArrayList<EventModel> viewEvents(int year, int month) {
         return new ArrayList<EventModel>();
     }
+
+    @Override
+    public EventModel createNewEvent(EventModel event) {
+        return EventModel.getMock();
+    }
+
+    @Override
+    public void updateEvent(EventModel event) {
+
+    }
 }

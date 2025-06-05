@@ -4,7 +4,7 @@ import com.rubeusufv.sync.Core.Exceptions.IncorrectPasswordException;
 import com.rubeusufv.sync.Core.Exceptions.UserNotFoundException;
 import com.rubeusufv.sync.Core.Session.SessionManagerContract;
 import com.rubeusufv.sync.Features.Data.RubeusDataContract;
-import com.rubeusufv.sync.Features.Domain.Models.User;
+import com.rubeusufv.sync.Features.Domain.Models.UserModel;
 import com.rubeusufv.sync.Tools.Criptography.CriptographyContract;
 
 public class DoLoginUsecase {
@@ -19,10 +19,10 @@ public class DoLoginUsecase {
     }
 
     public void doLogin(String login, String password) {
-        User user = rubeusData.fetchUser(login);
-        if (user == null) throw new UserNotFoundException(login);
-        boolean passwordsMatch = criptography.matchPasswords(user.getPassword(), password);
+        UserModel userModel = rubeusData.fetchUser(login);
+        if (userModel == null) throw new UserNotFoundException(login);
+        boolean passwordsMatch = criptography.matchPasswords(userModel.getPassword(), password);
         if (!passwordsMatch) throw new IncorrectPasswordException(login);
-        sessionManager.saveSession(user);
+        sessionManager.saveSession(userModel);
     }
 }

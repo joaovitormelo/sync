@@ -1,10 +1,10 @@
 package com.rubeusufv.sync.Core.Session;
 
-import com.rubeusufv.sync.Features.Domain.Models.User;
+import com.rubeusufv.sync.Features.Domain.Models.UserModel;
 
 public class SessionManagerMock implements SessionManagerContract {
     @Override
-    public void saveSession(User user) {
+    public void saveSession(UserModel userModel) {
         //
     }
 }
