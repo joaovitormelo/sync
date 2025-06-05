@@ -1,70 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools">
-    <RelativeLayout
-        android:id="@+id/main_events_content"
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-    >
+    tools:context="com.rubeusufv.sync.Features.Presentation.Screens.EventsActivity">
 
-        <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/events_app_bar"
+    <!-- Conteúdo principal da tela (so vai aparecer inicialmente o menu sem expandir)-->
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:id="@+id/main_events_content"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/app_bar_height"
-            android:fitsSystemWindows="true"
-            android:theme="@style/Theme.Sync.AppBarOverlay"
-        >
-            <com.google.android.material.appbar.CollapsingToolbarLayout
-                android:id="@+id/toolbar_layout"
-                style="@style/Widget.MaterialComponents.Toolbar.Primary"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.appbar.AppBarLayout
+                android:id="@+id/events_app_bar"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="@dimen/app_bar_height"
                 android:fitsSystemWindows="true"
-                app:contentScrim="?attr/colorPrimary"
-                app:layout_scrollFlags="scroll|exitUntilCollapsed"
-                app:toolbarId="@+id/toolbar"
-                app:titleEnabled="false"
-            >
-                <androidx.appcompat.widget.Toolbar
-                    android:id="@+id/toolbar"
+                android:theme="@style/Theme.Sync.AppBarOverlay">
+
+                <com.google.android.material.appbar.CollapsingToolbarLayout
+                    android:id="@+id/toolbar_layout"
+                    style="@style/Widget.MaterialComponents.Toolbar.Primary"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    app:layout_collapseMode="pin"
-                    app:popupTheme="@style/Theme.Sync.PopupOverlay"
-                >
-                    <Spinner
-                        android:id="@+id/eventFilterSpinner"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                    />
-                </androidx.appcompat.widget.Toolbar>
-            </com.google.android.material.appbar.CollapsingToolbarLayout>
-        </com.google.android.material.appbar.AppBarLayout>
+                    android:fitsSystemWindows="true"
+                    app:contentScrim="?attr/colorPrimary"
+                    app:layout_scrollFlags="scroll|exitUntilCollapsed"
+                    app:toolbarId="@+id/toolbar"
+                    app:titleEnabled="false">
 
-        <ListView
-            android:id="@+id/eventDayList"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:listitem="@layout/event_day_list_item"
-            android:layout_below="@id/events_app_bar"
-            android:divider="@android:color/transparent"
-        />
-    </RelativeLayout>
+                    <androidx.appcompat.widget.Toolbar
+                        android:id="@+id/toolbar"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        app:layout_collapseMode="pin"
+                        app:popupTheme="@style/Theme.Sync.PopupOverlay">
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab"
+                        <Spinner
+                            android:id="@+id/eventFilterSpinner"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </androidx.appcompat.widget.Toolbar>
+                </com.google.android.material.appbar.CollapsingToolbarLayout>
+            </com.google.android.material.appbar.AppBarLayout>
+
+            <ListView
+                android:id="@+id/eventDayList"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/events_app_bar"
+                android:divider="@android:color/transparent"
+                tools:listitem="@layout/event_day_list_item" />
+        </RelativeLayout>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/fab_margin"
+            android:layout_marginBottom="@dimen/fab_margin_bottom"
+            app:layout_anchor="@id/main_events_content"
+            app:layout_anchorGravity="bottom|end"
+            app:srcCompat="@android:drawable/ic_input_add"
+            android:onClick="openEventCreationScreen" />
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+    <!-- Navigation Drawer(barra lateral de navegação)  -->
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/navigation_view"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/fab_margin"
-        android:layout_marginBottom="@dimen/fab_margin_bottom"
-        app:layout_anchor="@id/main_events_content"
-        app:layout_anchorGravity="bottom|end"
-        app:srcCompat="@android:drawable/ic_input_add"
-        android:onClick="openEventCreationScreen"
-    />
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:fitsSystemWindows="true"
+        android:background="@android:color/white"
+        app:menu="@menu/drawer_menu" />
+
+</androidx.drawerlayout.widget.DrawerLayout>

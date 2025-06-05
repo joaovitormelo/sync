@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name">Sync</string>
+    <string name="name">Seu nome</string>
+    <string name="to_go_out">Sair</string>
+    <string name="synchronize">Sincronizar Automaticamente </string>
     <string name="taskTitle">Adicionar título</string>
     <string name="descriptionPlaceholder">Adicionar descrição</string>
     <string name="descriptionDescriptionIcon">Ícone de descrição</string>
