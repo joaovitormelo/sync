@@ -2,12 +2,12 @@ package com.rubeusufv.sync.Core;
 
 import com.rubeusufv.sync.Core.Session.SessionManagerContract;
 import com.rubeusufv.sync.Core.Session.SessionManagerMock;
-import com.rubeusufv.sync.Features.Data.EventsDataContract;
-import com.rubeusufv.sync.Features.Data.EventsDataMock;
-import com.rubeusufv.sync.Features.Data.GoogleDataContract;
-import com.rubeusufv.sync.Features.Data.GoogleDataMock;
-import com.rubeusufv.sync.Features.Data.RubeusDataContract;
-import com.rubeusufv.sync.Features.Data.RubeusDataMock;
+import com.rubeusufv.sync.Features.Data.AuthData.AuthDataContract;
+import com.rubeusufv.sync.Features.Data.AuthData.AuthDataMock;
+import com.rubeusufv.sync.Features.Data.EventsData.EventsDataContract;
+import com.rubeusufv.sync.Features.Data.EventsData.DatabaseEventsDataMock;
+import com.rubeusufv.sync.Features.Data.EventsData.GoogleEventsDataMock;
+import com.rubeusufv.sync.Features.Data.EventsData.RubeusEventsDataMock;
 import com.rubeusufv.sync.Features.Domain.Usecases.DoLoginUsecase;
 import com.rubeusufv.sync.Features.Domain.Usecases.EditEventUsecase;
 import com.rubeusufv.sync.Features.Domain.Usecases.RegisterNewEventUsecase;
@@ -25,9 +25,10 @@ public final class Injector {
     private DoLoginUsecase doLoginUsecase;
     private SessionManagerContract sessionManager;
     private CriptographyContract criptography;
-    private EventsDataContract eventsData;
-    private GoogleDataContract googleData;
-    private RubeusDataContract rubeusData;
+    private EventsDataContract databaseEventsData;
+    private EventsDataContract googleEventsData;
+    private EventsDataContract rubeusEventsData;
+    private AuthDataContract authData;
     private RegisterNewEventUsecase registerNewEventUsecase;
     private EditEventUsecase editEventUsecase;
 
@@ -41,15 +42,16 @@ public final class Injector {
     }
 
     private void initialize() {
-        eventsData = new EventsDataMock();
-        googleData = new GoogleDataMock();
-        rubeusData = new RubeusDataMock();
+        databaseEventsData = new DatabaseEventsDataMock();
+        googleEventsData = new GoogleEventsDataMock();
+        rubeusEventsData = new RubeusEventsDataMock();
+        authData = new AuthDataMock();
         criptography = new CriptographyMock();
         sessionManager = new SessionManagerMock();
-        viewEventsUsecase = new ViewEventsUsecase(rubeusData, googleData, eventsData);
-        doLoginUsecase = new DoLoginUsecase(rubeusData, criptography, sessionManager);
-        registerNewEventUsecase = new RegisterNewEventUsecase(rubeusData, googleData, eventsData);
-        editEventUsecase = new EditEventUsecase(rubeusData, googleData, eventsData);
+        viewEventsUsecase = new ViewEventsUsecase(rubeusEventsData, googleEventsData, databaseEventsData);
+        doLoginUsecase = new DoLoginUsecase(authData, criptography, sessionManager);
+        registerNewEventUsecase = new RegisterNewEventUsecase(rubeusEventsData, googleEventsData, databaseEventsData);
+        editEventUsecase = new EditEventUsecase(rubeusEventsData, googleEventsData, databaseEventsData);
     }
 
     public ViewEventsUsecase getEventUsecases() {

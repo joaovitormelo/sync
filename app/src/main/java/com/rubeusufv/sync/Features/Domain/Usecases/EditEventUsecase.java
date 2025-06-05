@@ -1,24 +1,23 @@
 package com.rubeusufv.sync.Features.Domain.Usecases;
 
 import com.rubeusufv.sync.Core.Exceptions.UsecaseException;
-import com.rubeusufv.sync.Features.Data.EventsDataContract;
-import com.rubeusufv.sync.Features.Data.GoogleDataContract;
-import com.rubeusufv.sync.Features.Data.RubeusDataContract;
+import com.rubeusufv.sync.Features.Data.EventsData.EventsDataContract;
 import com.rubeusufv.sync.Features.Domain.Models.EventModel;
 
 public class EditEventUsecase {
-    private RubeusDataContract rubeusData;
-    private GoogleDataContract googleData;
+    private EventsDataContract rubeusData;
+    private EventsDataContract googleData;
     private EventsDataContract eventsData;
 
     public EditEventUsecase(
-            RubeusDataContract rubeusData, GoogleDataContract googleData,
+            EventsDataContract rubeusData, EventsDataContract googleData,
             EventsDataContract eventsData
     ) {
         this.rubeusData = rubeusData;
         this.googleData = googleData;
         this.eventsData = eventsData;
     }
+
     public void editEvent(EventModel event) {
         if (event.getId() == 0) {
             throw new UsecaseException("O evento deve possuir um ID no banco de dados!");

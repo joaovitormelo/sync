@@ -1,10 +1,10 @@
-package com.rubeusufv.sync.Features.Data;
+package com.rubeusufv.sync.Features.Data.EventsData;
 
 import com.rubeusufv.sync.Features.Domain.Models.EventModel;
 
 import java.util.ArrayList;
 
-public class EventsDataMock implements EventsDataContract {
+public class GoogleEventsDataMock implements EventsDataContract {
     @Override
     public ArrayList<EventModel> viewEvents(int year, int month) {
         return new ArrayList<EventModel>();
@@ -17,6 +17,11 @@ public class EventsDataMock implements EventsDataContract {
 
     @Override
     public void updateEvent(EventModel event) {
+
+    }
+
+    @Override
+    public void removeEvent(EventModel event) {
 
     }
 }

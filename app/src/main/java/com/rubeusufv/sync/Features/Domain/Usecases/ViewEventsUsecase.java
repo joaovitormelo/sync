@@ -1,19 +1,17 @@
 package com.rubeusufv.sync.Features.Domain.Usecases;
 
-import com.rubeusufv.sync.Features.Data.EventsDataContract;
-import com.rubeusufv.sync.Features.Data.GoogleDataContract;
-import com.rubeusufv.sync.Features.Data.RubeusDataContract;
+import com.rubeusufv.sync.Features.Data.EventsData.EventsDataContract;
 import com.rubeusufv.sync.Features.Domain.Models.EventModel;
 
 import java.util.ArrayList;
 
 public class ViewEventsUsecase {
-    private RubeusDataContract rubeusData;
-    private GoogleDataContract googleData;
+    private EventsDataContract rubeusData;
+    private EventsDataContract googleData;
     private EventsDataContract eventsData;
 
     public ViewEventsUsecase(
-        RubeusDataContract rubeusData, GoogleDataContract googleData,
+        EventsDataContract rubeusData, EventsDataContract googleData,
         EventsDataContract eventsData
     ) {
         this.rubeusData = rubeusData;
