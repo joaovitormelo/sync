@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.rubeusufv.sync.Core.Injector;
 import com.rubeusufv.sync.Features.Domain.Models.EventModel;
 import com.rubeusufv.sync.Features.Domain.Usecases.EditEventUsecase;
+import com.rubeusufv.sync.Features.Domain.Usecases.ExcludeEventUsecase;
 import com.rubeusufv.sync.Features.Domain.Usecases.RegisterNewEventUsecase;
 import com.rubeusufv.sync.R;
 
@@ -38,6 +39,7 @@ public class LoginActivity extends AppCompatActivity {
         String PasswordString = password.getText().toString();
 
         //testEditEvent();
+        //testExcludeEvent();
     }
 
     void testEditEvent() {
@@ -48,5 +50,14 @@ public class LoginActivity extends AppCompatActivity {
         event.setGoogleId(1);
         editEventUsecase.editEvent(event);
         Toast.makeText(getBaseContext(), "Evento editado com sucesso!", Toast.LENGTH_SHORT).show();
+    }
+
+    void testExcludeEvent() {
+        ExcludeEventUsecase excludeEventUsecase = Injector.getInstance().getExcludeEventUsecase();
+        EventModel event = EventModel.getMock();
+        event.setId(1);
+        event.setGoogleId(1);
+        excludeEventUsecase.excludeEvent(event, true, false);
+        Toast.makeText(getBaseContext(), "Evento excluído com sucesso!", Toast.LENGTH_SHORT).show();
     }
 }

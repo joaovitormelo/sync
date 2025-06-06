@@ -7,4 +7,9 @@ public class SessionManagerMock implements SessionManagerContract {
     public void saveSession(UserModel userModel) {
         //
     }
+
+    @Override
+    public UserModel getSessionUser() {
+        return UserModel.getMock();
+    }
 }

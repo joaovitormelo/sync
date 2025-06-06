@@ -7,6 +7,7 @@ import java.util.Date;
 
 public class EventModel {
     private int id;
+    private int userId;
     private String title;
     private String description;
     private Date date;
@@ -133,8 +134,22 @@ public class EventModel {
         this.googleImported = googleImported;
     }
 
-    public EventModel(int id, String title, String description, Date date, String startHour, String endHour, boolean allDay, Color color, String category, boolean rubeusImported, int rubeusId, ContactType contactType, boolean googleImported, int googleId) {
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
+    public EventModel(
+            int id, int userId, String title, String description, Date date, String startHour,
+            String endHour, boolean allDay, Color color, String category,
+            boolean rubeusImported, int rubeusId, ContactType contactType,
+            boolean googleImported, int googleId
+    ) {
         this.id = id;
+        this.userId = userId;
         this.title = title;
         this.description = description;
         this.date = date;
@@ -151,10 +166,11 @@ public class EventModel {
     }
 
     public EventModel(
-        String title, String description, Date date, String startHour, String endHour,
-        boolean allDay, Color color, String category, boolean rubeusImported,
-        boolean googleImported
+        int userId, String title, String description, Date date, String startHour,
+        String endHour, boolean allDay, Color color, String category,
+        boolean rubeusImported, boolean googleImported
     ) {
+        this.userId = userId;
         this.title = title;
         this.description = description;
         this.date = date;
@@ -169,8 +185,9 @@ public class EventModel {
 
     public static EventModel getMock() {
         return new EventModel(
-            "Evento 1", "Descrição", new Date(), "09:00", "10:00",
-            false, Color.BLUE, "A", true, false
+            1, "Evento 1", "Descrição", new Date(), "09:00",
+            "10:00",false, Color.BLUE, "A", true,
+            false
         );
     }
 }

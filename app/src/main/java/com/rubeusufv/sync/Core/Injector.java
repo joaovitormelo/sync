@@ -1,7 +1,7 @@
 package com.rubeusufv.sync.Core;
 
+import com.rubeusufv.sync.Core.Session.SessionManager;
 import com.rubeusufv.sync.Core.Session.SessionManagerContract;
-import com.rubeusufv.sync.Core.Session.SessionManagerMock;
 import com.rubeusufv.sync.Features.Data.AuthData.AuthDataContract;
 import com.rubeusufv.sync.Features.Data.AuthData.AuthDataMock;
 import com.rubeusufv.sync.Features.Data.EventsData.EventsDataContract;
@@ -10,6 +10,7 @@ import com.rubeusufv.sync.Features.Data.EventsData.GoogleEventsDataMock;
 import com.rubeusufv.sync.Features.Data.EventsData.RubeusEventsDataMock;
 import com.rubeusufv.sync.Features.Domain.Usecases.DoLoginUsecase;
 import com.rubeusufv.sync.Features.Domain.Usecases.EditEventUsecase;
+import com.rubeusufv.sync.Features.Domain.Usecases.ExcludeEventUsecase;
 import com.rubeusufv.sync.Features.Domain.Usecases.RegisterNewEventUsecase;
 import com.rubeusufv.sync.Features.Domain.Usecases.ViewEventsUsecase;
 import com.rubeusufv.sync.Tools.Criptography.CriptographyContract;
@@ -31,6 +32,7 @@ public final class Injector {
     private AuthDataContract authData;
     private RegisterNewEventUsecase registerNewEventUsecase;
     private EditEventUsecase editEventUsecase;
+    private ExcludeEventUsecase excludeEventUsecase;
 
     private Injector() {
         initialize();
@@ -47,11 +49,20 @@ public final class Injector {
         rubeusEventsData = new RubeusEventsDataMock();
         authData = new AuthDataMock();
         criptography = new CriptographyMock();
-        sessionManager = new SessionManagerMock();
-        viewEventsUsecase = new ViewEventsUsecase(rubeusEventsData, googleEventsData, databaseEventsData);
+        sessionManager = new SessionManager();
+        viewEventsUsecase = new ViewEventsUsecase(
+            rubeusEventsData, googleEventsData, databaseEventsData, sessionManager
+        );
         doLoginUsecase = new DoLoginUsecase(authData, criptography, sessionManager);
-        registerNewEventUsecase = new RegisterNewEventUsecase(rubeusEventsData, googleEventsData, databaseEventsData);
-        editEventUsecase = new EditEventUsecase(rubeusEventsData, googleEventsData, databaseEventsData);
+        registerNewEventUsecase = new RegisterNewEventUsecase(
+                rubeusEventsData, googleEventsData, databaseEventsData, sessionManager
+        );
+        editEventUsecase = new EditEventUsecase(
+                rubeusEventsData, googleEventsData, databaseEventsData, sessionManager
+        );
+        excludeEventUsecase = new ExcludeEventUsecase(
+                rubeusEventsData, googleEventsData, databaseEventsData, sessionManager
+        );
     }
 
     public ViewEventsUsecase getEventUsecases() {
@@ -62,4 +73,7 @@ public final class Injector {
 
     public RegisterNewEventUsecase getRegisterNewEventUsecase() { return this.registerNewEventUsecase; }
     public EditEventUsecase getEditEventUsecase() { return this.editEventUsecase; }
+    public ExcludeEventUsecase getExcludeEventUsecase() {
+        return this.excludeEventUsecase;
+    }
 }
