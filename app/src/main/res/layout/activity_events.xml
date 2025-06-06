@@ -6,89 +6,47 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.rubeusufv.sync.Features.Presentation.Screens.EventsActivity">
-    <!-- drawer vai me permitir usar uma barrinha para abrir o menu lateral-->
 
+    <!-- Conteúdo principal da tela -->
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <!-- CoordinatorLayout é um layout especial para
-         coordenar interações entre seus filhos, especialmente
-         com componentes do Material Design-->
+        <RelativeLayout
+            android:id="@+id/main_events_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-       <RelativeLayout
-           android:id="@+id/main_events_content"
-           android:layout_width="match_parent"
-           android:layout_height="wrap_content">
+            <!-- Lista de eventos -->
+            <ListView
+                android:id="@+id/eventDayList"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:divider="@android:color/transparent"
+                tools:listitem="@layout/event_day_list_item" />
+        </RelativeLayout>
 
-          <!-- AppBarLayout é um container para barras de ferramentas (Toolbars),
-           podendo animar o comportamento delas.-->
+        <!-- Botão flutuante para adicionar evento -->
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_marginEnd="@dimen/fab_margin"
+            android:layout_marginBottom="@dimen/fab_margin_bottom"
+            android:onClick="openEventCreationScreen"
+            app:srcCompat="@android:drawable/ic_input_add" />
 
-           <com.google.android.material.appbar.AppBarLayout
-               android:id="@+id/events_app_bar"
-               android:layout_width="match_parent"
-               android:layout_height="@dimen/app_bar_height"
-               android:fitsSystemWindows="true"
-               android:theme="@style/Theme.Sync.AppBarOverlay"
-               android:background="@drawable/border_red">
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-               <com.google.android.material.appbar.CollapsingToolbarLayout
-                   android:id="@+id/toolbar_layout"
-                   style="@style/Widget.MaterialComponents.Toolbar.Primary"
-                   android:layout_width="match_parent"
-                   android:layout_height="match_parent"
-                   android:fitsSystemWindows="true"
-                   app:contentScrim="?attr/colorPrimary"
-                   app:layout_scrollFlags="scroll|exitUntilCollapsed"
-                   app:toolbarId="@+id/toolbar"
-                   app:titleEnabled="false">
-                    <!-- a barra de ferramentas em si -->
-                   <androidx.appcompat.widget.Toolbar
-                       android:id="@+id/toolbar"
-                       android:layout_width="match_parent"
-                       android:layout_height="wrap_content"
-                       android:background="@drawable/border_red"
-                       app:layout_collapseMode="pin"
-                       app:popupTheme="@style/Theme.Sync.PopupOverlay">
-                    <!-- Esse spinner vai me dar opções de escolha -->
-                       <Spinner
-                           android:id="@+id/eventFilterSpinner"
-                           android:layout_width="wrap_content"
-                           android:layout_height="wrap_content" />
-                   </androidx.appcompat.widget.Toolbar>
-
-               </com.google.android.material.appbar.CollapsingToolbarLayout>
-           </com.google.android.material.appbar.AppBarLayout>
-            <!-- vai me mostrar a lista de eventos -->
-           <ListView
-               android:id="@+id/eventDayList"
-               android:layout_width="match_parent"
-               android:layout_height="match_parent"
-               android:layout_below="@id/events_app_bar"
-               android:divider="@android:color/transparent"
-               tools:listitem="@layout/event_day_list_item" />
-       </RelativeLayout>
-        <!-- meu botão "flutuante para não sofrer intervenções do scrow-->
-       <com.google.android.material.floatingactionbutton.FloatingActionButton
-           android:id="@+id/fab"
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content"
-           android:layout_marginEnd="@dimen/fab_margin"
-           android:layout_marginBottom="@dimen/fab_margin_bottom"
-           app:layout_anchor="@id/main_events_content"
-           app:layout_anchorGravity="bottom|end"
-           app:srcCompat="@android:drawable/ic_input_add"
-           android:onClick="openEventCreationScreen" />
-
-   </androidx.coordinatorlayout.widget.CoordinatorLayout>
-<!-- meu menu lateral -->
-   <com.google.android.material.navigation.NavigationView
-       android:id="@+id/navigation_view"
-       android:layout_width="wrap_content"
-       android:layout_height="match_parent"
-       android:layout_gravity="start"
-       android:fitsSystemWindows="true"
-       android:background="@android:color/white"
-       app:menu="@menu/drawer_menu" />
+    <!-- Menu lateral -->
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/navigation_view"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:fitsSystemWindows="true"
+        android:background="@android:color/white"
+        app:menu="@menu/drawer_menu" />
 
 </androidx.drawerlayout.widget.DrawerLayout>

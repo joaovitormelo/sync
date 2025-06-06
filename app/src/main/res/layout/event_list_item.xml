@@ -109,7 +109,7 @@
                         android:layout_height="@dimen/mini_button_size"
                         android:layout_margin="5dp"
                         android:background="@drawable/border_red"
-                        android:drawableStart="@drawable/edit_calendar"
+                        android:drawableStart="@drawable/baseline_edit_calendar_24"
                         android:drawablePadding="4dp"
                         android:textColor="@color/white"
                         android:textSize="14sp" />
@@ -120,10 +120,11 @@
                         android:layout_height="@dimen/mini_button_size"
                         android:layout_margin="5dp"
                         android:background="@drawable/border_red"
-                        android:drawableStart="@drawable/delete"
+                        android:drawableStart="@drawable/baseline_delete_24"
                         android:drawablePadding="4dp"
                         android:textColor="@color/white"
-                        android:textSize="14sp" />
+                        android:textSize="14sp"
+                        />
 
 
 
