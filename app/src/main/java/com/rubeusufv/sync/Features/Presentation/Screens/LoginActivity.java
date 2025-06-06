@@ -8,6 +8,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.rubeusufv.sync.Core.Injector;
@@ -38,11 +39,17 @@ public class LoginActivity extends AppCompatActivity {
         String Emailstring = email.getText().toString();
         String PasswordString = password.getText().toString();
 
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.hide();
+        }
+
         //testEditEvent();
         //testExcludeEvent();
     }
 
     void testEditEvent() {
+
         EditEventUsecase editEventUsecase = Injector.getInstance().getEditEventUsecase();
         EventModel event = EventModel.getMock();
         event.setId(1);

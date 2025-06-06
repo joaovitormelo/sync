@@ -10,6 +10,9 @@ public class SessionManagerMock implements SessionManagerContract {
 
     @Override
     public UserModel getSessionUser() {
+        UserModel user = UserModel.getMock();
+        user.setIdRubeus(1);
+        user.setTokenRubeus("token");
         return UserModel.getMock();
     }
 }

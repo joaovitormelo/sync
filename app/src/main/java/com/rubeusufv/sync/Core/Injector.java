@@ -2,6 +2,7 @@ package com.rubeusufv.sync.Core;
 
 import com.rubeusufv.sync.Core.Session.SessionManager;
 import com.rubeusufv.sync.Core.Session.SessionManagerContract;
+import com.rubeusufv.sync.Core.Session.SessionManagerMock;
 import com.rubeusufv.sync.Features.Data.AuthData.AuthDataContract;
 import com.rubeusufv.sync.Features.Data.AuthData.AuthDataMock;
 import com.rubeusufv.sync.Features.Data.EventsData.EventsDataContract;
@@ -49,7 +50,7 @@ public final class Injector {
         rubeusEventsData = new RubeusEventsDataMock();
         authData = new AuthDataMock();
         criptography = new CriptographyMock();
-        sessionManager = new SessionManager();
+        sessionManager = new SessionManagerMock();
         viewEventsUsecase = new ViewEventsUsecase(
             rubeusEventsData, googleEventsData, databaseEventsData, sessionManager
         );
