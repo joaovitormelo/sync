@@ -192,7 +192,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:backgroundTint="@android:color/transparent"
-                    style="@style/Widget.Material3.TextInputLayout.FilledBox.ExposedDropdownMenu">
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
                     <com.google.android.material.textfield.MaterialAutoCompleteTextView
                         android:id="@+id/repeatDropdown"
                         android:layout_width="match_parent"

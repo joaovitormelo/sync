@@ -14,9 +14,6 @@
         android:theme="@style/Theme.Sync"
         tools:targetApi="31" >
         <activity
-            android:name=".Features.Presentation.Screens.edit_task"
-            android:exported="false" />
-        <activity
             android:name=".Features.Presentation.Screens.EventsActivity"
             android:exported="false" />
         <activity
