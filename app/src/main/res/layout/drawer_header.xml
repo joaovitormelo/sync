@@ -6,6 +6,7 @@
     android:padding="16dp"
     android:background="@color/bege">
 
+    <!-- isso esta fazendo parte do menu-->
     <TextView
         android:id="@+id/textViewName"
         android:layout_width="match_parent"

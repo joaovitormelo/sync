@@ -5,41 +5,59 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.rubeusufv.sync.Features.Presentation.Screens.EventsActivity">
+    tools:context=".Features.Presentation.Screens.EventsActivity">
 
-    <!-- Conteúdo principal da tela -->
+    <!-- Conteúdo principal -->
     <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/coordinator_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <RelativeLayout
-            android:id="@+id/main_events_content"
+        <!-- AppBar com Toolbar -->
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/app_bar_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar_main"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="?attr/colorPrimary"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                app:title="@string/app_name" />
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <!-- Conteúdo principal abaixo da toolbar -->
+        <RelativeLayout
+            android:id="@+id/relative_content_area"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="?attr/actionBarSize">
 
             <!-- Lista de eventos -->
             <ListView
-                android:id="@+id/eventDayList"
+                android:id="@+id/event_day_list"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:divider="@android:color/transparent"
                 tools:listitem="@layout/event_day_list_item" />
         </RelativeLayout>
 
-        <!-- Botão flutuante para adicionar evento -->
+        <!-- Botão flutuante -->
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab"
+            android:id="@+id/fab_add_event"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
-            android:layout_marginEnd="@dimen/fab_margin"
-            android:layout_marginBottom="@dimen/fab_margin_bottom"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
             android:onClick="openEventCreationScreen"
             app:srcCompat="@android:drawable/ic_input_add" />
-
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-    <!-- Menu lateral -->
+    <!-- Menu lateral com cabeçalho personalizado -->
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/navigation_view"
         android:layout_width="wrap_content"
@@ -47,6 +65,6 @@
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
         android:background="@android:color/white"
+        app:headerLayout="@layout/drawer_header"
         app:menu="@menu/drawer_menu" />
-
 </androidx.drawerlayout.widget.DrawerLayout>
