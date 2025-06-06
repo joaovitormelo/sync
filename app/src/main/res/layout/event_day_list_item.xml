@@ -16,7 +16,7 @@
         android:layout_height="wrap_content"
         android:layout_columnWeight="2"
         android:textAlignment="center"
-        android:background="@color/bege">
+        android:background="@color/white">
         >
         <TextView
             android:id="@+id/day_header_weekday"
