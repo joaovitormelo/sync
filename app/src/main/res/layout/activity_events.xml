@@ -38,7 +38,7 @@
 
             <!-- Lista de eventos -->
             <ListView
-                android:id="@+id/event_day_list"
+                android:id="@+id/eventDayList"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:divider="@android:color/transparent"
