@@ -51,7 +51,7 @@ public class LoginActivity extends AppCompatActivity {
         //testEditEvent();
         //testExcludeEvent();
         //testImportSingleEvent();
-        testImportEventList();
+        //testImportEventList();
     }
 
     void testImportEventList() {
