@@ -52,25 +52,29 @@ public class ViewEventsUsecase {
             );
         }
 
-        // Sincroniza eventos da Rubeus com o banco de dadps
-        updateLocalEventsFromOutsideEvents(currentUser, localEvents, rubeusEvents);
+        // Sincroniza eventos da Rubeus com o banco de dados
+        updateLocalEventsFromOutsideEvents(
+            currentUser, localEvents, rubeusEvents, false
+        );
 
         // Sincroniza eventos da Google com o banco de dados
-        updateLocalEventsFromOutsideEvents(currentUser, localEvents, googleEvents);
+        updateLocalEventsFromOutsideEvents(
+            currentUser, localEvents, googleEvents, true
+        );
 
         return localEvents;
     }
 
     private void updateLocalEventsFromOutsideEvents(
         UserModel currentUser, ArrayList<EventModel> localEvents,
-        ArrayList<EventModel> outsideEvents
+        ArrayList<EventModel> outsideEvents, boolean isGoogle
     ) {
-        for (EventModel outsideEventModel : outsideEvents) {
-            if (!localEvents.contains(outsideEventModel)) {
+        for (EventModel outsideEvent : outsideEvents) {
+            if (!hasEvent(localEvents, outsideEvent, isGoogle)) {
                 EventModel newEventModel;
                 try {
                     newEventModel = eventsData.createNewEvent(
-                            currentUser, outsideEventModel
+                            currentUser, outsideEvent
                     );
                 } catch(Exception error) {
                     throw new DatabaseException(
@@ -80,5 +84,18 @@ public class ViewEventsUsecase {
                 localEvents.add(newEventModel);
             }
         }
+    }
+
+    private boolean hasEvent(
+        ArrayList<EventModel> eventList, EventModel event, boolean isGoogle
+    ) {
+        for (EventModel e : eventList) {
+            if (isGoogle) {
+                if (e.getGoogleId() == event.getGoogleId()) return true;
+            } else {
+                if (e.getRubeusId() == event.getRubeusId()) return true;
+            }
+        }
+        return false;
     }
 }

@@ -2,6 +2,7 @@ package com.rubeusufv.sync.Features.Presentation.Screens;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -51,6 +52,8 @@ public class EventsActivity extends AppCompatActivity {
         usecases = Injector.getInstance().getEventUsecases();
 
         eventModelList = usecases.viewEvents(2025, Month.JANUARY);
+
+        Log.d("EVENTS", eventModelList.toString());
 
         eventsPerDayMap = new TreeMap<>();
         for (EventModel e : eventModelList) {

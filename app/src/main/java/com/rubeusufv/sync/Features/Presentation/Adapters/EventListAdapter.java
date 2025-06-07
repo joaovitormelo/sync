@@ -56,7 +56,7 @@ public class EventListAdapter extends ArrayAdapter<EventModel> {
                     eventDayItem.setCardBackgroundColor(view.getResources().getColor(R.color.blue));
                     break;
                 default:
-                    eventDayItem.setCardBackgroundColor(view.getResources().getColor(R.color.purple));
+                    eventDayItem.setCardBackgroundColor(view.getResources().getColor(R.color.yellow));
             }
         }
         if (!eventModel.isGoogleImported()) {
