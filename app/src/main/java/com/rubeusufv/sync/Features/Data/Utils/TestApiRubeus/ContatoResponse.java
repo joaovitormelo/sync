@@ -1,5 +1,7 @@
 package com.rubeusufv.sync.Features.Data.Utils.TestApiRubeus;
 
+import com.rubeusufv.sync.Features.Domain.Models.UserModel;
+
 public class ContatoResponse {
     private boolean success;
     private ContatoDados dados;

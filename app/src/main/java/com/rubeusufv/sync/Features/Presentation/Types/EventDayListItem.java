@@ -29,6 +29,4 @@ public class EventDayListItem {
     public void setEventList(ArrayList<EventModel> eventModelList) {
         this.eventModelList = eventModelList;
     }
-
-
 }

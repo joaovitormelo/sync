@@ -16,6 +16,9 @@ import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.google.android.material.timepicker.MaterialTimePicker;
 import com.google.android.material.timepicker.TimeFormat;
 import com.rubeusufv.sync.Features.Data.Utils.TestApiRubeus.RubeusApiClient;
+import com.rubeusufv.sync.Features.Domain.Models.EventModel;
+import com.rubeusufv.sync.Features.Domain.Types.Color;
+import com.rubeusufv.sync.Features.Domain.Types.SyncDate;
 import com.rubeusufv.sync.R;
 
 import java.text.SimpleDateFormat;
@@ -30,6 +33,8 @@ public class CreateEventActivity extends AppCompatActivity {
     private MaterialButton dateButton, timeButtonStart, timeButtonEnd;
     private MaterialAutoCompleteTextView repeatDropdown, categoryDropdown;
     private String dateTaskString;
+    private SyncDate eventDate;
+    private MaterialDatePicker<Long> datePicker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +50,7 @@ public class CreateEventActivity extends AppCompatActivity {
         dateButton = findViewById(R.id.btnDatePicker);
 
         // Criação do calendário e exibição na tela
-        MaterialDatePicker<Long> datePicker = MaterialDatePicker
+        datePicker = MaterialDatePicker
                 .Builder
                 .datePicker()
                 .setTitleText("Escolha uma data")
@@ -58,6 +63,7 @@ public class CreateEventActivity extends AppCompatActivity {
             Date date = new Date(selection);
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
             dateTaskString = sdf.format(date);
+            eventDate = new SyncDate(date.getDay(), date.getMonth(), date.getYear());
         });
 
 
@@ -130,11 +136,17 @@ public class CreateEventActivity extends AppCompatActivity {
         // Converte todas as valores em string
         String nameTaskString = nameTask.getText().toString();
         String descriptionTaskString = descriptionTask.getText().toString();
-        //String dateTaskString = dateTask.getText().toString();
+        String dateTaskString = dateTask.getText().toString();
         String timeTaskString = timeTask.getText().toString();
 
         Intent it = new Intent(getBaseContext(), Task.class);
         Bundle newTask = new Bundle();
+
+        EventModel newEvent = new EventModel(
+            0, nameTaskString, descriptionTaskString, eventDate, timeTaskString,
+            timeTaskString, false, Color.BLUE, "A", true,
+            false
+        );
 
         // Coloca todos os valores no bundle
         newTask.putString("nameTask", nameTaskString);
