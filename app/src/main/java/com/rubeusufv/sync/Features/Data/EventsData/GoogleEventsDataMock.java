@@ -14,8 +14,9 @@ public class GoogleEventsDataMock implements EventsDataContract {
 
     @Override
     public EventModel createNewEvent(UserModel user, EventModel event) {
-        //return EventModel.getMock();
-        throw new GoogleException("Erro", "erro");
+        event.setGoogleId(3);
+        event.setGoogleImported(true);
+        return event;
     }
 
     @Override

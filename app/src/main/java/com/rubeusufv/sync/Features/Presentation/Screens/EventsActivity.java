@@ -19,6 +19,7 @@ import com.rubeusufv.sync.Core.Injector;
 import com.rubeusufv.sync.Features.Domain.Models.EventModel;
 import com.rubeusufv.sync.Features.Domain.Types.Month;
 import com.rubeusufv.sync.Features.Domain.Usecases.Events.ViewEventsUsecase;
+import com.rubeusufv.sync.Features.Domain.Utils.DateParser;
 import com.rubeusufv.sync.Features.Presentation.Adapters.EventDayListAdapter;
 import com.rubeusufv.sync.Features.Presentation.Types.EventDayListItem;
 import com.rubeusufv.sync.R;
@@ -53,14 +54,15 @@ public class EventsActivity extends AppCompatActivity {
 
         eventModelList = usecases.viewEvents(2025, Month.JANUARY);
 
-        Log.d("EVENTS", eventModelList.toString());
-
-        eventsPerDayMap = new TreeMap<>();
+        eventsPerDayMap = new TreeMap<Date, ArrayList<EventModel>>();
         for (EventModel e : eventModelList) {
-            ArrayList<EventModel> eventModels = eventsPerDayMap.get(e.getDate());
+            Date eventDate = DateParser.fromSyncDate(e.getDate());
+            ArrayList<EventModel> eventModels = eventsPerDayMap.get(eventDate);
             if (eventModels == null) eventModels = new ArrayList<>();
             eventModels.add(e);
-            eventsPerDayMap.put(e.getDate(), eventModels);
+
+            Log.d("DATE", eventDate.toString());
+            eventsPerDayMap.put(eventDate, eventModels);
         }
 
         eventDayList = new ArrayList<>();

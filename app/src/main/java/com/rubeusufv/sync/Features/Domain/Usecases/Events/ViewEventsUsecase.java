@@ -21,7 +21,7 @@ public class ViewEventsUsecase {
         EventsDataContract rubeusData, EventsDataContract googleData,
         EventsDataContract eventsData, SessionManagerContract sessionManager
     ) {
-        this.rubeusData = rubeusData;
+        this.rubeusData      = rubeusData;
         this.googleData = googleData;
         this.eventsData = eventsData;
         this.sessionManager = sessionManager;

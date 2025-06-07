@@ -1,16 +1,15 @@
 package com.rubeusufv.sync.Features.Domain.Models;
 
+import com.rubeusufv.sync.Features.Domain.Types.SyncDate;
 import com.rubeusufv.sync.Features.Domain.Types.Color;
 import com.rubeusufv.sync.Features.Domain.Types.ContactType;
-
-import java.util.Date;
 
 public class EventModel {
     private int id;
     private int userId;
     private String title;
     private String description;
-    private Date date;
+    private SyncDate syncDate;
     private String startHour;
     private String endHour;
     private boolean allDay;
@@ -70,12 +69,12 @@ public class EventModel {
         this.description = description;
     }
 
-    public Date getDate() {
-        return date;
+    public SyncDate getDate() {
+        return syncDate;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setDate(SyncDate syncDate) {
+        this.syncDate = syncDate;
     }
 
     public String getStartHour() {
@@ -143,7 +142,7 @@ public class EventModel {
     }
 
     public EventModel(
-            int id, int userId, String title, String description, Date date, String startHour,
+            int id, int userId, String title, String description, SyncDate syncDate, String startHour,
             String endHour, boolean allDay, Color color, String category,
             boolean rubeusImported, int rubeusId, ContactType contactType,
             boolean googleImported, int googleId
@@ -152,7 +151,7 @@ public class EventModel {
         this.userId = userId;
         this.title = title;
         this.description = description;
-        this.date = date;
+        this.syncDate = syncDate;
         this.startHour = startHour;
         this.endHour = endHour;
         this.allDay = allDay;
@@ -166,14 +165,14 @@ public class EventModel {
     }
 
     public EventModel(
-        int userId, String title, String description, Date date, String startHour,
-        String endHour, boolean allDay, Color color, String category,
-        boolean rubeusImported, boolean googleImported
+            int userId, String title, String description, SyncDate syncDate, String startHour,
+            String endHour, boolean allDay, Color color, String category,
+            boolean rubeusImported, boolean googleImported
     ) {
         this.userId = userId;
         this.title = title;
         this.description = description;
-        this.date = date;
+        this.syncDate = syncDate;
         this.endHour = endHour;
         this.startHour = startHour;
         this.allDay = allDay;
@@ -185,7 +184,7 @@ public class EventModel {
 
     public static EventModel getMock() {
         return new EventModel(
-            1, "Evento 1", "Descrição", new Date(), "09:00",
+            1, "Evento 1", "Descrição", new SyncDate(07, 06, 2025), "09:00",
             "10:00",false, Color.BLUE, "A", true,
             false
         );

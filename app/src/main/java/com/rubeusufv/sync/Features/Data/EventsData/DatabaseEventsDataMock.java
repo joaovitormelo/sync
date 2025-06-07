@@ -25,14 +25,17 @@ public class DatabaseEventsDataMock implements EventsDataContract {
 
     @Override
     public ArrayList<EventModel> viewEvents(UserModel user, int year, int month) {
-        return eventList;
+        ArrayList<EventModel> list = new ArrayList<EventModel>();
+        for (EventModel item : eventList) {
+            list.add(item);
+        }
+        return list;
     }
 
     @Override
     public EventModel createNewEvent(UserModel user, EventModel event) {
-        EventModel newEvent = EventModel.getMock();
-        eventList.add(newEvent);
-        return newEvent;
+        eventList.add(event);
+        return event;
     }
 
     @Override
