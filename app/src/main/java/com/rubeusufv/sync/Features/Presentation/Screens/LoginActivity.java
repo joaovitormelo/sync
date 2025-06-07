@@ -15,9 +15,12 @@ import com.rubeusufv.sync.Core.Injector;
 import com.rubeusufv.sync.Features.Domain.Models.EventModel;
 import com.rubeusufv.sync.Features.Domain.Usecases.EditEventUsecase;
 import com.rubeusufv.sync.Features.Domain.Usecases.ExcludeEventUsecase;
+import com.rubeusufv.sync.Features.Domain.Usecases.ImportEventListToRepositoryUsecase;
 import com.rubeusufv.sync.Features.Domain.Usecases.ImportSingleEventToRepositoryUsecase;
 import com.rubeusufv.sync.Features.Domain.Usecases.RegisterNewEventUsecase;
 import com.rubeusufv.sync.R;
+
+import java.util.ArrayList;
 
 public class LoginActivity extends AppCompatActivity {
     public void onClickLogin(View v) {
@@ -30,11 +33,11 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tela_cadastro);
         //Recuperando os id's
-        EditText email=findViewById(R.id.editTextEmail);
-        EditText password= findViewById(R.id.editTextSenha);
-        CheckBox on_login=findViewById(R.id.checkboxSalvarSenha);
-        Button login=findViewById(R.id.buttonLogin);
-        Button newLogin=findViewById(R.id.buttonLogin);
+        EditText email =findViewById(R.id.editTextEmail);
+        EditText password = findViewById(R.id.editTextSenha);
+        CheckBox on_login = findViewById(R.id.checkboxSalvarSenha);
+        Button login = findViewById(R.id.buttonLogin);
+        Button newLogin = findViewById(R.id.buttonLogin);
 
         // Converte todas as valores em string
         String Emailstring = email.getText().toString();
@@ -48,6 +51,24 @@ public class LoginActivity extends AppCompatActivity {
         //testEditEvent();
         //testExcludeEvent();
         //testImportSingleEvent();
+        testImportEventList();
+    }
+
+    void testImportEventList() {
+        ImportEventListToRepositoryUsecase importUsecase = Injector.getInstance().getImportEventListToRepositoryUsecase();
+        EventModel event1 = EventModel.getMock();
+        EventModel event2 = EventModel.getMock();
+        event1.setId(1);
+        event1.setRubeusId(1);
+        event1.setGoogleId(1);
+        event1.setGoogleImported(true);
+        event2.setTitle("Evento 2");
+        event2.setGoogleImported(false);
+        ArrayList<EventModel> eventList = new ArrayList<EventModel>();
+        eventList.add(event1);
+        eventList.add(event2);
+        importUsecase.importEventListToRepositoryUsecase(eventList, true, true);
+        Toast.makeText(getBaseContext(), "Eventos importados com sucesso!", Toast.LENGTH_SHORT).show();
     }
 
     void testImportSingleEvent() {
