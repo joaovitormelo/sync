@@ -44,6 +44,7 @@
     <string name="title_example">Prova de dispositivos móveis</string>
     <string name="hour">Horário</string>
     <string name="notification">Notificações</string>
+    <string name="edit_events">Editar evento </string>
     <string name="weekly">Semanal</string>
     <string name="repeat">Repetição</string>
     <string name="detailsEvent">Detalhes do evento</string>
