@@ -5,6 +5,7 @@
     <permission android:name="com.rubeusufv.sync" />
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:name=".Core.SyncApplication"

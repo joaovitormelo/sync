@@ -32,12 +32,12 @@ public class EventDayListAdapter extends ArrayAdapter<EventDayListItem> {
         if (view == null) {
             view = LayoutInflater.from(getContext()).inflate(R.layout.event_day_list_item, parent, false);
         }
-        ListView eventListView = view.findViewById(R.id.eventList);
+        //ListView eventListView = view.findViewById(R.id.eventList);
         eventListAdapter = new EventListAdapter(
                 view.getContext(), R.layout.event_list_item, eventDay.getEventList()
         );
-        setListViewHeightBasedOnChildren(eventListView);
-        eventListView.setAdapter(eventListAdapter);
+        //setListViewHeightBasedOnChildren(eventListView);
+        //eventListView.setAdapter(eventListAdapter);
         TextView weekdayTextView = view.findViewById(R.id.day_header_weekday);
         TextView dayTextView = view.findViewById(R.id.day_header_day);
         String weekDay = getDayOfWeekFromNumber(eventDay.getDate().getDay());
