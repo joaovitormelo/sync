@@ -17,9 +17,6 @@
             android:name=".Features.Presentation.Screens.showDetails"
             android:exported="false" />
         <activity
-            android:name=".Features.Presentation.Screens.show_details_task"
-            android:exported="false" />
-        <activity
             android:name=".Features.Presentation.Screens.EventsActivity"
             android:exported="false" />
         <activity

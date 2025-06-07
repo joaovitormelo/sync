@@ -8,7 +8,6 @@
     android:background="@android:color/white"
     tools:context=".Features.Presentation.Screens.CreateEventActivity">
 
-
     <TextView
         android:id="@+id/headerText"
         android:layout_width="wrap_content"
@@ -19,7 +18,6 @@
         android:textStyle="bold"
         android:layout_marginTop="30dp"
         android:layout_centerHorizontal="true" />
-
 
     <ScrollView
         android:id="@+id/scrollView"
@@ -37,7 +35,6 @@
             android:divider="@android:color/transparent"
             android:showDividers="middle"
             android:dividerPadding="16dp">
-
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -100,6 +97,7 @@
                     android:layout_height="24dp"
                     android:src="@drawable/calendar_icon"
                     android:contentDescription="@string/descriptionCalendarIcon" />
+
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnDatePicker"
                     android:layout_width="wrap_content"
@@ -191,8 +189,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:backgroundTint="@android:color/transparent"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+
                     <com.google.android.material.textfield.MaterialAutoCompleteTextView
                         android:id="@+id/repeatDropdown"
                         android:layout_width="match_parent"
@@ -246,25 +244,36 @@
                     android:layout_marginStart="8dp" />
             </LinearLayout>
 
-
+            <!-- aqui eu tive que trocar para aceitar dropdown -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:gravity="center_vertical"
-                android:layout_marginBottom="24dp">
+                android:layout_marginBottom="24dp"
+                android:background="@android:color/transparent">
+
                 <ImageView
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:src="@drawable/category_icon"
                     android:contentDescription="@string/descriptionCategoryIcon" />
-                <TextView
-                    android:layout_width="wrap_content"
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/selectCategory"
-                    android:textColor="@color/green"
-                    android:textSize="16sp"
-                    android:layout_marginStart="8dp" />
+                    android:layout_marginStart="8dp"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+
+                    <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                        android:id="@+id/categoryDropdown"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@android:color/transparent"
+                        android:textColor="@color/green"
+                        android:textColorHint="@color/green"
+                        android:textSize="16sp" />
+                </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
 
 
@@ -275,7 +284,6 @@
                 android:gravity="center"
                 android:layout_marginBottom="32dp"
                 android:weightSum="3">
-
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -294,7 +302,6 @@
                         android:layout_marginStart="8dp" />
                 </LinearLayout>
 
-
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -312,7 +319,6 @@
                         android:layout_marginStart="8dp" />
                 </LinearLayout>
 
-
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -323,7 +329,6 @@
                         android:id="@+id/checkboxSyncToGoogleandRubbeus"
                         android:layout_width="36dp"
                         android:layout_height="36dp" />
-
                     <ImageView
                         android:layout_width="28dp"
                         android:layout_height="28dp"
@@ -331,45 +336,43 @@
                         android:layout_marginStart="8dp" />
                 </LinearLayout>
             </LinearLayout>
-
         </LinearLayout>
     </ScrollView>
+
 
     <LinearLayout
         android:id="@+id/buttonLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="40dp"
-        android:gravity="center"
+        android:layout_marginBottom="16dp"
         android:orientation="horizontal"
-        android:paddingVertical="16dp"
-        android:background="@android:color/white">
+        android:weightSum="2"
+        android:paddingHorizontal="24dp"
+        android:gravity="center">
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnCancel"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
             android:layout_weight="1"
             android:text="@string/cancel"
             android:textColor="@color/red"
-            android:layout_marginEnd="8dp"
             android:background="@drawable/border_red"
             android:backgroundTint="@null"
-            android:theme="@style/NoMaterialTint" />
-
+            android:textSize="16sp"
+            android:layout_marginEnd="8dp" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnSave"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
             android:layout_weight="1"
             android:text="@string/save"
             android:textColor="@color/green"
             android:background="@drawable/border_green"
             android:backgroundTint="@null"
-            android:theme="@style/NoMaterialTint"/>
-
+            android:textSize="16sp"
+            android:layout_marginStart="8dp" />
     </LinearLayout>
-
 </RelativeLayout>

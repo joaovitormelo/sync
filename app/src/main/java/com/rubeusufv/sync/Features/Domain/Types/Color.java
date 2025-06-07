@@ -1,5 +1,5 @@
 package com.rubeusufv.sync.Features.Domain.Types;
 
 public enum Color {
-    GREEN, BLUE, YELLOW
+    GREEN, BLUE, YELLOW,RED,GRAY,PURPLE
 }
