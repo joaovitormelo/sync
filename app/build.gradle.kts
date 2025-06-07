@@ -41,6 +41,8 @@ dependencies {
     implementation(libs.constraintlayout)
     implementation(libs.coordinatorlayout)
     implementation(libs.play.services)
+    implementation(libs.compose.theme.adapter)
+    implementation("com.google.android.material:material:1.11.0")
     implementation(libs.retrofit.core)
     implementation(libs.retrofit.gson)
     implementation(libs.okhttp.core)

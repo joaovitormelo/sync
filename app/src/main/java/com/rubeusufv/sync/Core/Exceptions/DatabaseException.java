@@ -1,7 +1,7 @@
 package com.rubeusufv.sync.Core.Exceptions;
 
-public class DatabaseException extends RuntimeException {
-    public DatabaseException(String message) {
-        super(message);
+public class DatabaseException extends ConnectionException {
+    public DatabaseException(String message, String details) {
+        super("Erro na conexão com o banco:" + message, details);
     }
 }

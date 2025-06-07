@@ -1,106 +1,193 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
-    tools:context=".Features.Presentation.Screens.Task">
+    android:background="@android:color/white">
 
+    <!-- Título vai ficar fora do scrowview para ele não rolar se necessário ele é estatico -->
+    <TextView
+        android:id="@+id/headerText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/show_Event"
+        android:textColor="@color/green"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_marginTop="20dp"
+        android:layout_centerHorizontal="true" />
+
+    <!-- Conteúdo do evento em ScrollView -->
     <ScrollView
+        android:id="@+id/scrollContent"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_below="@id/headerText"
+        android:layout_marginTop="16dp"
+        android:padding="24dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <!-- Título -->
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/title"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:textColor="@color/green" />
             <TextView
                 android:id="@+id/textViewTitle"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Teste da API Rubeus"
-                android:textSize="24sp"
-                android:textStyle="bold"
-                android:gravity="center"
-                android:layout_marginBottom="20dp"
-                android:textColor="@android:color/black" />
-
-            <!-- Status da conexão -->
-            <TextView
-                android:id="@+id/textViewStatus"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Carregando..."
+                android:text="@string/title_example"
                 android:textSize="16sp"
-                android:layout_marginBottom="16dp"
-                android:padding="12dp"
-                android:textColor="@android:color/black" />
+                android:layout_marginBottom="16dp" />
 
-            <!-- Lista de contatos -->
+
             <TextView
-                android:id="@+id/textViewContactsTitle"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Contatos Encontrados:"
-                android:textSize="18sp"
+                android:text="@string/description"
                 android:textStyle="bold"
-                android:layout_marginBottom="8dp"
-                android:textColor="@android:color/black"
-                android:visibility="gone" />
+                android:textSize="16sp"
+                android:textColor="@color/green" />
+            <TextView
+                android:id="@+id/textViewDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/description_example"
+                android:textSize="16sp"
+                android:layout_marginBottom="16dp" />
+
 
             <TextView
-                android:id="@+id/textViewContacts"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="14sp"
-                android:layout_marginBottom="16dp"
-                android:padding="12dp"
-                android:background="@android:color/white"
-                android:textColor="@android:color/black"
-                android:visibility="gone" />
-
-            <!-- Informações de erro -->
+                android:text="@string/data"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:textColor="@color/green" />
             <TextView
-                android:id="@+id/textViewError"
-                android:layout_width="match_parent"
+                android:id="@+id/textViewDate"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="14sp"
-                android:layout_marginBottom="16dp"
-                android:padding="12dp"
-                android:background="#FFEBEE"
-                android:textColor="@android:color/holo_red_dark"
-                android:visibility="gone" />
+                android:text="@string/data_example"
+                android:textSize="16sp"
+                android:layout_marginBottom="16dp" />
 
-            <!-- Botões -->
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/hour"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:textColor="@color/green" />
+            <TextView
+                android:id="@+id/textViewTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/hours"
+                android:textSize="16sp"
+                android:layout_marginBottom="16dp" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/repeat"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:textColor="@color/green" />
+            <TextView
+                android:id="@+id/textViewRepeat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/weekly"
+                android:textSize="16sp"
+                android:layout_marginBottom="16dp" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/notification"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:textColor="@color/green" />
+            <TextView
+                android:id="@+id/textViewNotification"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/activated"
+                android:textSize="16sp"
+                android:layout_marginBottom="16dp" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/location"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:textColor="@color/green" />
+            <TextView
+                android:id="@+id/textViewLocation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/locationexample"
+                android:textSize="16sp"
+                android:layout_marginBottom="16dp" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/category"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:textColor="@color/green" />
+            <TextView
+                android:id="@+id/textViewCategory"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/job"
+                android:textSize="16sp"
+                android:layout_marginBottom="32dp" />
+
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:gravity="center"
-                android:layout_marginTop="20dp">
+                android:weightSum="2">
 
-                <Button
-                    android:id="@+id/btnVoltar"
-                    android:layout_width="wrap_content"
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btnEdit"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="Voltar"
-                    android:layout_marginEnd="16dp"
-                    android:onClick="voltarParaCreateTask" />
+                    android:layout_weight="1"
+                    android:text="@string/edit"
+                    android:textColor="@color/green"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/border_green" />
 
-                <Button
-                    android:id="@+id/btnTestarNovamente"
-                    android:layout_width="wrap_content"
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btnDelete"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="Testar Novamente"
-                    android:onClick="testarNovamente" />
+                    android:layout_weight="1"
+                    android:text="@string/delete"
+                    android:textColor="@color/red"
+                    android:background="@drawable/border_red" />
 
             </LinearLayout>
 
         </LinearLayout>
-
     </ScrollView>
 
 </RelativeLayout>

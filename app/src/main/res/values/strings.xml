@@ -1,6 +1,13 @@
 <resources>
     <string name="app_name">Sync</string>
+    <string name="name">Seu nome</string>
+    <string name="to_go_out">Sair</string>
+    <string name="edit">Editar</string>
+    <string name="show_Event">Detalhes do evento</string>
+    <string name="synchronize">Sincronizar Automaticamente </string>
     <string name="taskTitle">Adicionar título</string>
+    <string name="add_new_event">Adicionar novo evento</string>
+    <string name="keepMeConnected">Mantenha-me conectado</string>
     <string name="descriptionPlaceholder">Adicionar descrição</string>
     <string name="descriptionDescriptionIcon">Ícone de descrição</string>
     <string name="descriptionCalendarIcon">Ícone de calendário</string>
@@ -17,9 +24,25 @@
     <string name="fullDay">Dia inteiro</string>
     <string name="cancel">Cancelar</string>
     <string name="save">Salvar</string>
+    <string name="space">-</string>
     <string name="login">Login</string>
     <string name="email">E-mail</string>
     <string name="password">Senha</string>
+    <string name="job">Trabalho</string>
+    <string name="category">Categoria</string>
+    <string name="location">Localização</string>
+    <string name ="activated">Ativado</string>
+    <string name="data">Data</string>
+    <string name="data_example">01/10/2025</string>
+    <string name="description_example">Do slide 1 ao slide 9</string>
+    <string name="description">Descrição</string>
+    <string name="title">Título</string>
+    <string name="title_example">Prova de dispositivos móveis</string>
+    <string name="hour">Horário</string>
+    <string name ="notification">Notificações</string>
+    <string name ="weekly">Semanal</string>
+    <string name="repeat">Repetição</string>
+    <string name="locationexample">Rua dos passos  152</string>
     <string name="noregister"> Ainda não possui cadastro? </string>
     <string name="register">Cadastrar </string>
     <string name="saveData">Manter Logado</string>
@@ -44,6 +67,7 @@
     <string name= "delete">Excluir</string>
     <string name="large_text">
 
+
         "Material is the metaphor.\n\n"
 
         "A material metaphor is the unifying theory of a rationalized space and a system of motion."
@@ -63,15 +87,15 @@
         "and use of imagery guide visual treatments. These elements do far more than please the "
         "eye. They create hierarchy, meaning, and focus. Deliberate color choices, edge to edge "
         "imagery, large scale typography, and intentional white space create a bold and graphic "
-        "interface that immerse the user in the experience.\n"
-        "An emphasis on user actions makes core functionality immediately apparent and provides "
-        "waypoints for the user.\n\n"
+        "interface that immerse the userModel in the experience.\n"
+        "An emphasis on userModel actions makes core functionality immediately apparent and provides "
+        "waypoints for the userModel.\n\n"
 
         "Motion provides meaning.\n\n"
 
-        "Motion respects and reinforces the user as the prime mover. Primary user actions are "
+        "Motion respects and reinforces the userModel as the prime mover. Primary userModel actions are "
         "inflection points that initiate motion, transforming the whole design.\n"
-        "All action takes place in a single environment. Objects are presented to the user without "
+        "All action takes place in a single environment. Objects are presented to the userModel without "
         "breaking the continuity of experience even as they transform and reorganize.\n"
         "Motion is meaningful and appropriate, serving to focus attention and maintain continuity. "
         "Feedback is subtle yet clear. Transitions are efﬁcient yet coherent.\n\n"
@@ -110,7 +134,7 @@
         "Responsive elevation and dynamic elevation offsets.\n\n"
 
         "Some component types have responsive elevation, meaning they change elevation in response "
-        "to user input (e.g., normal, focused, and pressed) or system events. These elevation "
+        "to userModel input (e.g., normal, focused, and pressed) or system events. These elevation "
         "changes are consistently implemented using dynamic elevation offsets.\n"
         "Dynamic elevation offsets are the goal elevation that a component moves towards, relative "
         "to the component’s resting state. They ensure that elevation changes are consistent "
@@ -127,10 +151,10 @@
         "whether on a per component basis or using the entire app layout.\n"
         "On a component level, components can move or be removed before they cause interference. "
         "For example, a floating action button (FAB) can disappear or move off screen before a "
-        "user picks up a card, or it can move if a snackbar appears.\n"
+        "userModel picks up a card, or it can move if a snackbar appears.\n"
         "On the layout level, design your app layout to minimize opportunities for interference. "
         "For example, position the FAB to one side of stream of a cards so the FAB won’t interfere "
-        "when a user tries to pick up one of cards.\n\n"
+        "when a userModel tries to pick up one of cards.\n\n"
     </string>
     <string name="action_settings">Settings</string>
 </resources>
