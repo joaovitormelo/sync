@@ -2,6 +2,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
+        android:id="@+id/nav_name"
+        android:title="@string/yourName"
+        android:icon="@drawable/person"
+        />
+    <item
         android:id="@+id/nav_sync"
         android:title="@string/synchronize"
         android:icon="@drawable/sync_icon" />
@@ -9,7 +14,8 @@
     <item
         android:id="@+id/nav_logout"
         android:title="@string/to_go_out"
-        android:icon="@drawable/sync_nome"
+        android:icon="@drawable/sync_icon"
         />
+
 
 </menu>

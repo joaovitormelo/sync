@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingHorizontal="24dp"
+    android:background="@android:color/white"
+    tools:context=".Features.Presentation.Screens.show_details_task">
+
+
+    <TextView
+        android:id="@+id/textViewScreenTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/detailsEvent"
+        android:textColor="@color/green"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:layout_marginTop="30dp"
+        android:layout_centerHorizontal="true" />
+
+    <ScrollView
+        android:id="@+id/scrollViewDetails"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/textViewScreenTitle"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="24dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/title"
+                android:textStyle="bold"
+                android:textColor="@color/green"
+                android:textSize="16sp"
+                android:layout_marginTop="16dp" />
+
+            <TextView
+                android:id="@+id/textViewTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/title_example"
+                android:textColor="@color/green"
+                android:textSize="16sp"
+                android:layout_marginBottom="12dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/description"
+                android:textStyle="bold"
+                android:textColor="@color/green"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/textViewDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/description_example"
+                android:textColor="@color/green"
+                android:textSize="16sp"
+                android:layout_marginBottom="12dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/data"
+                android:textStyle="bold"
+                android:textColor="@color/green"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/textViewDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/data_example"
+                android:textColor="@color/green"
+                android:textSize="16sp"
+                android:layout_marginBottom="12dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/hour"
+                android:textStyle="bold"
+                android:textColor="@color/green"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/textViewTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/hour_example"
+                android:textColor="@color/green"
+                android:textSize="16sp"
+                android:layout_marginBottom="12dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/location"
+                android:textStyle="bold"
+                android:textColor="@color/green"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/textViewLocation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/locationexample"
+                android:textColor="@color/green"
+                android:textSize="16sp"
+                android:layout_marginBottom="12dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/category"
+                android:textStyle="bold"
+                android:textColor="@color/green"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/textViewCategory"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/category_example"
+                android:textColor="@color/green"
+                android:textSize="16sp"
+                android:layout_marginBottom="12dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/notification"
+                android:textStyle="bold"
+                android:textColor="@color/green"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/textViewNotification"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/on"
+                android:textColor="@color/green"
+                android:textSize="16sp"
+                android:layout_marginBottom="12dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/repeat"
+                android:textStyle="bold"
+                android:textColor="@color/green"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/textViewRepeat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/repeat_example"
+                android:textColor="@color/green"
+                android:textSize="16sp"
+                android:layout_marginBottom="12dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/synchronizedd"
+                android:textStyle="bold"
+                android:textColor="@color/green"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/textViewSyncedWith"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/synchronizeddGoogleandRubeus"
+                android:textColor="@color/green"
+                android:textSize="16sp"
+                android:layout_marginBottom="24dp" />
+
+        </LinearLayout>
+
+
+    </ScrollView>
+    <LinearLayout
+        android:id="@+id/buttonLayoutDetails"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="40dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingVertical="16dp"
+        android:background="@android:color/white">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnReturnDetail"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/return_"
+            android:textColor="@color/red"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/border_red"
+            android:backgroundTint="@null"
+            android:theme="@style/NoMaterialTint" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnEdit"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/edit"
+            android:textColor="@color/green"
+            android:background="@drawable/border_green"
+            android:backgroundTint="@null"
+            android:theme="@style/NoMaterialTint"/>
+    </LinearLayout>
+
+
+</RelativeLayout>
