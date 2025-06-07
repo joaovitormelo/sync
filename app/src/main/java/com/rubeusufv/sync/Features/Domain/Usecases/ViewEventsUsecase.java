@@ -1,10 +1,14 @@
 package com.rubeusufv.sync.Features.Domain.Usecases;
 
+import com.rubeusufv.sync.Core.Exceptions.DatabaseException;
+import com.rubeusufv.sync.Core.Exceptions.GoogleException;
+import com.rubeusufv.sync.Core.Exceptions.RubeusException;
 import com.rubeusufv.sync.Core.Session.SessionManager;
 import com.rubeusufv.sync.Core.Session.SessionManagerContract;
 import com.rubeusufv.sync.Features.Data.EventsData.EventsDataContract;
 import com.rubeusufv.sync.Features.Domain.Models.EventModel;
 import com.rubeusufv.sync.Features.Domain.Models.UserModel;
+import com.rubeusufv.sync.Features.Domain.Utils.DevTools;
 
 import java.util.ArrayList;
 
@@ -26,29 +30,55 @@ public class ViewEventsUsecase {
 
     public ArrayList<EventModel> viewEvents(int year, int month) {
         UserModel currentUser = sessionManager.getSessionUser();
-        ArrayList<EventModel> rubeusEventModels = rubeusData.viewEvents(currentUser, year, month);
-        ArrayList<EventModel> googleEventModels = googleData.viewEvents(currentUser, year, month);
-        ArrayList<EventModel> localEventModels = eventsData.viewEvents(currentUser, year, month);
+        ArrayList<EventModel> rubeusEvents, googleEvents, localEvents;
+        try {
+            rubeusEvents = rubeusData.viewEvents(currentUser, year, month);
+        } catch(Exception error) {
+            throw new RubeusException(
+                    "Não foi possível buscar os eventos!", DevTools.getDetailsFromError(error)
+            );
+        }
+        try {
+            googleEvents = googleData.viewEvents(currentUser, year, month);
+        } catch(Exception error) {
+            throw new GoogleException(
+                    "Não foi possível buscar os eventos!", DevTools.getDetailsFromError(error)
+            );
+        }
+        try {
+            localEvents = eventsData.viewEvents(currentUser, year, month);
+        } catch(Exception error) {
+            throw new DatabaseException(
+                    "Não foi possível buscar os eventos!", DevTools.getDetailsFromError(error)
+            );
+        }
 
         // Sincroniza eventos da Rubeus com o banco de dadps
-        updateLocalEventsFromOutsideEvents(currentUser, localEventModels, rubeusEventModels);
+        updateLocalEventsFromOutsideEvents(currentUser, localEvents, rubeusEvents);
 
         // Sincroniza eventos da Google com o banco de dados
-        updateLocalEventsFromOutsideEvents(currentUser, localEventModels, googleEventModels);
+        updateLocalEventsFromOutsideEvents(currentUser, localEvents, googleEvents);
 
-        return localEventModels;
+        return localEvents;
     }
 
     private void updateLocalEventsFromOutsideEvents(
-        UserModel currentUser, ArrayList<EventModel> localEventModels,
-        ArrayList<EventModel> outsideEventModels
+        UserModel currentUser, ArrayList<EventModel> localEvents,
+        ArrayList<EventModel> outsideEvents
     ) {
-        for (EventModel outsideEventModel : outsideEventModels) {
-            if (!localEventModels.contains(outsideEventModel)) {
-                EventModel newEventModel = eventsData.createNewEvent(
-                        currentUser, outsideEventModel
-                );
-                localEventModels.add(newEventModel);
+        for (EventModel outsideEventModel : outsideEvents) {
+            if (!localEvents.contains(outsideEventModel)) {
+                EventModel newEventModel;
+                try {
+                    newEventModel = eventsData.createNewEvent(
+                            currentUser, outsideEventModel
+                    );
+                } catch(Exception error) {
+                    throw new DatabaseException(
+                            "Não foi possível criar evento!", DevTools.getDetailsFromError(error)
+                    );
+                }
+                localEvents.add(newEventModel);
             }
         }
     }
