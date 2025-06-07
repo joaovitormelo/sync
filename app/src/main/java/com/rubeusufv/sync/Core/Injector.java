@@ -12,6 +12,7 @@ import com.rubeusufv.sync.Features.Data.EventsData.RubeusEventsDataMock;
 import com.rubeusufv.sync.Features.Domain.Usecases.DoLoginUsecase;
 import com.rubeusufv.sync.Features.Domain.Usecases.EditEventUsecase;
 import com.rubeusufv.sync.Features.Domain.Usecases.ExcludeEventUsecase;
+import com.rubeusufv.sync.Features.Domain.Usecases.ImportSingleEventToRepositoryUsecase;
 import com.rubeusufv.sync.Features.Domain.Usecases.RegisterNewEventUsecase;
 import com.rubeusufv.sync.Features.Domain.Usecases.ViewEventsUsecase;
 import com.rubeusufv.sync.Tools.Criptography.CriptographyContract;
@@ -34,6 +35,7 @@ public final class Injector {
     private RegisterNewEventUsecase registerNewEventUsecase;
     private EditEventUsecase editEventUsecase;
     private ExcludeEventUsecase excludeEventUsecase;
+    private ImportSingleEventToRepositoryUsecase importSingleEventToRepositoryUsecase;
 
     private Injector() {
         initialize();
@@ -64,6 +66,9 @@ public final class Injector {
         excludeEventUsecase = new ExcludeEventUsecase(
                 rubeusEventsData, googleEventsData, databaseEventsData, sessionManager
         );
+        importSingleEventToRepositoryUsecase = new ImportSingleEventToRepositoryUsecase(
+            googleEventsData, rubeusEventsData, sessionManager
+        );
     }
 
     public ViewEventsUsecase getEventUsecases() {
@@ -76,5 +81,8 @@ public final class Injector {
     public EditEventUsecase getEditEventUsecase() { return this.editEventUsecase; }
     public ExcludeEventUsecase getExcludeEventUsecase() {
         return this.excludeEventUsecase;
+    }
+    public ImportSingleEventToRepositoryUsecase getImportSingleEventToRepositoryUsecase() {
+        return this.importSingleEventToRepositoryUsecase;
     }
 }

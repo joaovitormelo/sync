@@ -1,5 +1,6 @@
 package com.rubeusufv.sync.Features.Data.EventsData;
 
+import com.rubeusufv.sync.Core.Exceptions.GoogleException;
 import com.rubeusufv.sync.Features.Domain.Models.EventModel;
 import com.rubeusufv.sync.Features.Domain.Models.UserModel;
 

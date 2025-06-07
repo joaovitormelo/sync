@@ -15,6 +15,7 @@ import com.rubeusufv.sync.Core.Injector;
 import com.rubeusufv.sync.Features.Domain.Models.EventModel;
 import com.rubeusufv.sync.Features.Domain.Usecases.EditEventUsecase;
 import com.rubeusufv.sync.Features.Domain.Usecases.ExcludeEventUsecase;
+import com.rubeusufv.sync.Features.Domain.Usecases.ImportSingleEventToRepositoryUsecase;
 import com.rubeusufv.sync.Features.Domain.Usecases.RegisterNewEventUsecase;
 import com.rubeusufv.sync.R;
 
@@ -46,6 +47,18 @@ public class LoginActivity extends AppCompatActivity {
 
         //testEditEvent();
         //testExcludeEvent();
+        //testImportSingleEvent();
+    }
+
+    void testImportSingleEvent() {
+        ImportSingleEventToRepositoryUsecase importUsecase = Injector.getInstance().getImportSingleEventToRepositoryUsecase();
+        EventModel event = EventModel.getMock();
+        event.setId(1);
+        event.setRubeusId(1);
+        event.setGoogleId(1);
+        event.setGoogleImported(true);
+        importUsecase.importSingleEventToRepository(event, true, true);
+        Toast.makeText(getBaseContext(), "Evento importado com sucesso!", Toast.LENGTH_SHORT).show();
     }
 
     void testEditEvent() {
