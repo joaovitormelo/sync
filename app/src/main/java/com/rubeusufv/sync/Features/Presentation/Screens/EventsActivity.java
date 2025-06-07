@@ -16,6 +16,11 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.navigation.NavigationView;
 import com.rubeusufv.sync.Core.Injector;
+import com.rubeusufv.sync.Features.Data.Utils.TestApiRubeus.ContatoDados;
+import com.rubeusufv.sync.Features.Data.Utils.TestApiRubeus.ContatoRequest;
+import com.rubeusufv.sync.Features.Data.Utils.TestApiRubeus.ContatoResponse;
+import com.rubeusufv.sync.Features.Data.Utils.TestApiRubeus.RubeusAPI;
+import com.rubeusufv.sync.Features.Data.Utils.TestApiRubeus.RubeusApiClient;
 import com.rubeusufv.sync.Features.Domain.Models.EventModel;
 import com.rubeusufv.sync.Features.Domain.Types.Month;
 import com.rubeusufv.sync.Features.Domain.Usecases.Events.ViewEventsUsecase;
@@ -29,6 +34,10 @@ import java.util.Date;
 import java.util.Map;
 import java.util.TreeMap;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class EventsActivity extends AppCompatActivity {
 
     EventDayListAdapter eventDayListAdapter;
@@ -38,6 +47,8 @@ public class EventsActivity extends AppCompatActivity {
     ViewEventsUsecase usecases;
 
     DrawerLayout drawerLayout;  // declare DrawerLayout aqui
+
+    private static final String TAG = "RUBEUS_API_TEST";
 
     private void onClickExit(View v) {
         finish();
@@ -95,6 +106,53 @@ public class EventsActivity extends AppCompatActivity {
                     finish();
                 }
                 return true;
+            }
+        });
+
+        // Teste da api da rubeus
+        buscarContatoPorId("21");
+    }
+
+    // Teste da api da rubeus
+    public void buscarContatoPorId(String id) {
+        Log.d(TAG, "Iniciando busca por contato ID: " + id);
+        RubeusAPI apiService = RubeusApiClient.getClient().create(RubeusAPI.class);
+        ContatoRequest request = new ContatoRequest("9e5199c5de1c58f31987f71dde804da8", "7", id);
+        Call<ContatoResponse> callContato = apiService.getContatoPorId(request);
+        callContato.enqueue(new Callback<>() {
+            @Override
+            public void onResponse(Call<ContatoResponse> call, Response<ContatoResponse> response) {
+                Log.d(TAG, "Resposta recebida. Código: " + response.code());
+                if (response.isSuccessful()) {
+                    ContatoResponse contatoResponse = response.body();
+                    if (contatoResponse != null) {
+                        Log.d(TAG, "Success: " + contatoResponse.isSuccess());
+                        if (contatoResponse.getDados() != null) {
+                            ContatoDados dados = contatoResponse.getDados();
+                            Log.d(TAG, "ID: " + dados.getId());
+                            Log.d(TAG, "Nome: " + dados.getNome());
+                            Log.d(TAG, "CPF: " + dados.getCpf());
+                        } else {
+                            Log.d(TAG, "Dados é null");
+                        }
+                    } else {
+                        Log.d(TAG, "Response body é null");
+                    }
+                } else {
+                    try {
+                        String errorBody = response.errorBody() != null ?
+                                response.errorBody().string() : "Erro desconhecido";
+                        Log.e(TAG, "Erro " + response.code() + ": " + errorBody);
+                    } catch (Exception e) {
+                        Log.e(TAG, "Erro ao ler response: " + e.getMessage());
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ContatoResponse> call, Throwable t) {
+                Log.e(TAG, "Falha na requisição: " + t.getMessage());
+                t.printStackTrace();
             }
         });
     }

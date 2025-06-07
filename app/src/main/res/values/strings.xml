@@ -3,6 +3,7 @@
     <string name="name">Seu nome</string>
     <string name="to_go_out">Sair</string>
     <string name="edit">Editar</string>
+    <string name="return_">Voltar</string>
     <string name="show_Event">Detalhes do evento</string>
     <string name="synchronize">Sincronizar Automaticamente </string>
     <string name="taskTitle">Adicionar título</string>
@@ -31,7 +32,10 @@
     <string name="job">Trabalho</string>
     <string name="category">Categoria</string>
     <string name="location">Localização</string>
-    <string name ="activated">Ativado</string>
+    <string name="on">Ativada</string>
+
+    <string name="category_example">Prova</string>
+    <string name="activated">Ativado</string>
     <string name="data">Data</string>
     <string name="data_example">01/10/2025</string>
     <string name="description_example">Do slide 1 ao slide 9</string>
@@ -39,10 +43,14 @@
     <string name="title">Título</string>
     <string name="title_example">Prova de dispositivos móveis</string>
     <string name="hour">Horário</string>
-    <string name ="notification">Notificações</string>
-    <string name ="weekly">Semanal</string>
+    <string name="notification">Notificações</string>
+    <string name="weekly">Semanal</string>
     <string name="repeat">Repetição</string>
-    <string name="locationexample">Rua dos passos  152</string>
+    <string name="detailsEvent">Detalhes do evento</string>
+    <string name="synchronizedd">Sincronizado com:</string>
+    <string name ="synchronizeddGoogleandRubeus">Google e Rubeus </string>
+    <string name="repeat_example">Semanalmente</string>
+    <string name="locationexample">Pavilhão de Aulas II - Avenida PH Rolfs</string>
     <string name="noregister"> Ainda não possui cadastro? </string>
     <string name="register">Cadastrar </string>
     <string name="saveData">Manter Logado</string>
@@ -61,10 +69,11 @@
     <string name="selectLocation">Escolha uma localização</string>
     <string name="selectCategory">Escolha uma categoria</string>
     <string name="title_activity_scrolling">ScrollingActivity</string>
-    <string name ="back">Voltar</string>
+    <string name="back">Voltar</string>
     <string name="Event">Evento</string>
-    <string name="hours">8:00 ás 9:00</string>
-    <string name= "delete">Excluir</string>
+    <string name="yourName">Seu nome aqui </string>
+    <string name="hour_example">8:00 ás 9:00</string>
+    <string name="delete">Excluir</string>
     <string name="large_text">
 
 
