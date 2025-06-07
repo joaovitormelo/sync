@@ -1,9 +1,8 @@
-package com.rubeusufv.sync.Features.Domain.Usecases;
+package com.rubeusufv.sync.Features.Domain.Usecases.Events;
 
 import com.rubeusufv.sync.Core.Exceptions.DatabaseException;
 import com.rubeusufv.sync.Core.Exceptions.GoogleException;
 import com.rubeusufv.sync.Core.Exceptions.RubeusException;
-import com.rubeusufv.sync.Core.Session.SessionManager;
 import com.rubeusufv.sync.Core.Session.SessionManagerContract;
 import com.rubeusufv.sync.Features.Data.EventsData.EventsDataContract;
 import com.rubeusufv.sync.Features.Domain.Models.EventModel;

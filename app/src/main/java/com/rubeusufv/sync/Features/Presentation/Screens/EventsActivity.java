@@ -17,7 +17,7 @@ import com.google.android.material.navigation.NavigationView;
 import com.rubeusufv.sync.Core.Injector;
 import com.rubeusufv.sync.Features.Domain.Models.EventModel;
 import com.rubeusufv.sync.Features.Domain.Types.Month;
-import com.rubeusufv.sync.Features.Domain.Usecases.ViewEventsUsecase;
+import com.rubeusufv.sync.Features.Domain.Usecases.Events.ViewEventsUsecase;
 import com.rubeusufv.sync.Features.Presentation.Adapters.EventDayListAdapter;
 import com.rubeusufv.sync.Features.Presentation.Types.EventDayListItem;
 import com.rubeusufv.sync.R;
@@ -72,8 +72,11 @@ public class EventsActivity extends AppCompatActivity {
         eventDayListView.setAdapter(eventDayListAdapter);
 
         // Configura o ícone customizado do ActionBar (hamburguer)
-        this.getSupportActionBar().setHomeAsUpIndicator(R.drawable.baseline_dehaze_24);
-        this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setHomeAsUpIndicator(R.drawable.baseline_dehaze_24);
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
 
         NavigationView navigation = findViewById(R.id.navigation_view);
         navigation.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {

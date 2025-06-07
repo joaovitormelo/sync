@@ -1,4 +1,4 @@
-package com.rubeusufv.sync.Features.Domain.Usecases;
+package com.rubeusufv.sync.Features.Domain.Usecases.Events;
 
 import com.rubeusufv.sync.Core.Exceptions.DatabaseException;
 import com.rubeusufv.sync.Core.Exceptions.GoogleException;

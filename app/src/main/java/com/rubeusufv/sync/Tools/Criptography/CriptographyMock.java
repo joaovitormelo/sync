@@ -4,6 +4,6 @@ public class CriptographyMock implements CriptographyContract {
 
     @Override
     public boolean matchPasswords(String passwordA, String passwordB) {
-        return passwordA == passwordB;
+        return passwordA.equals(passwordB);
     }
 }

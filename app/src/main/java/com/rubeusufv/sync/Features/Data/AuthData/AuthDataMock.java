@@ -4,7 +4,7 @@ import com.rubeusufv.sync.Features.Domain.Models.UserModel;
 
 public class AuthDataMock implements AuthDataContract {
     @Override
-    public UserModel fetchUser(String login) {
+    public UserModel fetchUserByEmail(String email) {
         return UserModel.getMock();
     }
 

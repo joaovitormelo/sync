@@ -4,7 +4,7 @@ import com.rubeusufv.sync.Features.Domain.Models.UserModel;
 
 public class SessionManagerMock implements SessionManagerContract {
     @Override
-    public void saveSession(UserModel userModel) {
+    public void setSessionUser(UserModel userModel) {
         //
     }
 
@@ -14,5 +14,15 @@ public class SessionManagerMock implements SessionManagerContract {
         user.setIdRubeus(1);
         user.setTokenRubeus("token");
         return UserModel.getMock();
+    }
+
+    @Override
+    public void saveSession(UserModel userModel) {
+
+    }
+
+    @Override
+    public UserModel getSavedSessionUser() {
+        return null;//UserModel.getMock();
     }
 }

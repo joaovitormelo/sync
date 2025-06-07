@@ -1,6 +1,5 @@
 package com.rubeusufv.sync.Core;
 
-import com.rubeusufv.sync.Core.Session.SessionManager;
 import com.rubeusufv.sync.Core.Session.SessionManagerContract;
 import com.rubeusufv.sync.Core.Session.SessionManagerMock;
 import com.rubeusufv.sync.Features.Data.AuthData.AuthDataContract;
@@ -9,13 +8,14 @@ import com.rubeusufv.sync.Features.Data.EventsData.EventsDataContract;
 import com.rubeusufv.sync.Features.Data.EventsData.DatabaseEventsDataMock;
 import com.rubeusufv.sync.Features.Data.EventsData.GoogleEventsDataMock;
 import com.rubeusufv.sync.Features.Data.EventsData.RubeusEventsDataMock;
-import com.rubeusufv.sync.Features.Domain.Usecases.DoLoginUsecase;
-import com.rubeusufv.sync.Features.Domain.Usecases.EditEventUsecase;
-import com.rubeusufv.sync.Features.Domain.Usecases.ExcludeEventUsecase;
-import com.rubeusufv.sync.Features.Domain.Usecases.ImportEventListToRepositoryUsecase;
-import com.rubeusufv.sync.Features.Domain.Usecases.ImportSingleEventToRepositoryUsecase;
-import com.rubeusufv.sync.Features.Domain.Usecases.RegisterNewEventUsecase;
-import com.rubeusufv.sync.Features.Domain.Usecases.ViewEventsUsecase;
+import com.rubeusufv.sync.Features.Domain.Usecases.Authentication.DoLoginUsecase;
+import com.rubeusufv.sync.Features.Domain.Usecases.Authentication.EnterWithoutLoginUsecase;
+import com.rubeusufv.sync.Features.Domain.Usecases.Events.EditEventUsecase;
+import com.rubeusufv.sync.Features.Domain.Usecases.Events.ExcludeEventUsecase;
+import com.rubeusufv.sync.Features.Domain.Usecases.Events.ImportEventListToRepositoryUsecase;
+import com.rubeusufv.sync.Features.Domain.Usecases.Events.ImportSingleEventToRepositoryUsecase;
+import com.rubeusufv.sync.Features.Domain.Usecases.Events.RegisterNewEventUsecase;
+import com.rubeusufv.sync.Features.Domain.Usecases.Events.ViewEventsUsecase;
 import com.rubeusufv.sync.Tools.Criptography.CriptographyContract;
 import com.rubeusufv.sync.Tools.Criptography.CriptographyMock;
 
@@ -38,6 +38,7 @@ public final class Injector {
     private ExcludeEventUsecase excludeEventUsecase;
     private ImportSingleEventToRepositoryUsecase importSingleEventToRepositoryUsecase;
     private ImportEventListToRepositoryUsecase importEventListToRepositoryUsecase;
+    private EnterWithoutLoginUsecase enterWithoutLoginUsecase;
 
     private Injector() {
         initialize();
@@ -74,6 +75,9 @@ public final class Injector {
         importEventListToRepositoryUsecase = new ImportEventListToRepositoryUsecase(
             googleEventsData, rubeusEventsData, sessionManager
         );
+        enterWithoutLoginUsecase = new EnterWithoutLoginUsecase(
+            sessionManager
+        );
     }
 
     public ViewEventsUsecase getEventUsecases() {
@@ -93,4 +97,5 @@ public final class Injector {
     public ImportEventListToRepositoryUsecase getImportEventListToRepositoryUsecase() {
         return this.importEventListToRepositoryUsecase;
     }
+    public EnterWithoutLoginUsecase getEnterWithoutLoginUsecase() {return this.enterWithoutLoginUsecase;}
 }
