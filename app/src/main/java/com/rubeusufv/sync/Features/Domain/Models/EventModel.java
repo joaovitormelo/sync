@@ -1,5 +1,7 @@
 package com.rubeusufv.sync.Features.Domain.Models;
 
+import android.content.ContentValues;
+
 import com.rubeusufv.sync.Features.Domain.Types.SyncDate;
 import com.rubeusufv.sync.Features.Domain.Types.Color;
 import com.rubeusufv.sync.Features.Domain.Types.ContactType;
@@ -238,6 +240,27 @@ public class EventModel {
         }
 
         return event;
+    }
+
+    public ContentValues toContentValues() {
+        ContentValues values = new ContentValues();
+        values.put("id", this.id);
+        values.put("userId", this.userId);
+        values.put("title", this.title);
+        values.put("description", this.description);
+        values.put("syncDate", this.syncDate.toString());
+        values.put("startHour", this.startHour);
+        values.put("endHour", this.endHour);
+        values.put("allDay", this.allDay);
+        values.put("color", this.color.toString());
+        values.put("category", this.category);
+        values.put("rubeusImported", this.rubeusImported);
+        values.put("rubeusId", this.rubeusId);
+        values.put("contactType", this.contactType.toString());
+        values.put("googleImported", this.googleImported);
+        values.put("googleId", this.googleId);
+
+        return values;
     }
 
 
