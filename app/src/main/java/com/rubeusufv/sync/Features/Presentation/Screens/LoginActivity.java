@@ -6,8 +6,10 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
@@ -30,11 +32,15 @@ import com.rubeusufv.sync.R;
 import java.util.ArrayList;
 
 public class LoginActivity extends AppCompatActivity {
+    //COMPONENTES
     private EditText emailEdit;
     private EditText passwordEdit;
     private CheckBox keepMeConnectedCheckbox;
     private Drawable greenBorder;
     private Drawable redBorder;
+    private ProgressBar loginLoadingBar;
+    private Button loginButton;
+    //CASOS DE USO
     private DoLoginUsecase doLoginUsecase;
     private EnterWithoutLoginUsecase enterWithoutLoginUsecase;
 
@@ -42,11 +48,40 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        initializeInstances();
+
+        setLoginLoading();
+        new Thread(this::enterWithoutLogin).start();
+
+        //testEditEvent();
+        //testExcludeEvent();
+        //testImportSingleEvent();
+        //testImportEventList();
+    }
+
+    private void enterWithoutLogin() {
+        boolean shouldEnter = enterWithoutLoginUsecase.enterWithoutLogin();
+        runOnUiThread(() -> {
+            finishEnterWithoutLogin(shouldEnter);
+        });
+    }
+
+    private void finishEnterWithoutLogin(boolean shouldEnter) {
+        setLoginLoaded();
+        if (shouldEnter) {
+            goToEventsScreen();
+        }
+    }
+
+    private void initializeInstances() {
         emailEdit = findViewById(R.id.editTextEmail);
         passwordEdit = findViewById(R.id.editTextSenha);
         keepMeConnectedCheckbox = findViewById(R.id.checkboxKeepMeConnected);
         greenBorder = getResources().getDrawable(R.drawable.border_green);
         redBorder = getResources().getDrawable(R.drawable.border_red);
+        loginLoadingBar = findViewById(R.id.loadingLoginBar);
+        loginButton = findViewById(R.id.buttonLogin);
 
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -55,16 +90,16 @@ public class LoginActivity extends AppCompatActivity {
 
         doLoginUsecase = Injector.getInstance().getDoLoginUsecase();
         enterWithoutLoginUsecase = Injector.getInstance().getEnterWithoutLoginUsecase();
+    }
 
-        boolean shouldEnter = enterWithoutLoginUsecase.enterWithoutLogin();
-        if (shouldEnter) {
-            goToEventsScreen();
-        }
+    private void setLoginLoading() {
+        loginLoadingBar.setVisibility(View.VISIBLE);
+        loginButton.setVisibility(View.GONE);
+    }
 
-        //testEditEvent();
-        //testExcludeEvent();
-        //testImportSingleEvent();
-        //testImportEventList();
+    private void setLoginLoaded() {
+        loginLoadingBar.setVisibility(View.GONE);
+        loginButton.setVisibility(View.VISIBLE);
     }
 
     void testImportEventList() {
@@ -131,17 +166,31 @@ public class LoginActivity extends AppCompatActivity {
         }
         boolean keepMeConnected = keepMeConnectedCheckbox.isChecked();
 
+        setLoginLoading();
+        new Thread(() -> {
+            doLogin(email, password, keepMeConnected);
+        }).start();
+    }
+
+    private void doLogin(String email, String password, boolean keepMeConnected) {
         try {
             doLoginUsecase.doLogin(email, password, keepMeConnected);
-            goToEventsScreen();
+            runOnUiThread(this::finishLogin);
         } catch(Exception error) {
-            if (error instanceof UserNotFoundException) {
-                handleEmailError("Usuário não encontrado!");
-            } else if (error instanceof IncorrectPasswordException) {
-                handlePasswordError("Senha incorreta!");
-            } else {
-                handleDefaultError(error.getMessage());
-            }
+            runOnUiThread(() -> {
+                handleLoginError(error);
+            });
+        }
+    }
+
+    private void handleLoginError(Exception error) {
+        setLoginLoaded();
+        if (error instanceof UserNotFoundException) {
+            handleEmailError("Usuário não encontrado!");
+        } else if (error instanceof IncorrectPasswordException) {
+            handlePasswordError("Senha incorreta!");
+        } else {
+            handleDefaultError(error.getMessage());
         }
     }
 
@@ -159,6 +208,11 @@ public class LoginActivity extends AppCompatActivity {
         emailEdit.setBackground(redBorder);
         passwordEdit.setBackground(redBorder);
         Toast.makeText(getBaseContext(), message, Toast.LENGTH_SHORT).show();
+    }
+
+    private void finishLogin() {
+        setLoginLoaded();
+        goToEventsScreen();
     }
 
     private void goToEventsScreen() {

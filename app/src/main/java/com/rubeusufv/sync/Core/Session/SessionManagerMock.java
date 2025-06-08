@@ -23,6 +23,11 @@ public class SessionManagerMock implements SessionManagerContract {
 
     @Override
     public UserModel getSavedSessionUser() {
+        try {
+            Thread.sleep(2000);
+        } catch(InterruptedException error) {
+            //
+        }
         return UserModel.getMock();
     }
 }

@@ -29,7 +29,6 @@ public class DatabaseEventsDataMock implements EventsDataContract {
     public ArrayList<EventModel> viewEvents(UserModel user, int year, int month) {
         try {
             Thread.sleep(5000);
-            Log.d("TESTE", "RETORNOU");
         } catch(InterruptedException error) {
             //
         }
