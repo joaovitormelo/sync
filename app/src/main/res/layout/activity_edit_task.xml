@@ -1,378 +1,126 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingHorizontal="24dp"
-    android:background="@android:color/white"
-    tools:context=".Features.Presentation.Screens.CreateEventActivity">
+    android:fitsSystemWindows="true"
+    tools:context=".Features.Presentation.Screens.EventsActivity">
 
-    <TextView
-        android:id="@+id/headerText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/edit_events"
-        android:textColor="@color/green"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:layout_marginTop="30dp"
-        android:layout_centerHorizontal="true" />
-
-    <ScrollView
-        android:id="@+id/scrollView"
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/coordinator_main"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_below="@id/headerText"
-        android:layout_above="@id/buttonLayout"
-        android:layout_marginTop="24dp"
-        android:layout_marginBottom="24dp">
+        android:layout_height="match_parent">
 
-        <LinearLayout
+        <RelativeLayout
+            android:id="@+id/relative_content_area"
             android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/my_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@color/green"
+                android:elevation="4dp"
+                android:fitsSystemWindows="true"
+                android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+                android:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+
+            <LinearLayout
+                android:id="@+id/filters"
+                android:layout_below="@id/my_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="8dp"
+                android:gravity="center_vertical">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/dropdownYearTextInput"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+
+                    <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                        android:id="@+id/dropdownYear"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@android:color/transparent"
+                        android:textColor="@color/green"
+                        android:textColorHint="@color/green"
+                        android:textSize="16sp"
+                        android:gravity="center"
+                        android:padding="8dp"
+                        android:popupTheme="@style/DropdownPopupTheme"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/dropdownMonthTextInput"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="8dp"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+
+                    <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                        android:id="@+id/dropdownMonth"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@android:color/transparent"
+                        android:textColor="@color/green"
+                        android:textColorHint="@color/green"
+                        android:textSize="16sp"
+                        android:gravity="center"
+                        android:padding="8dp"
+                        android:popupTheme="@style/DropdownPopupTheme" />
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_below="@id/filters"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ProgressBar
+                    android:id="@+id/loadingEventsBar"
+                    style="?android:attr/progressBarStyleLarge"
+                    android:layout_centerInParent="true"
+                    android:visibility="visible"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </RelativeLayout>
+
+            <ListView
+                android:id="@+id/eventDayList"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/filters"
+                android:visibility="gone"
+                android:divider="@android:color/transparent"
+                tools:listitem="@layout/event_day_list_item" />
+        </RelativeLayout>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_add_event"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:divider="@android:color/transparent"
-            android:showDividers="middle"
-            android:dividerPadding="16dp">
+            android:layout_gravity="bottom|end"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:onClick="openEventCreationScreen"
+            app:backgroundTint="@color/green"
+            app:srcCompat="@android:drawable/ic_input_add" />
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:layout_marginBottom="24dp">
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/title_icon"
-                    android:contentDescription="@string/descriptionTitleTask" />
-                <EditText
-                    android:id="@+id/editTextTaskTitle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:hint="@string/taskTitle"
-                    android:inputType="text"
-                    android:textColor="@color/green"
-                    android:textColorHint="@color/green"
-                    android:textSize="16sp"
-                    android:background="@null" />
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:layout_marginBottom="24dp">
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/description_icon"
-                    android:contentDescription="@string/descriptionDescriptionIcon" />
-                <EditText
-                    android:id="@+id/editTextTaskDescription"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:hint="@string/descriptionPlaceholder"
-                    android:inputType="text"
-                    android:textColor="@color/green"
-                    android:textColorHint="@color/green"
-                    android:textSize="16sp"
-                    android:background="@null" />
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:layout_marginBottom="24dp">
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/calendar_icon"
-                    android:contentDescription="@string/descriptionCalendarIcon" />
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnDatePicker"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:text="@string/selectDate"
-                    android:textColor="@color/green"
-                    android:textSize="16sp"
-                    android:backgroundTint="@android:color/transparent" />
-                <TextView
-                    android:id="@+id/textViewDate"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:textColor="@color/green"
-                    android:textSize="16sp" />
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:layout_marginBottom="24dp">
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/schedule_icon"
-                    android:contentDescription="@string/descriptionScheduleIcon" />
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnTimePickerStart"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:text="@string/startTime"
-                    android:textColor="@color/green"
-                    android:textSize="16sp"
-                    android:backgroundTint="@android:color/transparent" />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/space"
-                    android:textColor="@color/green"
-                    android:textSize="16sp"
-                    android:layout_marginHorizontal="4dp" />
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnTimePickerEnd"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/endTime"
-                    android:textColor="@color/green"
-                    android:textSize="16sp"
-                    android:backgroundTint="@android:color/transparent" />
-                <TextView
-                    android:id="@+id/textViewTime"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:textColor="@color/green"
-                    android:textSize="16sp" />
-                <CheckBox
-                    android:layout_width="36dp"
-                    android:layout_height="36dp" />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/fullDay"
-                    android:textColor="@color/green"
-                    android:textSize="16sp" />
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:layout_marginBottom="24dp"
-                android:background="@android:color/transparent">
-
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:contentDescription="@string/descriptionRepeatIcon"
-                    android:src="@drawable/repeat_icon" />
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
-
-                    <com.google.android.material.textfield.MaterialAutoCompleteTextView
-                        android:id="@+id/repeatDropdown"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@android:color/transparent"
-                        android:textColor="@color/green"
-                        android:textColorHint="@color/green"
-                        android:textSize="16sp" />
-                </com.google.android.material.textfield.TextInputLayout>
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:layout_marginBottom="24dp">
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/notifications_icon"
-                    android:contentDescription="@string/descriptionNotificationIcon" />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/receiveNotification"
-                    android:textColor="@color/green"
-                    android:textSize="16sp"
-                    android:layout_marginStart="8dp" />
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:layout_marginBottom="24dp">
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/location_icon"
-                    android:contentDescription="@string/descriptionLocationIcon" />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/selectLocation"
-                    android:textColor="@color/green"
-                    android:textSize="16sp"
-                    android:layout_marginStart="8dp" />
-            </LinearLayout>
-
-            <!-- aqui eu tive que trocar para aceitar dropdown -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:layout_marginBottom="24dp"
-                android:background="@android:color/transparent">
-
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/category_icon"
-                    android:contentDescription="@string/descriptionCategoryIcon" />
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
-
-                    <com.google.android.material.textfield.MaterialAutoCompleteTextView
-                        android:id="@+id/categoryDropdown"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@android:color/transparent"
-                        android:textColor="@color/green"
-                        android:textColorHint="@color/green"
-                        android:textSize="16sp" />
-                </com.google.android.material.textfield.TextInputLayout>
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center"
-                android:layout_marginBottom="32dp"
-                android:weightSum="3">
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center">
-
-                    <CheckBox
-                        android:id="@+id/checkboxImportToRubeus"
-                        android:layout_width="36dp"
-                        android:layout_height="36dp" />
-                    <ImageView
-                        android:layout_width="28dp"
-                        android:layout_height="28dp"
-                        android:src="@drawable/rubbeus"
-                        android:layout_marginStart="8dp" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center">
-
-                    <CheckBox
-                        android:id="@+id/checkboxImportToGoogle"
-                        android:layout_width="36dp"
-                        android:layout_height="36dp" />
-                    <ImageView
-                        android:layout_width="36dp"
-                        android:layout_height="36dp"
-                        android:src="@drawable/google"
-                        android:layout_marginStart="8dp" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center">
-
-                    <CheckBox
-                        android:id="@+id/checkboxSyncToGoogleandRubbeus"
-                        android:layout_width="36dp"
-                        android:layout_height="36dp" />
-                    <ImageView
-                        android:layout_width="28dp"
-                        android:layout_height="28dp"
-                        android:src="@drawable/rubbeus_google"
-                        android:layout_marginStart="8dp" />
-                </LinearLayout>
-            </LinearLayout>
-        </LinearLayout>
-    </ScrollView>
-
-
-    <LinearLayout
-        android:id="@+id/buttonLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="16dp"
-        android:orientation="horizontal"
-        android:weightSum="2"
-        android:paddingHorizontal="24dp"
-        android:gravity="center">
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btnCancel"
-            android:layout_width="0dp"
-            android:layout_height="48dp"
-            android:layout_weight="1"
-            android:text="@string/cancel"
-            android:textColor="@color/red"
-            android:background="@drawable/border_red"
-            android:backgroundTint="@null"
-            android:textSize="16sp"
-            android:layout_marginEnd="8dp" />
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btnSave"
-            android:layout_width="0dp"
-            android:layout_height="48dp"
-            android:layout_weight="1"
-            android:text="@string/save"
-            android:textColor="@color/green"
-            android:background="@drawable/border_green"
-            android:backgroundTint="@null"
-            android:textSize="16sp"
-            android:layout_marginStart="8dp" />
-    </LinearLayout>
-</RelativeLayout>
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/navigation_view"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:fitsSystemWindows="true"
+        android:background="@android:color/white"
+        app:menu="@menu/drawer_menu" />
+</androidx.drawerlayout.widget.DrawerLayout>

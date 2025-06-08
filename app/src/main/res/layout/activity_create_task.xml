@@ -137,6 +137,7 @@
                     android:text="@string/startTime"
                     android:textColor="@color/green"
                     android:textSize="16sp"
+                    android:popupTheme="@style/DropdownPopupTheme"
                     android:backgroundTint="@android:color/transparent" />
                 <TextView
                     android:layout_width="wrap_content"
@@ -152,6 +153,7 @@
                     android:text="@string/endTime"
                     android:textColor="@color/green"
                     android:textSize="16sp"
+                    android:popupTheme="@style/DropdownPopupTheme"
                     android:backgroundTint="@android:color/transparent" />
                 <TextView
                     android:id="@+id/textViewTime"
@@ -200,6 +202,7 @@
                         android:background="@android:color/transparent"
                         android:textColor="@color/green"
                         android:textColorHint="@color/green"
+                        android:popupTheme="@style/DropdownPopupTheme"
                         android:textSize="16sp" />
                 </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
@@ -280,6 +283,7 @@
                         android:background="@android:color/transparent"
                         android:textColor="@color/green"
                         android:textColorHint="@color/green"
+                        android:popupTheme="@style/DropdownPopupTheme"
                         android:textSize="16sp" />
                 </com.google.android.material.textfield.TextInputLayout>
                 <View
