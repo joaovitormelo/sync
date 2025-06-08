@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,7 +15,7 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.navigation.NavigationView;
-import com.rubeusufv.sync.Core.Exceptions.DatabaseException;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.rubeusufv.sync.Core.Injector;
 import com.rubeusufv.sync.Features.Data.Utils.TestApiRubeus.ContatoDados;
 import com.rubeusufv.sync.Features.Data.Utils.TestApiRubeus.ContatoRequest;
@@ -29,27 +30,33 @@ import com.rubeusufv.sync.Features.Domain.Utils.DateParser;
 import com.rubeusufv.sync.Features.Presentation.Adapters.EventDayListAdapter;
 import com.rubeusufv.sync.Features.Presentation.Types.EventDayListItem;
 import com.rubeusufv.sync.R;
-
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Map;
 import java.util.TreeMap;
-import java.util.concurrent.CompletableFuture;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class EventsActivity extends AppCompatActivity {
-
+    //Constantes
+    private final String[] yearOptions = {
+        "2021", "2022", "2023", "2024", "2025"
+    };
+    private final String[] monthOptions = {
+        "Janeiro", "Fevereiro", "Março", "Maio", "Abril", "Junho", "Julho", "Agosto",
+        "Setembro", "Outubro", "Novembro", "Dezembro"
+    };
+    //Lista de eventos
     EventDayListAdapter eventDayListAdapter;
     ArrayList<EventModel> eventModelList;
     ArrayList<EventDayListItem> eventDayList;
     Map<SyncDate, ArrayList<EventModel>> eventsPerDayMap;
+    //VIEWS
     ViewEventsUsecase viewEventsUsecase;
-
-    DrawerLayout drawerLayout;  // declare DrawerLayout aqui
+    DrawerLayout drawerLayout;
+    private MaterialAutoCompleteTextView yearDropdown, monthDropdown;
 
     private static final String TAG = "RUBEUS_API_TEST";
 
@@ -62,13 +69,43 @@ public class EventsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_events);
 
+        configureActionBar();
+        configureDrawer();
+        configureFilterDropdowns();
+
+        // Teste da api da rubeus
+        //buscarContatoPorId("21");
+    }
+
+    private void configureFilterDropdowns() {
+        configureYearFilter();
+        configureMonthFilter();
+    }
+
+    private void configureYearFilter() {
+        yearDropdown = findViewById(R.id.dropdownYear);
+        ArrayAdapter<String> adapterRepeat = new ArrayAdapter<>(
+            this, android.R.layout.simple_dropdown_item_1line, yearOptions
+        );
+        yearDropdown.setAdapter(adapterRepeat);
+        int currentYear = new Date().getYear() + 1900;
+        yearDropdown.setText(String.valueOf(currentYear), false);
+    }
+
+    private void configureMonthFilter() {
+        monthDropdown = findViewById(R.id.dropdownMonth);
+        ArrayAdapter<String> adapterRepeat = new ArrayAdapter<>(
+            this, android.R.layout.simple_dropdown_item_1line, monthOptions
+        );
+        monthDropdown.setAdapter(adapterRepeat);
+        int currentMonth = new Date().getMonth();
+        monthDropdown.setText(monthOptions[currentMonth], false);
+    }
+
+    private void configureDrawer() {
         drawerLayout = findViewById(R.id.drawer_layout);  // inicialize o DrawerLayout para tratar o menu
 
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
-        setSupportActionBar(myToolbar);
-
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.baseline_dehaze_24);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        configureActionBar();
 
         NavigationView navigation = findViewById(R.id.navigation_view);
         navigation.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
@@ -84,9 +121,14 @@ public class EventsActivity extends AppCompatActivity {
                 return true;
             }
         });
+    }
 
-        // Teste da api da rubeus
-        //buscarContatoPorId("21");
+    private void configureActionBar() {
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        setSupportActionBar(myToolbar);
+
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.baseline_dehaze_24);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     @Override
