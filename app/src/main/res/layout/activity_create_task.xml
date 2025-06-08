@@ -200,6 +200,7 @@
                         android:background="@android:color/transparent"
                         android:textColor="@color/green"
                         android:textColorHint="@color/green"
+                        android:popupTheme="@style/DropdownPopupTheme"
                         android:textSize="16sp" />
                 </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
@@ -280,6 +281,7 @@
                         android:background="@android:color/transparent"
                         android:textColor="@color/green"
                         android:textColorHint="@color/green"
+                        android:popupTheme="@style/DropdownPopupTheme"
                         android:textSize="16sp" />
                 </com.google.android.material.textfield.TextInputLayout>
                 <View
