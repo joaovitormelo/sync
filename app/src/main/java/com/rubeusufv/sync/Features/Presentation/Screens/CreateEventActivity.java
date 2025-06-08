@@ -2,8 +2,10 @@ package com.rubeusufv.sync.Features.Presentation.Screens;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -36,6 +38,7 @@ public class CreateEventActivity extends AppCompatActivity {
     private EditText descriptionTask;
     private MaterialButton dateButton, timeButtonStart, timeButtonEnd;
     private MaterialAutoCompleteTextView repeatDropdown, categoryDropdown;
+    View colorDisplay;
     private String dateTaskString;
     private SyncDate eventDate;
     private MaterialDatePicker<Long> datePicker;
@@ -65,6 +68,7 @@ public class CreateEventActivity extends AppCompatActivity {
         timeButtonEnd = findViewById(R.id.btnTimePickerEnd);
         repeatDropdown = findViewById(R.id.repeatDropdown);
         categoryDropdown = findViewById(R.id.categoryDropdown);
+        colorDisplay = findViewById(R.id.eventColor);
     }
 
     private void configureDatePicker() {
@@ -136,6 +140,20 @@ public class CreateEventActivity extends AppCompatActivity {
         ArrayAdapter<String> adapterCategory = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, categoryOptions);
         categoryDropdown.setAdapter(adapterCategory);
         categoryDropdown.setText("Selecione uma categoria", false);
+        categoryDropdown.setKeyListener(null);
+        categoryDropdown.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Color eventColor = EventModel.fromCategory(categoryOptions[position]);
+
+            }
+        });
+        setEventColor(android.R.color.white);
+    }
+
+    private void setEventColor(int colorId) {
+        GradientDrawable bgDrawable = (GradientDrawable) colorDisplay.getBackground();
+        bgDrawable.setColor(getResources().getColor(colorId));
     }
 
     public void createTask(View v) {
@@ -146,22 +164,7 @@ public class CreateEventActivity extends AppCompatActivity {
         String endTime = timeButtonEnd.getText().toString();
         String selectedCategory = categoryDropdown.getText().toString();
 
-        // Define a cor com base na categoria
-        Color eventColor = Color.BLUE; // Padrão
-        switch (selectedCategory) {
-            case "Prova":
-                eventColor = Color.RED;
-                break;
-            case "Reunião":
-                eventColor = Color.GREEN;
-                break;
-            case "Lazer":
-                eventColor = Color.YELLOW;
-                break;
-            case "Trabalho":
-                eventColor = Color.PURPLE;
-                break;
-        }
+        Color eventColor = EventModel.fromCategory(selectedCategory);
 
         EventModel newEvent = new EventModel(
                 0,

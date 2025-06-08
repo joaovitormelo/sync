@@ -185,6 +185,21 @@ public class EventModel {
         this.googleImported = googleImported;
     }
 
+    public static Color fromCategory(String selectedCategory) {
+        switch (selectedCategory) {
+            case "Prova":
+                return Color.RED;
+            case "Reunião":
+                return Color.GREEN;
+            case "Lazer":
+                return Color.YELLOW;
+            case "Trabalho":
+                return Color.PURPLE;
+            default:
+                return Color.BLUE;
+        }
+    }
+
     public static EventModel fromDatabaseEntry(DatabaseEntry entry) {
         EventModel event = new EventModel();
         event.id = entry.getAsInteger("eventId"); // ou "id"
