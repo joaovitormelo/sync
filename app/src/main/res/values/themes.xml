@@ -1,8 +1,12 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-   <!-- <style name="Base.Theme.Sync" parent="Theme.Material3.DayNight.NoActionBar"></style> -->
-    <style name="Base.Theme.Sync" parent="Theme.MaterialComponents.DayNight.NoActionBar"></style>
+
+    <style name="Base.Theme.Sync" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Estou tentando forçar a barra para ele não mudar as minhas cores no tema escuro  -->
+        <item name="android:forceDarkAllowed" tools:targetApi="29">false</item>
+    </style>
 
     <style name="Theme.Sync" parent="Base.Theme.Sync" />
+
     <style name="NoMaterialTint" parent="">
         <item name="android:backgroundTint">@null</item>
         <item name="colorButtonNormal">@android:color/transparent</item>
@@ -11,10 +15,9 @@
     <style name="Theme.Sync.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
-
-
     </style>
 
     <style name="Theme.Sync.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
     <style name="Theme.Sync.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
 </resources>
