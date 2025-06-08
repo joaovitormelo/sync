@@ -2,13 +2,18 @@ package com.rubeusufv.sync.Features.Presentation.Screens;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.method.TextKeyListener;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -17,6 +22,8 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.textfield.MaterialAutoCompleteTextView;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.rubeusufv.sync.Core.Injector;
 import com.rubeusufv.sync.Features.Data.Utils.TestApiRubeus.ContatoDados;
 import com.rubeusufv.sync.Features.Data.Utils.TestApiRubeus.ContatoRequest;
@@ -43,13 +50,14 @@ import retrofit2.Response;
 public class EventsActivity extends AppCompatActivity {
     //Constantes
     private final String[] yearOptions = {
-        "2021", "2022", "2023", "2024", "2025"
+        "2025", "2024", "2023", "2022", "2021"
     };
     private final String[] monthOptions = {
         "Janeiro", "Fevereiro", "Março", "Maio", "Abril", "Junho", "Julho", "Agosto",
         "Setembro", "Outubro", "Novembro", "Dezembro"
     };
     //Lista de eventos
+    boolean isLoading = false;
     EventDayListAdapter eventDayListAdapter;
     ArrayList<EventModel> eventModelList;
     ArrayList<EventDayListItem> eventDayList;
@@ -60,8 +68,9 @@ public class EventsActivity extends AppCompatActivity {
     ListView eventDayListView;
     ProgressBar loadingEventsBar;
     DrawerLayout drawerLayout;
+    private TextInputLayout dropdownYearTextInput, dropdownMonthTextInput;
     private MaterialAutoCompleteTextView yearDropdown, monthDropdown;
-
+    int currentYearPos = 0, currentMonthPos = 0;
     private static final String TAG = "RUBEUS_API_TEST";
 
     private void onClickExit(View v) {
@@ -79,6 +88,8 @@ public class EventsActivity extends AppCompatActivity {
         configureDrawer();
         configureFilterDropdowns();
 
+        viewEventsUsecase = Injector.getInstance().getViewEventsUsecase();
+
         // Teste da api da rubeus
         //buscarContatoPorId("21");
     }
@@ -89,23 +100,43 @@ public class EventsActivity extends AppCompatActivity {
     }
 
     private void configureYearFilter() {
+        dropdownYearTextInput = findViewById(R.id.dropdownYearTextInput);
         yearDropdown = findViewById(R.id.dropdownYear);
+        yearDropdown.setEnabled(false);
         ArrayAdapter<String> adapterRepeat = new ArrayAdapter<>(
             this, android.R.layout.simple_dropdown_item_1line, yearOptions
         );
         yearDropdown.setAdapter(adapterRepeat);
+        yearDropdown.setKeyListener(null);
         int currentYear = new Date().getYear() + 1900;
         yearDropdown.setText(String.valueOf(currentYear), false);
+        yearDropdown.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                currentYearPos = position;
+                loadEventList();
+            }
+        });
     }
 
     private void configureMonthFilter() {
+        dropdownMonthTextInput = findViewById(R.id.dropdownMonthTextInput);
         monthDropdown = findViewById(R.id.dropdownMonth);
         ArrayAdapter<String> adapterRepeat = new ArrayAdapter<>(
             this, android.R.layout.simple_dropdown_item_1line, monthOptions
         );
         monthDropdown.setAdapter(adapterRepeat);
+        monthDropdown.setKeyListener(null);
         int currentMonth = new Date().getMonth();
         monthDropdown.setText(monthOptions[currentMonth], false);
+        currentMonthPos = currentMonth;
+        monthDropdown.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                currentMonthPos = position;
+                loadEventList();
+            }
+        });
     }
 
     private void configureDrawer() {
@@ -118,8 +149,6 @@ public class EventsActivity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(MenuItem item) {
                 int id = item.getItemId();
-
-                Toast.makeText(getBaseContext(), "TESTE", Toast.LENGTH_SHORT).show();
 
                 if (id == R.id.nav_logout) {
                     finish();
@@ -140,25 +169,34 @@ public class EventsActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        setEventsListLoading();
-        new Thread(this::loadEventList).start();
+        loadEventList();
     }
-
     private void setEventsListLoading() {
+        isLoading = true;
         loadingEventsBar.setVisibility(View.VISIBLE);
         eventDayListView.setVisibility(View.GONE);
+        dropdownYearTextInput.setEnabled(false);
+        dropdownMonthTextInput.setEnabled(false);
     }
 
     private void setEventsListLoaded() {
+        isLoading = false;
         loadingEventsBar.setVisibility(View.GONE);
         eventDayListView.setVisibility(View.VISIBLE);
+        dropdownYearTextInput.setEnabled(true);
+        dropdownMonthTextInput.setEnabled(true);
     }
 
     private void loadEventList() {
-        viewEventsUsecase = Injector.getInstance().getViewEventsUsecase();
+        setEventsListLoading();
+        int year = Integer.parseInt(yearOptions[currentYearPos]);
+        new Thread(() -> {
+            callLoadEventsUsecase(year, currentMonthPos);
+        }).start();
+    }
 
-        eventModelList = viewEventsUsecase.viewEvents(2025, Month.JANUARY);
-
+    private void callLoadEventsUsecase(int year, int month) {
+        eventModelList = viewEventsUsecase.viewEvents(year, month);
         runOnUiThread(this::updateEventListView);
     }
 
@@ -247,7 +285,6 @@ public class EventsActivity extends AppCompatActivity {
         String text;
         if (title == null) text = "Abertura";
         else text = title.toString();
-        Toast.makeText(getBaseContext(), text, Toast.LENGTH_SHORT ).show();
         if (item.getItemId() == android.R.id.home) {
             if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
                 drawerLayout.closeDrawer(GravityCompat.START);

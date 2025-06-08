@@ -20,6 +20,7 @@
     <string name="descriptionRepeatIcon">Ícone de repetir</string>
     <string name="descriptionCategoryIcon">Ícone de categoria</string>
     <string name="descriptionLocationIcon">Ícone de localização</string>
+    <string name="descriptionImportIcon">Ícone de importação</string>
     <string name="receiveNotification">Receber notificação</string>
     <string name="colorTask">Cor da tarefa</string>
     <string name="fullDay">Dia inteiro</string>

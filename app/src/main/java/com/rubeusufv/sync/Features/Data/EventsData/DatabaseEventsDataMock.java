@@ -28,7 +28,7 @@ public class DatabaseEventsDataMock implements EventsDataContract {
     @Override
     public ArrayList<EventModel> viewEvents(UserModel user, int year, int month) {
         try {
-            Thread.sleep(5000);
+            Thread.sleep(2000);
         } catch(InterruptedException error) {
             //
         }

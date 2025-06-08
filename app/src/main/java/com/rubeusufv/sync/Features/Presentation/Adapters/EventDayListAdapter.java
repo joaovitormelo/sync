@@ -44,8 +44,6 @@ public class EventDayListAdapter extends ArrayAdapter<EventDayListItem> {
         int month = eventDay.getDate().getMonth();
         String dateMonth = String.format("%02d", date) + "/" + String.format("%02d", month);
 
-        Toast.makeText(view.getContext(), String.valueOf(eventDay.getEventList().size()), Toast.LENGTH_SHORT).show();
-
         weekdayTextView.setText(weekDay);
         dayTextView.setText(dateMonth);
 
