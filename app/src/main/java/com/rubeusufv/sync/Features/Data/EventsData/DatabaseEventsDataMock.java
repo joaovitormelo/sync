@@ -41,6 +41,11 @@ public class DatabaseEventsDataMock implements EventsDataContract {
 
     @Override
     public EventModel createNewEvent(UserModel user, EventModel event) {
+        try {
+            Thread.sleep(2000);
+        } catch(InterruptedException error) {
+            //
+        }
         eventList.add(event);
         return event;
     }

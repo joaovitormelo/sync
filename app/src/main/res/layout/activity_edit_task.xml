@@ -292,7 +292,7 @@
                     android:gravity="center">
 
                     <CheckBox
-                        android:id="@+id/checkboxSyncToRubeus"
+                        android:id="@+id/checkboxImportToRubeus"
                         android:layout_width="36dp"
                         android:layout_height="36dp" />
                     <ImageView
@@ -309,7 +309,7 @@
                     android:gravity="center">
 
                     <CheckBox
-                        android:id="@+id/checkboxSyncToGoogle"
+                        android:id="@+id/checkboxImportToGoogle"
                         android:layout_width="36dp"
                         android:layout_height="36dp" />
                     <ImageView

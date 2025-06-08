@@ -1,14 +1,17 @@
 package com.rubeusufv.sync.Features.Presentation.Screens;
 
-import android.annotation.SuppressLint;
-import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -17,6 +20,7 @@ import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.google.android.material.timepicker.MaterialTimePicker;
 import com.google.android.material.timepicker.TimeFormat;
+import com.rubeusufv.sync.Core.Exceptions.ValidationException;
 import com.rubeusufv.sync.Features.Data.Utils.TestApiRubeus.RubeusApiClient;
 import com.rubeusufv.sync.Features.Domain.Models.EventModel;
 import com.rubeusufv.sync.Features.Domain.Types.Color;
@@ -28,8 +32,11 @@ import com.rubeusufv.sync.Core.Injector;
 import com.rubeusufv.sync.R;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 public class CreateEventActivity extends AppCompatActivity {
 
@@ -42,6 +49,17 @@ public class CreateEventActivity extends AppCompatActivity {
     private String dateTaskString;
     private SyncDate eventDate;
     private MaterialDatePicker<Long> datePicker;
+    CheckBox allDayCheckbox;
+    CheckBox importToRubeusCheckbox;
+    CheckBox importToGoogleCheckbox;
+    ProgressBar createEventLoadingBar;
+    Button saveButton, cancelButton;
+    Drawable borderRed;
+    // VARIÁVEIS
+    Map<String, View[]> inputMap;
+    // CASOS DE USO
+    RegisterNewEventUsecase registerNewEventUsecase;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +87,27 @@ public class CreateEventActivity extends AppCompatActivity {
         repeatDropdown = findViewById(R.id.repeatDropdown);
         categoryDropdown = findViewById(R.id.categoryDropdown);
         colorDisplay = findViewById(R.id.eventColor);
+        allDayCheckbox = findViewById(R.id.allDayCheckbox);
+        importToGoogleCheckbox = findViewById(R.id.checkboxImportToGoogle);
+        importToRubeusCheckbox = findViewById(R.id.checkboxImportToRubeus);
+        createEventLoadingBar = findViewById(R.id.loadingSave);
+        saveButton = findViewById(R.id.btnSave);
+        cancelButton = findViewById(R.id.btnCancel);
+        borderRed = getResources().getDrawable(R.drawable.border_red);
+        registerNewEventUsecase = Injector.getInstance().getRegisterNewEventUsecase();
+        initializeInputMap();
+    }
+
+    private void initializeInputMap() {
+        inputMap = new HashMap<>();
+        inputMap.put("title", new View[]{nameTask});
+        inputMap.put("description", new View[]{descriptionTask});
+        inputMap.put("date", new View[]{dateButton});
+        inputMap.put("startHour", new View[]{timeButtonStart});
+        inputMap.put("endHour", new View[]{timeButtonEnd});
+        inputMap.put("repeat", new View[]{repeatDropdown});
+        inputMap.put("category", new View[]{categoryDropdown});
+        inputMap.put("imported", new View[]{importToRubeusCheckbox, importToGoogleCheckbox});
     }
 
     private void configureDatePicker() {
@@ -84,8 +123,6 @@ public class CreateEventActivity extends AppCompatActivity {
 
             // Formatação para ser usado na intent
             Date date = new Date(selection);
-            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-            dateTaskString = sdf.format(date);
             eventDate = new SyncDate(date.getDate(), date.getMonth(), date.getYear());
         });
     }
@@ -175,48 +212,92 @@ public class CreateEventActivity extends AppCompatActivity {
         }
     }
 
-    public void createTask(View v) {
+    public void onSaveClick(View v) {
+        setCreateEventLoading();
+        EventModel newEvent = buildEventModel();
+        new Thread(() -> {
+            callCreateEventUsecase(newEvent);
+        }).start();
+    }
+
+    private EventModel buildEventModel() {
         // Captura os dados digitados
         String nameTaskString = nameTask.getText().toString();
         String descriptionTaskString = descriptionTask.getText().toString();
         String startTime = timeButtonStart.getText().toString();
         String endTime = timeButtonEnd.getText().toString();
         String selectedCategory = categoryDropdown.getText().toString();
-
         Color eventColor = EventModel.fromCategory(selectedCategory);
+        boolean allDay = allDayCheckbox.isChecked();
+        boolean importToGoogle = importToGoogleCheckbox.isChecked();
+        boolean importToRubeus = importToRubeusCheckbox.isChecked();
 
-        EventModel newEvent = new EventModel(
+        return new EventModel(
                 0,
                 nameTaskString,
                 descriptionTaskString,
                 eventDate,
                 startTime,
                 endTime,
-                false,
+                allDay,
                 eventColor,
                 selectedCategory,
-                true,
-                false
+                importToRubeus,
+                importToGoogle
         );
+    }
 
+    private void setCreateEventLoading() {
+        createEventLoadingBar.setVisibility(View.VISIBLE);
+        cancelButton.setEnabled(false);
+    }
+
+    private void setCreateEventLoaded() {
+        createEventLoadingBar.setVisibility(View.GONE);
+        cancelButton.setEnabled(true);
+    }
+
+    private void callCreateEventUsecase(EventModel newEvent) {
         // Chamada ao caso de uso
         try {
-            RegisterNewEventUsecase registerNewEventUsecase = Injector.getInstance().getRegisterNewEventUsecase();
             registerNewEventUsecase.registerNewEvent(newEvent);
-
-            // Fecha a tela se deu tudo certo
-            finish();
-
-        } catch (DatabaseException e) {
-            e.printStackTrace();
-        } catch (UsecaseException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
+            runOnUiThread(this::finishCreateEvent);
+        } catch(Exception error) {
+            runOnUiThread(() -> {
+                handleCreateEventError(error);
+            });
         }
     }
 
-    public void cancelTask(View v) {
+    private void resetAllFields() {
+        for (Map.Entry<String, View[]> entry : inputMap.entrySet()) {
+            View[] fields = entry.getValue();
+            for (int i = 0; i < fields.length; i++) {
+                fields[i].setBackground(null);
+            }
+        }
+    }
+
+    private void handleCreateEventError(Exception error) {
+        setCreateEventLoaded();
+        resetAllFields();
+        if (error instanceof ValidationException) {
+            Toast.makeText(
+                getBaseContext(), error.getMessage(), Toast.LENGTH_SHORT
+            ).show();
+            View[] fields = inputMap.get(((ValidationException) error).getField());
+            for (int i = 0; i < fields.length; i++) {
+                fields[i].setBackground(borderRed);
+            }
+        }
+    }
+
+    private void finishCreateEvent() {
+        setCreateEventLoaded();
+        finish();
+    }
+
+    public void onCancelClick(View v) {
         finish();
     }
 }

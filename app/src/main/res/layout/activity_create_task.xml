@@ -161,6 +161,7 @@
                     android:textColor="@color/green"
                     android:textSize="16sp" />
                 <CheckBox
+                    android:id="@+id/allDayCheckbox"
                     android:layout_width="36dp"
                     android:layout_height="36dp" />
                 <TextView
@@ -328,7 +329,7 @@
                     android:gravity="center">
 
                     <CheckBox
-                        android:id="@+id/checkboxSyncToRubeus"
+                        android:id="@+id/checkboxImportToRubeus"
                         android:layout_width="36dp"
                         android:layout_height="36dp" />
                     <ImageView
@@ -345,7 +346,7 @@
                     android:gravity="center">
 
                     <CheckBox
-                        android:id="@+id/checkboxSyncToGoogle"
+                        android:id="@+id/checkboxImportToGoogle"
                         android:layout_width="36dp"
                         android:layout_height="36dp" />
                     <ImageView
@@ -398,7 +399,9 @@
             android:background="@drawable/border_red"
             android:backgroundTint="@null"
             android:textSize="16sp"
-            android:layout_marginEnd="8dp" />
+            android:layout_marginEnd="8dp"
+            android:onClick="onCancelClick"
+            />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnSave"
@@ -410,6 +413,18 @@
             android:background="@drawable/border_green"
             android:backgroundTint="@null"
             android:textSize="16sp"
-            android:layout_marginStart="8dp" />
+            android:layout_marginStart="8dp"
+            android:onClick="onSaveClick"
+            />
+
+        <ProgressBar
+            android:id="@+id/loadingSave"
+            style="?android:attr/progressBarStyle"
+            android:layout_centerInParent="true"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            />
     </LinearLayout>
 </RelativeLayout>

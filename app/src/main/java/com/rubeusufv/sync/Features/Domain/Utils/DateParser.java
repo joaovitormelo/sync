@@ -6,6 +6,7 @@ import java.util.Date;
 
 public class DateParser {
     public static Date fromSyncDate(SyncDate syncDate) {
+        if (syncDate == null) return null;
         Date date = new Date();
         date.setDate(syncDate.getDay());
         date.setMonth(syncDate.getMonth());

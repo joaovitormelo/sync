@@ -1,9 +1,12 @@
 package com.rubeusufv.sync.Features.Domain.Usecases.Events;
 
+import android.util.Log;
+
 import com.rubeusufv.sync.Core.Exceptions.DatabaseException;
 import com.rubeusufv.sync.Core.Exceptions.GoogleException;
 import com.rubeusufv.sync.Core.Exceptions.RubeusException;
 import com.rubeusufv.sync.Core.Exceptions.UsecaseException;
+import com.rubeusufv.sync.Core.Exceptions.ValidationException;
 import com.rubeusufv.sync.Core.Session.SessionManagerContract;
 import com.rubeusufv.sync.Features.Data.EventsData.EventsDataContract;
 import com.rubeusufv.sync.Features.Domain.Models.EventModel;
@@ -25,14 +28,37 @@ public class RegisterNewEventUsecase {
         this.eventsData = eventsData;
         this.sessionManager = sessionManager;
     }
-    public void registerNewEvent(EventModel event) {
-        if (!event.isGoogleImported() && !event.isRubeusImported()) {
-            throw new UsecaseException("O evento deve ser criado em pelo menos um dos repositórios de dados!");
-        }
+    public void registerNewEvent(EventModel event) throws DatabaseException,
+            RubeusException, GoogleException, ValidationException {
+        validateFields(event);
         UserModel currentUser = sessionManager.getSessionUser();
         createInGoogle(event, currentUser);
         createInRubeus(event, currentUser);
         createInDatabase(event, currentUser);
+    }
+
+    private void validateFields(EventModel event) {
+        if (event.getTitle().isEmpty()) {
+            throw new ValidationException("title", "O título não pode ser vazio!");
+        }
+        if (event.getDescription().isEmpty()) {
+            throw new ValidationException("description", "A descrição não pode ser vazia!");
+        }
+        if (event.getDate() == null) {
+            throw new ValidationException("date", "A data não pode ser vazia!");
+        }
+        if (event.getStartHour().isEmpty()) {
+            throw new ValidationException("startHour", "A hora de início não pode ser vazia!");
+        }
+        if (event.getEndHour().isEmpty()) {
+            throw new ValidationException("endHour", "A hora de fim não pode ser vazia!");
+        }
+        if (event.getCategory().isEmpty()) {
+            throw new ValidationException("category", "A categoria não pode ser vazia!");
+        }
+        if (!event.isGoogleImported() && !event.isRubeusImported()) {
+            throw new ValidationException("imported", "O evento deve ser criado em pelo menos um dos repositórios!");
+        }
     }
 
     private void createInGoogle(EventModel event, UserModel currentUser) {
