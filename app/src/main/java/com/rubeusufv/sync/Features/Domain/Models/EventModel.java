@@ -3,6 +3,7 @@ package com.rubeusufv.sync.Features.Domain.Models;
 import com.rubeusufv.sync.Features.Domain.Types.SyncDate;
 import com.rubeusufv.sync.Features.Domain.Types.Color;
 import com.rubeusufv.sync.Features.Domain.Types.ContactType;
+import com.rubeusufv.sync.Tools.Database.DatabaseEntry;
 
 public class EventModel {
     private int id;
@@ -141,6 +142,8 @@ public class EventModel {
         this.userId = userId;
     }
 
+    public EventModel(){};
+
     public EventModel(
             int id, int userId, String title, String description, SyncDate syncDate, String startHour,
             String endHour, boolean allDay, Color color, String category,
@@ -181,6 +184,47 @@ public class EventModel {
         this.rubeusImported = rubeusImported;
         this.googleImported = googleImported;
     }
+
+    public static EventModel fromDatabaseEntry(DatabaseEntry entry) {
+        EventModel event = new EventModel();
+        event.id = entry.getAsInteger("eventId"); // ou "id"
+        event.userId = entry.getAsInteger("userId");
+        event.title = entry.getAsString("title");
+        event.description = entry.getAsString("description");
+        event.startHour = entry.getAsString("startHour");
+        event.endHour = entry.getAsString("endHour");
+        event.allDay = Boolean.TRUE.equals(entry.getAsBoolean("allDay"));
+        event.category = entry.getAsString("category");
+        event.rubeusImported = Boolean.TRUE.equals(entry.getAsBoolean("rubeusImported"));
+        event.rubeusId = entry.getAsInteger("rubeusId");
+        event.googleImported = Boolean.TRUE.equals(entry.getAsBoolean("googleImported"));
+        event.googleId = entry.getAsInteger("googleId");
+
+        // Datas no formato "YYYY-MM-DD"
+        event.syncDate = SyncDate.fromString(entry.getAsString("syncDate"));
+
+        // Enums (assume que o valor no banco está igual ao nome do enum)
+        String colorStr = entry.getAsString("color");
+        if (colorStr != null) {
+            try {
+                event.color = Color.valueOf(colorStr.toUpperCase());
+            } catch (IllegalArgumentException e) {
+                event.color = Color.GRAY; // padrão em caso de erro
+            }
+        }
+
+        String contactStr = entry.getAsString("contactType");
+        if (contactStr != null) {
+            try {
+                event.contactType = ContactType.valueOf(contactStr.toUpperCase());
+            } catch (IllegalArgumentException e) {
+                event.contactType = ContactType.NONE;
+            }
+        }
+
+        return event;
+    }
+
 
     public static EventModel getMock() {
         return new EventModel(
