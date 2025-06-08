@@ -13,10 +13,12 @@ import java.util.Arrays;
 
 public class EventsData implements EventsDataContract {
     public ArrayList<EventModel> viewEvents(UserModel user, int year, int month) {
-        // Cria uma data de início do mês
+        // Cria uma data no início do mês
         SyncDate date = new SyncDate(1, month, year);
 
-        // WHERE: eventos com syncDate igual à data fornecida e do usuário específico
+        // TODO: mudar pra retornar os eventos do mes
+
+        // WHERE: eventos do usuario com o syncDate igual à data fornecida
         String where = "syncDate = ? AND userId = ?";
         String[] whereArgs = new String[]{ date.toString(), String.valueOf(user.getId()) };
 

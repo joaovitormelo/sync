@@ -144,7 +144,23 @@ public class EventModel {
         this.userId = userId;
     }
 
-    public EventModel(){};
+    public EventModel(){
+        this.id = 0;
+        this.userId = 0;
+        this.title = "";
+        this.description = "";
+        this.syncDate = null;
+        this.startHour = "";
+        this.endHour = "";
+        this.allDay = false;
+        this.color = Color.GRAY;
+        this.category = "";
+        this.rubeusImported = false;
+        this.rubeusId = 0;
+        this.contactType = ContactType.NONE;
+        this.googleImported = false;
+        this.googleId = 0;
+    };
 
     public EventModel(
             int id, int userId, String title, String description, SyncDate syncDate, String startHour,
@@ -204,38 +220,46 @@ public class EventModel {
 
     public static EventModel fromDatabaseEntry(DatabaseEntry entry) {
         EventModel event = new EventModel();
-        event.id = entry.getAsInteger("eventId"); // ou "id"
-        event.userId = entry.getAsInteger("userId");
-        event.title = entry.getAsString("title");
-        event.description = entry.getAsString("description");
-        event.startHour = entry.getAsString("startHour");
-        event.endHour = entry.getAsString("endHour");
-        event.allDay = Boolean.TRUE.equals(entry.getAsBoolean("allDay"));
-        event.category = entry.getAsString("category");
-        event.rubeusImported = Boolean.TRUE.equals(entry.getAsBoolean("rubeusImported"));
-        event.rubeusId = entry.getAsInteger("rubeusId");
-        event.googleImported = Boolean.TRUE.equals(entry.getAsBoolean("googleImported"));
-        event.googleId = entry.getAsInteger("googleId");
 
-        // Datas no formato "YYYY-MM-DD"
-        event.syncDate = SyncDate.fromString(entry.getAsString("syncDate"));
+        // Tratamento para campos numéricos (evitando NullPointerException)
+        event.id = entry.getAsInteger("eventId") != null ? entry.getAsInteger("eventId") : 0;
+        event.userId = entry.getAsInteger("userId") != null ? entry.getAsInteger("userId") : 0;
+        event.rubeusId = entry.getAsInteger("rubeusId") != null ? entry.getAsInteger("rubeusId") : 0;
+        event.googleId = entry.getAsInteger("googleId") != null ? entry.getAsInteger("googleId") : 0;
 
-        // Enums (assume que o valor no banco está igual ao nome do enum)
+        // Campos de texto com fallback para string vazia
+        event.title = entry.getAsString("title") != null ? entry.getAsString("title") : "";
+        event.description = entry.getAsString("description") != null ? entry.getAsString("description") : "";
+        event.startHour = entry.getAsString("startHour") != null ? entry.getAsString("startHour") : "";
+        event.endHour = entry.getAsString("endHour") != null ? entry.getAsString("endHour") : "";
+        event.category = entry.getAsString("category") != null ? entry.getAsString("category") : "";
+
+        // Booleanos com fallback para false
+        event.allDay = entry.getAsBoolean("allDay") != null && entry.getAsBoolean("allDay");
+        event.rubeusImported = entry.getAsBoolean("rubeusImported") != null && entry.getAsBoolean("rubeusImported");
+        event.googleImported = entry.getAsBoolean("googleImported") != null && entry.getAsBoolean("googleImported");
+
+        // Data
+        String syncDateStr = entry.getAsString("syncDate");
+        event.syncDate = syncDateStr != null ? SyncDate.fromString(syncDateStr) : null;
+
+        // Enums
         String colorStr = entry.getAsString("color");
-        if (colorStr != null) {
+        if (colorStr != null && !colorStr.isEmpty()) {
             try {
                 event.color = Color.valueOf(colorStr.toUpperCase());
             } catch (IllegalArgumentException e) {
-                event.color = Color.GRAY; // padrão em caso de erro
+                // Mantém o valor padrão se der erro
             }
         }
 
+        // Contact
         String contactStr = entry.getAsString("contactType");
-        if (contactStr != null) {
+        if (contactStr != null && !contactStr.isEmpty()) {
             try {
                 event.contactType = ContactType.valueOf(contactStr.toUpperCase());
             } catch (IllegalArgumentException e) {
-                event.contactType = ContactType.NONE;
+                // Mantém o valor padrão se der erro
             }
         }
 

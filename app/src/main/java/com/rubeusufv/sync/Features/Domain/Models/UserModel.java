@@ -1,5 +1,12 @@
 package com.rubeusufv.sync.Features.Domain.Models;
 
+import android.content.ContentValues;
+
+import com.rubeusufv.sync.Features.Domain.Types.Color;
+import com.rubeusufv.sync.Features.Domain.Types.ContactType;
+import com.rubeusufv.sync.Features.Domain.Types.SyncDate;
+import com.rubeusufv.sync.Tools.Database.DatabaseEntry;
+
 public class UserModel {
 
     private int id;
@@ -7,6 +14,7 @@ public class UserModel {
     private int idRubeus;
     private int idGoogle;
     private String name;
+    private String email;
     private String password;
 
     public int getIdRubeus() {
@@ -53,8 +61,16 @@ public class UserModel {
         return tokenRubeus;
     }
 
+    public String getEmail() { return email; }
+
+    public void setEmail(String email) { this.email = email;}
+
     public void setTokenRubeus(String tokenRubeus) {
         this.tokenRubeus = tokenRubeus;
+    }
+
+    public UserModel () {
+        // TODO: adicionar valores padrao
     }
 
     public UserModel(
@@ -66,6 +82,37 @@ public class UserModel {
         this.idGoogle = idGoogle;
         this.name = name;
         this.password = password;
+    }
+
+    public ContentValues toContentValues() {
+        ContentValues values = new ContentValues();
+        values.put("id", this.id);
+        values.put("tokenRubeus", this.tokenRubeus);
+        values.put("idRubeus", this.idRubeus);
+        values.put("idGoogle", this.idGoogle);
+        values.put("name", this.name);
+        values.put("email", this.email);
+        values.put("password", this.password);
+
+        return values;
+    }
+
+    public static UserModel fromDatabaseEntry(DatabaseEntry entry) {
+        UserModel user = new UserModel();
+
+        // Trata inteiros
+        Integer idRubeus = entry.getAsInteger("idRubeus");
+        Integer idGoogle = entry.getAsInteger("idGoogle");
+
+        user.setId(entry.getAsInteger("id"));
+        user.setIdRubeus(idRubeus != null ? idRubeus : 0);
+        user.setIdGoogle(idGoogle != null ? idGoogle : 0);
+
+        user.setName(entry.getAsString("name"));
+        user.setEmail(entry.getAsString("email"));
+        user.setPassword(entry.getAsString("password"));
+
+        return user;
     }
 
     public static UserModel getMock() {

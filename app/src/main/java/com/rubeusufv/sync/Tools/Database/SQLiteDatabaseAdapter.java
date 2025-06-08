@@ -25,6 +25,7 @@ public class SQLiteDatabaseAdapter implements DatabaseContract {
                     "idRubeus INTEGER, " +
                     "idGoogle INTEGER, " +
                     "name TEXT NOT NULL, " +
+                    "email TEXT NOT NULL UNIQUE, " +
                     "password TEXT NOT NULL);",
 
             "CREATE TABLE Event (" +
@@ -43,7 +44,10 @@ public class SQLiteDatabaseAdapter implements DatabaseContract {
                     "contactType TEXT, " +
                     "googleImported BOOLEAN, " +
                     "googleId INTEGER, " +
-                    "FOREIGN KEY (userId) REFERENCES User(id));"
+                    "FOREIGN KEY (userId) REFERENCES User(id));",
+
+            "INSERT INTO User (name, email, password) VALUES ('juninho', 'juninho@gmail', 'senha');",
+            "INSERT INTO Event (userId, title, syncDate) VALUES (0, 'EVENTAO', '2025-06-01');"
     };
 
     private SQLiteDatabaseAdapter() {
@@ -93,7 +97,7 @@ public class SQLiteDatabaseAdapter implements DatabaseContract {
                     orderBy              // ORDER BY
             );
 
-            Log.i("DATABASE", "Do a select and returned [" + cursor.getCount() + "] registers.");
+            Log.i("BANCO_DADOS", "Select retornou [" + cursor.getCount() + "] registros.");
 
             while (cursor.moveToNext()) {
                 DatabaseEntry entry = DatabaseEntry.fromCursor(cursor);
@@ -101,7 +105,7 @@ public class SQLiteDatabaseAdapter implements DatabaseContract {
             }
 
         } catch (Exception e) {
-            throw new DatabaseException("Select failed", "Something went wrong in table: " + table);
+            throw new DatabaseException("Select falhou", "Aconteceu algo errado com a tabela " + table);
         } finally {
             if (cursor != null) cursor.close();
         }
@@ -111,13 +115,13 @@ public class SQLiteDatabaseAdapter implements DatabaseContract {
     @Override
     public void update(String table, ContentValues values, String where, String[] whereArgs) throws DatabaseException {
         int count = db.update(table, values, where, whereArgs);
-        Log.i("DATABASE", "Updated [" + count + "] registers");
+        Log.i("BANCO_DADOS", "Atualizou [" + count + "] registros");
     }
 
     @Override
     public void delete(String table, String where, String[] whereArgs) throws DatabaseException {
         int count = db.delete(table, where, whereArgs);
-        Log.i("DATABASE", "Deleted [" + count + "] registers");
+        Log.i("BANCO_DADOS", "Deletou [" + count + "] registros");
     }
 
     private void open() {
