@@ -1,5 +1,7 @@
 package com.rubeusufv.sync.Features.Data.EventsData;
 
+import android.util.Log;
+
 import com.rubeusufv.sync.Features.Domain.Models.EventModel;
 import com.rubeusufv.sync.Features.Domain.Models.UserModel;
 import com.rubeusufv.sync.Features.Domain.Types.Color;
@@ -25,6 +27,12 @@ public class DatabaseEventsDataMock implements EventsDataContract {
 
     @Override
     public ArrayList<EventModel> viewEvents(UserModel user, int year, int month) {
+        try {
+            Thread.sleep(5000);
+            Log.d("TESTE", "RETORNOU");
+        } catch(InterruptedException error) {
+            //
+        }
         ArrayList<EventModel> list = new ArrayList<EventModel>();
         for (EventModel item : eventList) {
             list.add(item);

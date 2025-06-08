@@ -73,12 +73,27 @@
                 </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
 
+            <RelativeLayout
+                android:layout_below="@id/filters"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <ProgressBar
+                    android:id="@+id/loadingEventsBar"
+                    style="?android:attr/progressBarStyleLarge"
+                    android:layout_centerInParent="true"
+                    android:visibility="visible"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    />
+            </RelativeLayout>
+
             <!-- Lista de eventos -->
             <ListView
                 android:id="@+id/eventDayList"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_below="@id/filters"
+                android:visibility="gone"
                 android:divider="@android:color/transparent"
                 tools:listitem="@layout/event_day_list_item" />
         </RelativeLayout>

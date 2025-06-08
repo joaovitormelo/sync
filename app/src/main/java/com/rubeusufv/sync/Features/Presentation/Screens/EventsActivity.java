@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -55,6 +56,9 @@ public class EventsActivity extends AppCompatActivity {
     Map<SyncDate, ArrayList<EventModel>> eventsPerDayMap;
     //VIEWS
     ViewEventsUsecase viewEventsUsecase;
+    //COMPONENTES
+    ListView eventDayListView;
+    ProgressBar loadingEventsBar;
     DrawerLayout drawerLayout;
     private MaterialAutoCompleteTextView yearDropdown, monthDropdown;
 
@@ -69,6 +73,8 @@ public class EventsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_events);
 
+        eventDayListView = findViewById(R.id.eventDayList);
+        loadingEventsBar = findViewById(R.id.loadingEventsBar);
         configureActionBar();
         configureDrawer();
         configureFilterDropdowns();
@@ -134,7 +140,18 @@ public class EventsActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        loadEventList();
+        setEventsListLoading();
+        new Thread(this::loadEventList).start();
+    }
+
+    private void setEventsListLoading() {
+        loadingEventsBar.setVisibility(View.VISIBLE);
+        eventDayListView.setVisibility(View.GONE);
+    }
+
+    private void setEventsListLoaded() {
+        loadingEventsBar.setVisibility(View.GONE);
+        eventDayListView.setVisibility(View.VISIBLE);
     }
 
     private void loadEventList() {
@@ -142,6 +159,10 @@ public class EventsActivity extends AppCompatActivity {
 
         eventModelList = viewEventsUsecase.viewEvents(2025, Month.JANUARY);
 
+        runOnUiThread(this::updateEventListView);
+    }
+
+    private void updateEventListView() {
         eventsPerDayMap = new TreeMap<>();
         for (EventModel e : eventModelList) {
             Date eventDate = DateParser.fromSyncDate(e.getDate());
@@ -156,11 +177,11 @@ public class EventsActivity extends AppCompatActivity {
             eventDayList.add(new EventDayListItem(date, eventsPerDayMap.get(date)));
         }
 
-        ListView eventDayListView = findViewById(R.id.eventDayList);
         eventDayListAdapter = new EventDayListAdapter(
-            getBaseContext(), R.layout.event_day_list_item, eventDayList
+                getBaseContext(), R.layout.event_day_list_item, eventDayList
         );
         eventDayListView.setAdapter(eventDayListAdapter);
+        setEventsListLoaded();
     }
 
     // Teste da api da rubeus
