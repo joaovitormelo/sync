@@ -1,5 +1,7 @@
 package com.rubeusufv.sync.Features.Data.EventsData;
 
+import android.content.ContentValues;
+
 import com.rubeusufv.sync.Features.Domain.Models.EventModel;
 import com.rubeusufv.sync.Features.Domain.Models.UserModel;
 import com.rubeusufv.sync.Features.Domain.Types.SyncDate;
@@ -38,15 +40,23 @@ public class EventsData implements EventsDataContract {
 
 
     public EventModel createNewEvent(UserModel user, EventModel event){
-        return null;
+        ContentValues values = event.toContentValues();
+        SQLiteDatabaseAdapter.getInstance().insert("Event", values);
+
+        return event;
     }
 
     public void updateEvent(UserModel user, EventModel event){
-
+        ContentValues values = event.toContentValues();
+        String where = "id = ?";
+        String[] whereArgs = new String[]{String.valueOf(event.getId())};
+        SQLiteDatabaseAdapter.getInstance().update("Event", values, where, whereArgs);
     }
 
     public void removeEvent(UserModel user, EventModel event){
-
+        String where = "id = ?";
+        String[] whereArgs = new String[]{String.valueOf(event.getId())};
+        SQLiteDatabaseAdapter.getInstance().delete("Event", where, whereArgs);
     }
 
 }
