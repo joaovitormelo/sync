@@ -31,7 +31,7 @@ import java.util.Locale;
 
 public class CreateEventActivity extends AppCompatActivity {
 
-    // Todas as variáveis para criar uma tarefa
+    // COMPONENTES
     private TextView nameTask, dateTask, timeTask;
     private EditText descriptionTask;
     private MaterialButton dateButton, timeButtonStart, timeButtonEnd;
@@ -45,8 +45,17 @@ public class CreateEventActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_task);
 
-        RubeusApiClient.configurarCredenciais("7", "9e5199c5de1c58f31987f71dde804da8");
+        initializeInstances();
+        configureDatePicker();
+        configureTimePickerStart();
+        configureTimePickerEnd();
+        configureRepeatDropdown();
+        configureCategoryDropdown();
 
+        RubeusApiClient.configurarCredenciais("7", "9e5199c5de1c58f31987f71dde804da8");
+    }
+
+    private void initializeInstances() {
         nameTask = findViewById(R.id.editTextTaskTitle);
         descriptionTask = findViewById(R.id.editTextTaskDescription);
         //dateTask = findViewById(R.id.textViewDate);
@@ -56,7 +65,9 @@ public class CreateEventActivity extends AppCompatActivity {
         timeButtonEnd = findViewById(R.id.btnTimePickerEnd);
         repeatDropdown = findViewById(R.id.repeatDropdown);
         categoryDropdown = findViewById(R.id.categoryDropdown);
+    }
 
+    private void configureDatePicker() {
         // Criação do calendário e exibição na tela
         datePicker = MaterialDatePicker
                 .Builder
@@ -73,7 +84,9 @@ public class CreateEventActivity extends AppCompatActivity {
             dateTaskString = sdf.format(date);
             eventDate = new SyncDate(date.getDate(), date.getMonth(), date.getYear());
         });
+    }
 
+    private void configureTimePickerStart() {
         //o horario inicial
         MaterialTimePicker timePickerStart = new MaterialTimePicker.Builder()
                 .setTimeFormat(TimeFormat.CLOCK_24H)
@@ -88,7 +101,9 @@ public class CreateEventActivity extends AppCompatActivity {
             String formattedTime = String.format(Locale.getDefault(), "%02d:%02d", hour, minute);
             timeButtonStart.setText(formattedTime);
         });
+    }
 
+    private void configureTimePickerEnd() {
         // o horario final
         MaterialTimePicker timePickerEnd = new MaterialTimePicker.Builder()
                 .setTimeFormat(TimeFormat.CLOCK_24H)
@@ -103,7 +118,9 @@ public class CreateEventActivity extends AppCompatActivity {
             String formattedTime = String.format(Locale.getDefault(), "%02d:%02d", hour, minute);
             timeButtonEnd.setText(formattedTime);
         });
+    }
 
+    private void configureRepeatDropdown() {
         // Opções de repetição
         String[] repeatOptions = {
                 "Não repetir", "Todos os dias", "Todas as semanas", "Todos os meses", "Personalizar..."
@@ -111,8 +128,9 @@ public class CreateEventActivity extends AppCompatActivity {
         ArrayAdapter<String> adapterRepeat = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, repeatOptions);
         repeatDropdown.setAdapter(adapterRepeat);
         repeatDropdown.setText("Não repetir", false);
+    }
 
-
+    private void configureCategoryDropdown() {
         // Opções de categoria
         String[] categoryOptions = {"Reunião", "Prova", "Lazer", "Trabalho"};
         ArrayAdapter<String> adapterCategory = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, categoryOptions);
