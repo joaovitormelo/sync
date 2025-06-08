@@ -43,6 +43,7 @@
     <string name="title">Título</string>
     <string name="title_example">Prova de dispositivos móveis</string>
     <string name="hour">Horário</string>
+    <string name="hours">Horário</string>
     <string name="notification">Notificações</string>
     <string name="weekly">Semanal</string>
     <string name="repeat">Repetição</string>

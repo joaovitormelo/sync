@@ -23,19 +23,19 @@ public class RubeusApiClient {
                         Request originalRequest = chain.request();
 
                         // Log da requisição
-                        Log.d(TAG, "=== REQUISIÇÃO ===");
+                        /*Log.d(TAG, "=== REQUISIÇÃO ===");
                         Log.d(TAG, "URL: " + originalRequest.url());
                         Log.d(TAG, "Método: " + originalRequest.method());
-                        Log.d(TAG, "Headers: " + originalRequest.headers());
+                        Log.d(TAG, "Headers: " + originalRequest.headers());*/
 
                         // Log do body se existir
                         if (originalRequest.body() != null) {
                             try {
                                 Buffer buffer = new Buffer();
                                 originalRequest.body().writeTo(buffer);
-                                Log.d(TAG, "Body enviado: " + buffer.readUtf8());
+                                //Log.d(TAG, "Body enviado: " + buffer.readUtf8());
                             } catch (Exception e) {
-                                Log.e(TAG, "Erro ao ler body: " + e.getMessage());
+                                //Log.e(TAG, "Erro ao ler body: " + e.getMessage());
                             }
                         }
 
@@ -47,15 +47,15 @@ public class RubeusApiClient {
                         okhttp3.Response response = chain.proceed(newRequest);
 
                         // Log da resposta
-                        Log.d(TAG, "=== RESPOSTA ===");
+                        /*Log.d(TAG, "=== RESPOSTA ===");
                         Log.d(TAG, "Código: " + response.code());
-                        Log.d(TAG, "Headers resposta: " + response.headers());
+                        Log.d(TAG, "Headers resposta: " + response.headers());*/
 
                         // Log do body da resposta
                         ResponseBody responseBody = response.body();
                         if (responseBody != null) {
                             String responseString = responseBody.string();
-                            Log.d(TAG, "Body resposta: " + responseString);
+                            //Log.d(TAG, "Body resposta: " + responseString);
 
                             // Recriar o response body para o Retrofit usar
                             ResponseBody newResponseBody = ResponseBody.create(

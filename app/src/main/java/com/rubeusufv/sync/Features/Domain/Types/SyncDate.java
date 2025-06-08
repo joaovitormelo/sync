@@ -1,6 +1,6 @@
 package com.rubeusufv.sync.Features.Domain.Types;
 
-public class SyncDate {
+public class SyncDate implements Comparable<SyncDate> {
     int day;
     int month;
     int year;
@@ -33,5 +33,14 @@ public class SyncDate {
 
     public void setYear(int year) {
         this.year = year;
+    }
+
+    @Override
+    public int compareTo(SyncDate o) {
+        if (getYear() < o.getYear()) return -1;
+        else if (getYear() > o.getYear()) return 1;
+        else if (getMonth() < o.getMonth()) return -1;
+        else if (getMonth() > o.getMonth()) return 1;
+        return getDay() - o.getDay();
     }
 }

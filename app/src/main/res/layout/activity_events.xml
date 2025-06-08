@@ -8,6 +8,7 @@
     android:fitsSystemWindows="true"
     tools:context=".Features.Presentation.Screens.EventsActivity">
 
+
     <!-- Conteúdo principal -->
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/coordinator_main"
@@ -18,14 +19,26 @@
         <RelativeLayout
             android:id="@+id/relative_content_area"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="@dimen/marginTopEvents">
+            android:layout_height="match_parent">
+
+
+
+            <androidx.appcompat.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/my_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="?attr/colorPrimary"
+                android:elevation="4dp"
+                android:fitsSystemWindows="true"
+                android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+                android:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
             <!-- Lista de eventos -->
             <ListView
                 android:id="@+id/eventDayList"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_below="@id/my_toolbar"
                 android:divider="@android:color/transparent"
                 tools:listitem="@layout/event_day_list_item" />
         </RelativeLayout>

@@ -24,6 +24,7 @@ import com.rubeusufv.sync.Features.Domain.Usecases.Events.EditEventUsecase;
 import com.rubeusufv.sync.Features.Domain.Usecases.Events.ExcludeEventUsecase;
 import com.rubeusufv.sync.Features.Domain.Usecases.Events.ImportEventListToRepositoryUsecase;
 import com.rubeusufv.sync.Features.Domain.Usecases.Events.ImportSingleEventToRepositoryUsecase;
+import com.rubeusufv.sync.Features.Domain.Usecases.Events.RegisterNewEventUsecase;
 import com.rubeusufv.sync.R;
 
 import java.util.ArrayList;

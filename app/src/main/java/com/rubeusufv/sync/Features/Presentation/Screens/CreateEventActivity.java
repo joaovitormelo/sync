@@ -124,7 +124,7 @@ public class CreateEventActivity extends AppCompatActivity {
         ArrayAdapter<String> adapterCategory = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, categoryOptions);
         categoryDropdown.setAdapter(adapterCategory);
         categoryDropdown.setText("Selecione uma categoria", false);*/
-        categoryDropdown.setText("Selecione uma categoria", false);
+        //categoryDropdown.setText("Selecione uma categoria", false);
 
     }
 

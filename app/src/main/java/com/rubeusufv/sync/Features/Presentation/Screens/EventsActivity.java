@@ -8,13 +8,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.Toast;
-
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.navigation.NavigationView;
+import com.rubeusufv.sync.Core.Exceptions.DatabaseException;
 import com.rubeusufv.sync.Core.Injector;
 import com.rubeusufv.sync.Features.Data.Utils.TestApiRubeus.ContatoDados;
 import com.rubeusufv.sync.Features.Data.Utils.TestApiRubeus.ContatoRequest;
@@ -23,16 +23,19 @@ import com.rubeusufv.sync.Features.Data.Utils.TestApiRubeus.RubeusAPI;
 import com.rubeusufv.sync.Features.Data.Utils.TestApiRubeus.RubeusApiClient;
 import com.rubeusufv.sync.Features.Domain.Models.EventModel;
 import com.rubeusufv.sync.Features.Domain.Types.Month;
+import com.rubeusufv.sync.Features.Domain.Types.SyncDate;
 import com.rubeusufv.sync.Features.Domain.Usecases.Events.ViewEventsUsecase;
 import com.rubeusufv.sync.Features.Domain.Utils.DateParser;
 import com.rubeusufv.sync.Features.Presentation.Adapters.EventDayListAdapter;
 import com.rubeusufv.sync.Features.Presentation.Types.EventDayListItem;
 import com.rubeusufv.sync.R;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.concurrent.CompletableFuture;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -43,8 +46,8 @@ public class EventsActivity extends AppCompatActivity {
     EventDayListAdapter eventDayListAdapter;
     ArrayList<EventModel> eventModelList;
     ArrayList<EventDayListItem> eventDayList;
-    Map<Date, ArrayList<EventModel>> eventsPerDayMap;
-    ViewEventsUsecase usecases;
+    Map<SyncDate, ArrayList<EventModel>> eventsPerDayMap;
+    ViewEventsUsecase viewEventsUsecase;
 
     DrawerLayout drawerLayout;  // declare DrawerLayout aqui
 
@@ -61,38 +64,11 @@ public class EventsActivity extends AppCompatActivity {
 
         drawerLayout = findViewById(R.id.drawer_layout);  // inicialize o DrawerLayout para tratar o menu
 
-        usecases = Injector.getInstance().getEventUsecases();
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        setSupportActionBar(myToolbar);
 
-        eventModelList = usecases.viewEvents(2025, Month.JANUARY);
-
-        eventsPerDayMap = new TreeMap<Date, ArrayList<EventModel>>();
-        for (EventModel e : eventModelList) {
-            Date eventDate = DateParser.fromSyncDate(e.getDate());
-            ArrayList<EventModel> eventModels = eventsPerDayMap.get(eventDate);
-            if (eventModels == null) eventModels = new ArrayList<>();
-            eventModels.add(e);
-
-            Log.d("DATE", eventDate.toString());
-            eventsPerDayMap.put(eventDate, eventModels);
-        }
-
-        eventDayList = new ArrayList<>();
-        for (Date date : eventsPerDayMap.keySet()) {
-            eventDayList.add(new EventDayListItem(date, eventsPerDayMap.get(date)));
-        }
-
-        ListView eventDayListView = findViewById(R.id.eventDayList);
-        eventDayListAdapter = new EventDayListAdapter(
-                getBaseContext(), R.layout.event_day_list_item, eventDayList
-        );
-        eventDayListView.setAdapter(eventDayListAdapter);
-
-        // Configura o ícone customizado do ActionBar (hamburguer)
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setHomeAsUpIndicator(R.drawable.baseline_dehaze_24);
-            actionBar.setDisplayHomeAsUpEnabled(true);
-        }
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.baseline_dehaze_24);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         NavigationView navigation = findViewById(R.id.navigation_view);
         navigation.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
@@ -110,7 +86,39 @@ public class EventsActivity extends AppCompatActivity {
         });
 
         // Teste da api da rubeus
-        buscarContatoPorId("21");
+        //buscarContatoPorId("21");
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        loadEventList();
+    }
+
+    private void loadEventList() {
+        viewEventsUsecase = Injector.getInstance().getViewEventsUsecase();
+
+        eventModelList = viewEventsUsecase.viewEvents(2025, Month.JANUARY);
+
+        eventsPerDayMap = new TreeMap<>();
+        for (EventModel e : eventModelList) {
+            Date eventDate = DateParser.fromSyncDate(e.getDate());
+            ArrayList<EventModel> eventModels = eventsPerDayMap.get(e.getDate());
+            if (eventModels == null) eventModels = new ArrayList<>();
+            eventModels.add(e);
+            eventsPerDayMap.put(e.getDate(), eventModels);
+        }
+
+        eventDayList = new ArrayList<>();
+        for (SyncDate date : eventsPerDayMap.keySet()) {
+            eventDayList.add(new EventDayListItem(date, eventsPerDayMap.get(date)));
+        }
+
+        ListView eventDayListView = findViewById(R.id.eventDayList);
+        eventDayListAdapter = new EventDayListAdapter(
+            getBaseContext(), R.layout.event_day_list_item, eventDayList
+        );
+        eventDayListView.setAdapter(eventDayListAdapter);
     }
 
     // Teste da api da rubeus
@@ -119,6 +127,12 @@ public class EventsActivity extends AppCompatActivity {
         RubeusAPI apiService = RubeusApiClient.getClient().create(RubeusAPI.class);
         ContatoRequest request = new ContatoRequest("9e5199c5de1c58f31987f71dde804da8", "7", id);
         Call<ContatoResponse> callContato = apiService.getContatoPorId(request);
+
+        /*try {
+            Response<ContatoResponse> res = callContato.execute();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }*/
         callContato.enqueue(new Callback<>() {
             @Override
             public void onResponse(Call<ContatoResponse> call, Response<ContatoResponse> response) {

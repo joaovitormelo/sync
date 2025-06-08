@@ -40,7 +40,7 @@ public class EventDayListAdapter extends ArrayAdapter<EventDayListItem> {
         TextView weekdayTextView = view.findViewById(R.id.day_header_weekday);
         TextView dayTextView = view.findViewById(R.id.day_header_day);
         String weekDay = getDayOfWeekFromNumber(eventDay.getDate().getDay());
-        int date = eventDay.getDate().getDate();
+        int date = eventDay.getDate().getDay();
         int month = eventDay.getDate().getMonth();
         String dateMonth = String.format("%02d", date) + "/" + String.format("%02d", month);
 

@@ -80,7 +80,7 @@ public final class Injector {
         );
     }
 
-    public ViewEventsUsecase getEventUsecases() {
+    public ViewEventsUsecase getViewEventsUsecase() {
         return this.viewEventsUsecase;
     }
 
