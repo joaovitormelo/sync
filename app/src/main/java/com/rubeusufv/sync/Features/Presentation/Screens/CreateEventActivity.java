@@ -145,15 +145,34 @@ public class CreateEventActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Color eventColor = EventModel.fromCategory(categoryOptions[position]);
-
+                setEventColor(eventColor);
             }
         });
-        setEventColor(android.R.color.white);
+        setEventColor(Color.WHITE);
     }
 
-    private void setEventColor(int colorId) {
+    private void setEventColor(Color color) {
         GradientDrawable bgDrawable = (GradientDrawable) colorDisplay.getBackground();
-        bgDrawable.setColor(getResources().getColor(colorId));
+        bgDrawable.setColor(getResources().getColor(colorToResId(color)));
+    }
+
+    private int colorToResId(Color color) {
+        switch (color) {
+            case RED:
+                return R.color.red;
+            case BLUE:
+                return R.color.blue;
+            case GREEN:
+                return R.color.green;
+            case GRAY:
+                return R.color.grey;
+            case YELLOW:
+                return R.color.yellow;
+            case PURPLE:
+                return R.color.purple;
+            default:
+                return R.color.white;
+        }
     }
 
     public void createTask(View v) {
