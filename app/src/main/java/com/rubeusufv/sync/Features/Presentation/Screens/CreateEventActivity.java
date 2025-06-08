@@ -19,6 +19,10 @@ import com.rubeusufv.sync.Features.Data.Utils.TestApiRubeus.RubeusApiClient;
 import com.rubeusufv.sync.Features.Domain.Models.EventModel;
 import com.rubeusufv.sync.Features.Domain.Types.Color;
 import com.rubeusufv.sync.Features.Domain.Types.SyncDate;
+import com.rubeusufv.sync.Core.Exceptions.DatabaseException;
+import com.rubeusufv.sync.Core.Exceptions.UsecaseException;
+import com.rubeusufv.sync.Features.Domain.Usecases.Events.RegisterNewEventUsecase;
+import com.rubeusufv.sync.Core.Injector;
 import com.rubeusufv.sync.R;
 
 import java.text.SimpleDateFormat;
@@ -48,6 +52,10 @@ public class CreateEventActivity extends AppCompatActivity {
         //dateTask = findViewById(R.id.textViewDate);
         timeTask = findViewById(R.id.textViewTime);
         dateButton = findViewById(R.id.btnDatePicker);
+        timeButtonStart = findViewById(R.id.btnTimePickerStart);
+        timeButtonEnd = findViewById(R.id.btnTimePickerEnd);
+        repeatDropdown = findViewById(R.id.repeatDropdown);
+        categoryDropdown = findViewById(R.id.categoryDropdown);
 
         // Criação do calendário e exibição na tela
         datePicker = MaterialDatePicker
@@ -63,51 +71,42 @@ public class CreateEventActivity extends AppCompatActivity {
             Date date = new Date(selection);
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
             dateTaskString = sdf.format(date);
-            eventDate = new SyncDate(date.getDay(), date.getMonth(), date.getYear());
+            eventDate = new SyncDate(date.getDate(), date.getMonth(), date.getYear());
         });
 
-
-        // Criação do horário inicial
-        timeButtonStart= findViewById(R.id.btnTimePickerStart);
+        //o horario inicial
         MaterialTimePicker timePickerStart = new MaterialTimePicker.Builder()
                 .setTimeFormat(TimeFormat.CLOCK_24H)
                 .setHour(12)
                 .setMinute(0)
                 .setTitleText("Escolha um horário")
                 .build();
-        timeButtonStart.setOnClickListener(v -> timePickerStart.show(getSupportFragmentManager(), "TIME_PICKER"));
+        timeButtonStart.setOnClickListener(v -> timePickerStart.show(getSupportFragmentManager(), "TIME_PICKER_START"));
         timePickerStart.addOnPositiveButtonClickListener(v -> {
             int hour = timePickerStart.getHour();
             int minute = timePickerStart.getMinute();
-            @SuppressLint("DefaultLocale") String formattedTime = String.format("%02d:%02d", hour, minute);
+            String formattedTime = String.format(Locale.getDefault(), "%02d:%02d", hour, minute);
             timeButtonStart.setText(formattedTime);
         });
 
-
-        // Criação do horário final
-        timeButtonEnd = findViewById(R.id.btnTimePickerEnd);
+        // o horario final
         MaterialTimePicker timePickerEnd = new MaterialTimePicker.Builder()
                 .setTimeFormat(TimeFormat.CLOCK_24H)
-                .setHour(12)
+                .setHour(13)
                 .setMinute(0)
-                .setTitleText("Escolha um horário")
+                .setTitleText("Escolha horário de fim")
                 .build();
-        timeButtonEnd.setOnClickListener(v -> timePickerEnd.show(getSupportFragmentManager(), "TIME_PICKER"));
+        timeButtonEnd.setOnClickListener(v -> timePickerEnd.show(getSupportFragmentManager(), "TIME_PICKER_END"));
         timePickerEnd.addOnPositiveButtonClickListener(v -> {
             int hour = timePickerEnd.getHour();
             int minute = timePickerEnd.getMinute();
-            @SuppressLint("DefaultLocale") String formattedTime = String.format("%02d:%02d", hour, minute);
+            String formattedTime = String.format(Locale.getDefault(), "%02d:%02d", hour, minute);
             timeButtonEnd.setText(formattedTime);
         });
 
         // Opções de repetição
-        repeatDropdown = findViewById(R.id.repeatDropdown);
-        String[] repeatOptions = new String[] {
-                "Não repetir",
-                "Todos os dias",
-                "Todas as semanas",
-                "Todos os meses",
-                "Personalizar..."
+        String[] repeatOptions = {
+                "Não repetir", "Todos os dias", "Todas as semanas", "Todos os meses", "Personalizar..."
         };
         ArrayAdapter<String> adapterRepeat = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, repeatOptions);
         repeatDropdown.setAdapter(adapterRepeat);
@@ -115,48 +114,66 @@ public class CreateEventActivity extends AppCompatActivity {
 
 
         // Opções de categoria
-        /*categoryDropdown = findViewById(R.id.categoryDropdown);
-        String[] categoryOptions = new String[] {
-                "Reunião",
-                "Prova",
-                "Personalizar..."
-        };
+        String[] categoryOptions = {"Reunião", "Prova", "Lazer", "Trabalho"};
         ArrayAdapter<String> adapterCategory = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, categoryOptions);
         categoryDropdown.setAdapter(adapterCategory);
-        categoryDropdown.setText("Selecione uma categoria", false);*/
-        //categoryDropdown.setText("Selecione uma categoria", false);
-
-    }
-
-    public void receiveNotification(View v) {
-
+        categoryDropdown.setText("Selecione uma categoria", false);
     }
 
     public void createTask(View v) {
-        // Converte todas as valores em string
+        // Captura os dados digitados
         String nameTaskString = nameTask.getText().toString();
         String descriptionTaskString = descriptionTask.getText().toString();
-        String dateTaskString = dateTask.getText().toString();
-        String timeTaskString = timeTask.getText().toString();
+        String startTime = timeButtonStart.getText().toString();
+        String endTime = timeButtonEnd.getText().toString();
+        String selectedCategory = categoryDropdown.getText().toString();
 
-        Intent it = new Intent(getBaseContext(), Task.class);
-        Bundle newTask = new Bundle();
+        // Define a cor com base na categoria
+        Color eventColor = Color.BLUE; // Padrão
+        switch (selectedCategory) {
+            case "Prova":
+                eventColor = Color.RED;
+                break;
+            case "Reunião":
+                eventColor = Color.GREEN;
+                break;
+            case "Lazer":
+                eventColor = Color.YELLOW;
+                break;
+            case "Trabalho":
+                eventColor = Color.PURPLE;
+                break;
+        }
 
         EventModel newEvent = new EventModel(
-            0, nameTaskString, descriptionTaskString, eventDate, timeTaskString,
-            timeTaskString, false, Color.BLUE, "A", true,
-            false
+                0,
+                nameTaskString,
+                descriptionTaskString,
+                eventDate,
+                startTime,
+                endTime,
+                false,
+                eventColor,
+                selectedCategory,
+                true,
+                false
         );
 
-        // Coloca todos os valores no bundle
-        newTask.putString("nameTask", nameTaskString);
-        newTask.putString("descriptionTask", descriptionTaskString);
-        newTask.putString("dateTask", dateTaskString);
-        newTask.putString("timeTask", timeTaskString);
+        // Chamada ao caso de uso
+        try {
+            RegisterNewEventUsecase registerNewEventUsecase = Injector.getInstance().getRegisterNewEventUsecase();
+            registerNewEventUsecase.registerNewEvent(newEvent);
 
-        // Intent para a tela inicial
-        it.putExtras(newTask);
-        startActivity(it);
+            // Fecha a tela se deu tudo certo
+            finish();
+
+        } catch (DatabaseException e) {
+            e.printStackTrace();
+        } catch (UsecaseException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void cancelTask(View v) {
