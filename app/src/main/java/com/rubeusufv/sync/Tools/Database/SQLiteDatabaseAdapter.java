@@ -28,7 +28,7 @@ public class SQLiteDatabaseAdapter implements DatabaseContract {
                     "password TEXT NOT NULL);",
 
             "CREATE TABLE Event (" +
-                    "eventId INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                     "userId INTEGER NOT NULL, " +
                     "title TEXT NOT NULL, " +
                     "description TEXT, " +

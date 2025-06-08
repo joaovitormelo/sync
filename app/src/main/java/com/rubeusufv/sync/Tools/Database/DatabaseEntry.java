@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+// Representa uma linha da tabela resultante do select
 public class DatabaseEntry {
     private final Map<String, Object> data;
 
