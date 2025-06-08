@@ -12,6 +12,7 @@ import com.rubeusufv.sync.Features.Data.EventsData.EventsDataContract;
 import com.rubeusufv.sync.Features.Domain.Models.EventModel;
 import com.rubeusufv.sync.Features.Domain.Models.UserModel;
 import com.rubeusufv.sync.Features.Domain.Utils.DevTools;
+import com.rubeusufv.sync.Features.Domain.Utils.ValidationHelper;
 
 public class RegisterNewEventUsecase {
     private EventsDataContract rubeusData;
@@ -47,18 +48,36 @@ public class RegisterNewEventUsecase {
         if (event.getDate() == null) {
             throw new ValidationException("date", "A data não pode ser vazia!");
         }
+        Log.d("TESTE", "HORA DE INÍCIO: " + event.getStartHour());
+        Log.d("TESTE", "HORA DE FIM: " + event.getEndHour());
+        Log.d("TESTE", "CATEGORIA: " + event.getCategory());
         if (event.getStartHour().isEmpty()) {
             throw new ValidationException("startHour", "A hora de início não pode ser vazia!");
+        }
+        if (!ValidationHelper.validateHour(event.getStartHour())) {
+            throw new ValidationException("startHour", "Informe uma hora de início válida!");
         }
         if (event.getEndHour().isEmpty()) {
             throw new ValidationException("endHour", "A hora de fim não pode ser vazia!");
         }
-        if (event.getCategory().isEmpty()) {
-            throw new ValidationException("category", "A categoria não pode ser vazia!");
+        if (!ValidationHelper.validateHour(event.getEndHour())) {
+            throw new ValidationException("endHour", "Informe uma hora de fim válida!");
+        }
+        if (event.getCategory() != null && !checkValidValueForCategory(event.getCategory())) {
+            throw new ValidationException("category", "Informe uma categoria válida!");
         }
         if (!event.isGoogleImported() && !event.isRubeusImported()) {
             throw new ValidationException("imported", "O evento deve ser criado em pelo menos um dos repositórios!");
         }
+    }
+
+    private boolean checkValidValueForCategory(String category) {
+        return (
+            category.equals(EventModel.CATEGORY.TEST)||
+            category.equals(EventModel.CATEGORY.REUNION) ||
+            category.equals(EventModel.CATEGORY.LEISURE) ||
+            category.equals(EventModel.CATEGORY.WORK)
+        );
     }
 
     private void createInGoogle(EventModel event, UserModel currentUser) {

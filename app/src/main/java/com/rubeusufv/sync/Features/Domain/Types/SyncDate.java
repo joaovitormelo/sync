@@ -2,7 +2,9 @@ package com.rubeusufv.sync.Features.Domain.Types;
 
 import android.annotation.SuppressLint;
 
-public class SyncDate implements Comparable<SyncDate> {
+import java.io.Serializable;
+
+public class SyncDate implements Serializable, Comparable<SyncDate> {
     int day;
     int month;
     int year;

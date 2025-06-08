@@ -16,6 +16,7 @@ import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -196,7 +197,7 @@ public class EventsActivity extends AppCompatActivity {
     }
 
     private void callLoadEventsUsecase(int year, int month) {
-        eventModelList = viewEventsUsecase.viewEvents(year, month);
+        eventModelList = viewEventsUsecase.viewEvents(year, month + 1);
         runOnUiThread(this::updateEventListView);
     }
 
@@ -216,7 +217,7 @@ public class EventsActivity extends AppCompatActivity {
         }
 
         eventDayListAdapter = new EventDayListAdapter(
-                getBaseContext(), R.layout.event_day_list_item, eventDayList
+            getBaseContext(), R.layout.event_day_list_item, eventDayList
         );
         eventDayListView.setAdapter(eventDayListAdapter);
         setEventsListLoaded();

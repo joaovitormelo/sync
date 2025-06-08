@@ -1,8 +1,11 @@
 package com.rubeusufv.sync.Features.Presentation.Adapters;
 
+import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 import static android.view.View.INVISIBLE;
 
 import android.content.Context;
+import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,9 +15,11 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.cardview.widget.CardView;
 
 import com.rubeusufv.sync.Features.Domain.Models.EventModel;
+import com.rubeusufv.sync.Features.Presentation.Screens.CreateEventActivity;
 import com.rubeusufv.sync.R;
 
 import java.util.ArrayList;
@@ -44,7 +49,7 @@ public class EventListAdapter extends ArrayAdapter<EventModel> {
         CardView googleIconWrapper = view.findViewById(R.id.googleIconWrapper);
 
         if (!eventModel.isRubeusImported()) {
-            eventDayItem.setCardBackgroundColor(view.getResources().getColor(R.color.grey));
+            //eventDayItem.setCardBackgroundColor(view.getResources().getColor(R.color.grey));
             rubeusIcon.setVisibility(INVISIBLE);
             rubeusIconWrapper.setVisibility(INVISIBLE);
         } else {
@@ -55,14 +60,32 @@ public class EventListAdapter extends ArrayAdapter<EventModel> {
                 case BLUE:
                     eventDayItem.setCardBackgroundColor(view.getResources().getColor(R.color.blue));
                     break;
-                default:
+                case YELLOW:
                     eventDayItem.setCardBackgroundColor(view.getResources().getColor(R.color.yellow));
+                    break;
+                case PURPLE:
+                    eventDayItem.setCardBackgroundColor(view.getResources().getColor(R.color.purple));
+                    break;
+                default:
+                    eventDayItem.setCardBackgroundColor(view.getResources().getColor(R.color.red));
+                    break;
             }
         }
         if (!eventModel.isGoogleImported()) {
             googleIcon.setVisibility(INVISIBLE);
             googleIconWrapper.setVisibility(INVISIBLE);
         }
+
+        AppCompatImageButton btn = view.findViewById(R.id.btnEditEvent);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent it = new Intent(getContext(), CreateEventActivity.class);
+                it.addFlags(FLAG_ACTIVITY_NEW_TASK);
+                it.putExtra("event", eventModel);
+                getContext().startActivity(it);
+            }
+        });
 
         return view;
     }

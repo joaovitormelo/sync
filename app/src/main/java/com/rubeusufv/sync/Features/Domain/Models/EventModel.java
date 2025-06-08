@@ -1,13 +1,19 @@
 package com.rubeusufv.sync.Features.Domain.Models;
 
 import android.content.ContentValues;
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import androidx.annotation.NonNull;
 
 import com.rubeusufv.sync.Features.Domain.Types.SyncDate;
 import com.rubeusufv.sync.Features.Domain.Types.Color;
 import com.rubeusufv.sync.Features.Domain.Types.ContactType;
 import com.rubeusufv.sync.Tools.Database.DatabaseEntry;
 
-public class EventModel {
+import java.io.Serializable;
+
+public class EventModel implements Serializable {
     private int id;
     private int userId;
     private String title;
@@ -23,6 +29,21 @@ public class EventModel {
     private ContactType contactType;
     private boolean googleImported;
     private int googleId;
+
+    protected EventModel(Parcel in) {
+        id = in.readInt();
+        userId = in.readInt();
+        title = in.readString();
+        description = in.readString();
+        startHour = in.readString();
+        endHour = in.readString();
+        allDay = in.readByte() != 0;
+        category = in.readString();
+        rubeusImported = in.readByte() != 0;
+        rubeusId = in.readInt();
+        googleImported = in.readByte() != 0;
+        googleId = in.readInt();
+    }
 
     public int getId() {
         return id;
@@ -144,6 +165,13 @@ public class EventModel {
         this.userId = userId;
     }
 
+    public static class CATEGORY {
+        public static final String TEST = "Prova";
+        public static final String REUNION = "Reunião";
+        public static final String LEISURE = "Lazer";
+        public static final String WORK = "Trabalho";
+    }
+
     public EventModel(){};
 
     public EventModel(
@@ -187,15 +215,16 @@ public class EventModel {
         this.googleImported = googleImported;
     }
 
-    public static Color fromCategory(String selectedCategory) {
+    public static Color getColorFromCategory(String selectedCategory) {
+        if (selectedCategory == null) return Color.BLUE;
         switch (selectedCategory) {
-            case "Prova":
+            case CATEGORY.TEST:
                 return Color.RED;
-            case "Reunião":
+            case CATEGORY.REUNION:
                 return Color.GREEN;
-            case "Lazer":
+            case CATEGORY.LEISURE:
                 return Color.YELLOW;
-            case "Trabalho":
+            case CATEGORY.WORK:
                 return Color.PURPLE;
             default:
                 return Color.BLUE;

@@ -1,8 +1,10 @@
 package com.rubeusufv.sync.Features.Presentation.Screens;
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -29,10 +31,12 @@ import com.rubeusufv.sync.Core.Exceptions.DatabaseException;
 import com.rubeusufv.sync.Core.Exceptions.UsecaseException;
 import com.rubeusufv.sync.Features.Domain.Usecases.Events.RegisterNewEventUsecase;
 import com.rubeusufv.sync.Core.Injector;
+import com.rubeusufv.sync.Features.Domain.Utils.DateParser;
 import com.rubeusufv.sync.R;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
@@ -57,6 +61,8 @@ public class CreateEventActivity extends AppCompatActivity {
     Drawable borderRed;
     // VARIÁVEIS
     Map<String, View[]> inputMap;
+    boolean isEditMode = false;
+    EventModel originalEvent;
     // CASOS DE USO
     RegisterNewEventUsecase registerNewEventUsecase;
 
@@ -67,13 +73,30 @@ public class CreateEventActivity extends AppCompatActivity {
         setContentView(R.layout.activity_create_task);
 
         initializeInstances();
-        configureDatePicker();
         configureTimePickerStart();
         configureTimePickerEnd();
         configureRepeatDropdown();
         configureCategoryDropdown();
+        configureDatePicker(null);
+        configureEditMode();
 
         RubeusApiClient.configurarCredenciais("7", "9e5199c5de1c58f31987f71dde804da8");
+    }
+
+    private void configureEditMode() {
+        Intent it = getIntent();
+        if (it.getSerializableExtra("event") == null) return;
+        EventModel event = (EventModel) it.getSerializableExtra("event");
+        Log.d("TESTE", "EVENT: " + event.getTitle());
+        isEditMode = true;
+        originalEvent = event;
+        loadFieldValues(event);
+    }
+
+    private void loadFieldValues(EventModel event) {
+        nameTask.setText(event.getTitle());
+        descriptionTask.setText(event.getDescription());
+        configureDatePicker(DateParser.fromSyncDate(event.getDate()));
     }
 
     private void initializeInstances() {
@@ -110,21 +133,35 @@ public class CreateEventActivity extends AppCompatActivity {
         inputMap.put("imported", new View[]{importToRubeusCheckbox, importToGoogleCheckbox});
     }
 
-    private void configureDatePicker() {
+    private void configureDatePicker(Date defaultDate) {
         // Criação do calendário e exibição na tela
-        datePicker = MaterialDatePicker
+        if (defaultDate != null) {
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(defaultDate);
+            datePicker = MaterialDatePicker
+                    .Builder
+                    .datePicker()
+                    .setTitleText("Escolha uma data")
+                    .setSelection(calendar.getTimeInMillis())
+                    .build();
+        } else {
+            datePicker = MaterialDatePicker
                 .Builder
                 .datePicker()
                 .setTitleText("Escolha uma data")
                 .build();
+        }
         dateButton.setOnClickListener(v -> datePicker.show(getSupportFragmentManager(), "DATE_PICKER"));
         datePicker.addOnPositiveButtonClickListener(selection -> {
             dateButton.setText(datePicker.getHeaderText());
-
             // Formatação para ser usado na intent
             Date date = new Date(selection);
-            eventDate = new SyncDate(date.getDate(), date.getMonth(), date.getYear());
+            eventDate = DateParser.dateToSyncDate(date);
         });
+        if (defaultDate != null) {
+            dateButton.setText(DateParser.formatDateForDatePicker(defaultDate));
+            eventDate = DateParser.dateToSyncDate(defaultDate);
+        }
     }
 
     private void configureTimePickerStart() {
@@ -173,7 +210,7 @@ public class CreateEventActivity extends AppCompatActivity {
 
     private void configureCategoryDropdown() {
         // Opções de categoria
-        String[] categoryOptions = {"Reunião", "Prova", "Lazer", "Trabalho"};
+        String[] categoryOptions = {"Selecione uma categoria", "Reunião", "Prova", "Lazer", "Trabalho"};
         ArrayAdapter<String> adapterCategory = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, categoryOptions);
         categoryDropdown.setAdapter(adapterCategory);
         categoryDropdown.setText("Selecione uma categoria", false);
@@ -181,11 +218,11 @@ public class CreateEventActivity extends AppCompatActivity {
         categoryDropdown.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Color eventColor = EventModel.fromCategory(categoryOptions[position]);
+                Color eventColor = EventModel.getColorFromCategory(categoryOptions[position]);
                 setEventColor(eventColor);
             }
         });
-        setEventColor(Color.WHITE);
+        setEventColor(EventModel.getColorFromCategory(categoryOptions[0]));
     }
 
     private void setEventColor(Color color) {
@@ -227,7 +264,10 @@ public class CreateEventActivity extends AppCompatActivity {
         String startTime = timeButtonStart.getText().toString();
         String endTime = timeButtonEnd.getText().toString();
         String selectedCategory = categoryDropdown.getText().toString();
-        Color eventColor = EventModel.fromCategory(selectedCategory);
+        if (selectedCategory.equals("Selecione uma categoria")) {
+            selectedCategory = null;
+        }
+        Color eventColor = EventModel.getColorFromCategory(selectedCategory);
         boolean allDay = allDayCheckbox.isChecked();
         boolean importToGoogle = importToGoogleCheckbox.isChecked();
         boolean importToRubeus = importToRubeusCheckbox.isChecked();
@@ -287,6 +327,7 @@ public class CreateEventActivity extends AppCompatActivity {
             ).show();
             View[] fields = inputMap.get(((ValidationException) error).getField());
             for (int i = 0; i < fields.length; i++) {
+                fields[i].setBackgroundTintList(null);
                 fields[i].setBackground(borderRed);
             }
         }
