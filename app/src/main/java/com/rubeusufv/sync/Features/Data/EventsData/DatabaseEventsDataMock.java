@@ -15,11 +15,12 @@ import java.util.stream.Collectors;
 
 public class DatabaseEventsDataMock implements EventsDataContract {
     ArrayList<EventModel> eventList;
+    int currentId = 3;
 
     public DatabaseEventsDataMock() {
         eventList = new ArrayList<EventModel>();
         EventModel e1 = EventModel.getMock();
-        e1.setId(3);
+        e1.setId(1);
         e1.setRubeusId(1);
         e1.setTitle("Aula 1");
         e1.setColor(Color.GREEN);
@@ -27,7 +28,7 @@ public class DatabaseEventsDataMock implements EventsDataContract {
         EventModel e2 = EventModel.getMock();
         e2.setTitle("Visita Gabriel");
         e2.setColor(Color.YELLOW);
-        e2.setId(4);
+        e2.setId(2);
         e2.setRubeusId(5);
 
         eventList.add(e1);
@@ -67,6 +68,7 @@ public class DatabaseEventsDataMock implements EventsDataContract {
             // Simulated delay
         }
 
+        event.setId(currentId++);
         eventList.add(event);
         return event;
     }
