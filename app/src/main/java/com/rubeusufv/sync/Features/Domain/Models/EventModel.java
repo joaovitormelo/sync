@@ -296,7 +296,7 @@ public class EventModel implements Serializable {
     public static EventModel getMock() {
         return new EventModel(
             1, "Evento 1", "Descrição", new SyncDate(07, 06, 2025), "09:00",
-            "10:00",false, Color.BLUE, "A", true,
+            "10:00",false, Color.BLUE, "Prova", true,
             false
         );
     }

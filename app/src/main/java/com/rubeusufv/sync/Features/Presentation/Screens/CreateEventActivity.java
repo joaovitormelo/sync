@@ -35,6 +35,8 @@ import com.rubeusufv.sync.Features.Domain.Utils.DateParser;
 import com.rubeusufv.sync.R;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -45,7 +47,7 @@ import java.util.Map;
 public class CreateEventActivity extends AppCompatActivity {
 
     // COMPONENTES
-    private TextView nameTask, dateTask, timeTask;
+    private TextView nameTask, headerText;
     private EditText descriptionTask;
     private MaterialButton dateButton, timeButtonStart, timeButtonEnd;
     private MaterialAutoCompleteTextView repeatDropdown, categoryDropdown;
@@ -53,6 +55,7 @@ public class CreateEventActivity extends AppCompatActivity {
     private String dateTaskString;
     private SyncDate eventDate;
     private MaterialDatePicker<Long> datePicker;
+    private MaterialTimePicker timePickerStart, timePickerEnd;
     CheckBox allDayCheckbox;
     CheckBox importToRubeusCheckbox;
     CheckBox importToGoogleCheckbox;
@@ -60,6 +63,7 @@ public class CreateEventActivity extends AppCompatActivity {
     Button saveButton, cancelButton;
     Drawable borderRed;
     // VARIÁVEIS
+    String[] categoryOptions = {"Selecione uma categoria", "Reunião", "Prova", "Lazer", "Trabalho"};
     Map<String, View[]> inputMap;
     boolean isEditMode = false;
     EventModel originalEvent;
@@ -72,9 +76,10 @@ public class CreateEventActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_task);
 
+        Date now = new Date();
         initializeInstances();
-        configureTimePickerStart();
-        configureTimePickerEnd();
+        configureTimePickerStart(now.getHours(), now.getMinutes());
+        configureTimePickerEnd(now.getHours(), now.getMinutes());
         configureRepeatDropdown();
         configureCategoryDropdown();
         configureDatePicker(null);
@@ -86,8 +91,8 @@ public class CreateEventActivity extends AppCompatActivity {
     private void configureEditMode() {
         Intent it = getIntent();
         if (it.getSerializableExtra("event") == null) return;
+        headerText.setText("Editar evento");
         EventModel event = (EventModel) it.getSerializableExtra("event");
-        Log.d("TESTE", "EVENT: " + event.getTitle());
         isEditMode = true;
         originalEvent = event;
         loadFieldValues(event);
@@ -97,13 +102,38 @@ public class CreateEventActivity extends AppCompatActivity {
         nameTask.setText(event.getTitle());
         descriptionTask.setText(event.getDescription());
         configureDatePicker(DateParser.fromSyncDate(event.getDate()));
+        setStartHourField(event.getStartHour());
+        setEndHourField(event.getEndHour());
+        allDayCheckbox.setChecked(event.isAllDay());
+        importToGoogleCheckbox.setChecked(event.isGoogleImported());
+        importToGoogleCheckbox.setEnabled(false);
+        importToRubeusCheckbox.setChecked(event.isRubeusImported());
+        importToRubeusCheckbox.setEnabled(false);
+        selectCategory(event.getCategory());
+    }
+
+    private void selectCategory(String category) {
+        categoryDropdown.setText(category, false);
+        setEventColor(EventModel.getColorFromCategory(category));
+    }
+
+    private void setStartHourField(String startHour) {
+        int[] startTime = DateParser.extractHourAndMinute(startHour);
+        configureTimePickerStart(startTime[0], startTime[1]);
+        timeButtonStart.setText(startHour);
+    }
+
+    private void setEndHourField(String endHour) {
+        int[] endTime = DateParser.extractHourAndMinute(endHour);
+        configureTimePickerEnd(endTime[0], endTime[1]);
+        timeButtonEnd.setText(endHour);
     }
 
     private void initializeInstances() {
+        headerText = findViewById(R.id.headerText);
         nameTask = findViewById(R.id.editTextTaskTitle);
         descriptionTask = findViewById(R.id.editTextTaskDescription);
         //dateTask = findViewById(R.id.textViewDate);
-        timeTask = findViewById(R.id.textViewTime);
         dateButton = findViewById(R.id.btnDatePicker);
         timeButtonStart = findViewById(R.id.btnTimePickerStart);
         timeButtonEnd = findViewById(R.id.btnTimePickerEnd);
@@ -164,12 +194,12 @@ public class CreateEventActivity extends AppCompatActivity {
         }
     }
 
-    private void configureTimePickerStart() {
+    private void configureTimePickerStart(int defaultHour, int defaultMinute) {
         //o horario inicial
-        MaterialTimePicker timePickerStart = new MaterialTimePicker.Builder()
+        timePickerStart = new MaterialTimePicker.Builder()
                 .setTimeFormat(TimeFormat.CLOCK_24H)
-                .setHour(12)
-                .setMinute(0)
+                .setHour(defaultHour)
+                .setMinute(defaultMinute)
                 .setTitleText("Escolha um horário")
                 .build();
         timeButtonStart.setOnClickListener(v -> timePickerStart.show(getSupportFragmentManager(), "TIME_PICKER_START"));
@@ -181,12 +211,12 @@ public class CreateEventActivity extends AppCompatActivity {
         });
     }
 
-    private void configureTimePickerEnd() {
+    private void configureTimePickerEnd(int defaultHour, int defaultMinute) {
         // o horario final
-        MaterialTimePicker timePickerEnd = new MaterialTimePicker.Builder()
+        timePickerEnd = new MaterialTimePicker.Builder()
                 .setTimeFormat(TimeFormat.CLOCK_24H)
-                .setHour(13)
-                .setMinute(0)
+                .setHour(defaultHour)
+                .setMinute(defaultMinute)
                 .setTitleText("Escolha horário de fim")
                 .build();
         timeButtonEnd.setOnClickListener(v -> timePickerEnd.show(getSupportFragmentManager(), "TIME_PICKER_END"));
@@ -210,10 +240,8 @@ public class CreateEventActivity extends AppCompatActivity {
 
     private void configureCategoryDropdown() {
         // Opções de categoria
-        String[] categoryOptions = {"Selecione uma categoria", "Reunião", "Prova", "Lazer", "Trabalho"};
         ArrayAdapter<String> adapterCategory = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, categoryOptions);
         categoryDropdown.setAdapter(adapterCategory);
-        categoryDropdown.setText("Selecione uma categoria", false);
         categoryDropdown.setKeyListener(null);
         categoryDropdown.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -222,7 +250,7 @@ public class CreateEventActivity extends AppCompatActivity {
                 setEventColor(eventColor);
             }
         });
-        setEventColor(EventModel.getColorFromCategory(categoryOptions[0]));
+        selectCategory(categoryOptions[0]);
     }
 
     private void setEventColor(Color color) {

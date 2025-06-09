@@ -17,7 +17,7 @@ public class DateParser {
     public static Date fromSyncDate(SyncDate syncDate) {
         if (syncDate == null) return null;
         Date date = new Date();
-        date.setDate(syncDate.getDay() - 1);
+        date.setDate(syncDate.getDay());
         date.setMonth(syncDate.getMonth() - 1);
         date.setYear(syncDate.getYear() - 1900);
         date.setHours(0);
@@ -38,5 +38,12 @@ public class DateParser {
 
     public static SyncDate dateToSyncDate(Date date) {
         return new SyncDate(date.getDate() + 1, date.getMonth() + 1, date.getYear());
+    }
+
+    public static int[] extractHourAndMinute(String timeStr) {
+        String[] parts = timeStr.split(":");
+        int hour = Integer.parseInt(parts[0]);
+        int minute = Integer.parseInt(parts[1]);
+        return new int[] { hour, minute };
     }
 }

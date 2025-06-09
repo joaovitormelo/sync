@@ -139,6 +139,7 @@
                     android:textSize="16sp"
                     android:backgroundTint="@android:color/transparent" />
                 <TextView
+                    android:id="@+id/textViewTimeStart"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/space"
@@ -154,7 +155,7 @@
                     android:textSize="16sp"
                     android:backgroundTint="@android:color/transparent" />
                 <TextView
-                    android:id="@+id/textViewTime"
+                    android:id="@+id/textViewTimeEnd"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
