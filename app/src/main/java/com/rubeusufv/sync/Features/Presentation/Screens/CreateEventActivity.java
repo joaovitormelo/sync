@@ -29,6 +29,7 @@ import com.rubeusufv.sync.Features.Domain.Types.Color;
 import com.rubeusufv.sync.Features.Domain.Types.SyncDate;
 import com.rubeusufv.sync.Core.Exceptions.DatabaseException;
 import com.rubeusufv.sync.Core.Exceptions.UsecaseException;
+import com.rubeusufv.sync.Features.Domain.Usecases.Events.EditEventUsecase;
 import com.rubeusufv.sync.Features.Domain.Usecases.Events.RegisterNewEventUsecase;
 import com.rubeusufv.sync.Core.Injector;
 import com.rubeusufv.sync.Features.Domain.Utils.DateParser;
@@ -69,7 +70,7 @@ public class CreateEventActivity extends AppCompatActivity {
     EventModel originalEvent;
     // CASOS DE USO
     RegisterNewEventUsecase registerNewEventUsecase;
-
+    EditEventUsecase editEventUsecase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,8 +85,14 @@ public class CreateEventActivity extends AppCompatActivity {
         configureCategoryDropdown();
         configureDatePicker(null);
         configureEditMode();
+        initializeUsecases();
 
         RubeusApiClient.configurarCredenciais("7", "9e5199c5de1c58f31987f71dde804da8");
+    }
+
+    private void initializeUsecases() {
+        registerNewEventUsecase = Injector.getInstance().getRegisterNewEventUsecase();
+        editEventUsecase = Injector.getInstance().getEditEventUsecase();
     }
 
     private void configureEditMode() {
@@ -147,7 +154,6 @@ public class CreateEventActivity extends AppCompatActivity {
         saveButton = findViewById(R.id.btnSave);
         cancelButton = findViewById(R.id.btnCancel);
         borderRed = getResources().getDrawable(R.drawable.border_red);
-        registerNewEventUsecase = Injector.getInstance().getRegisterNewEventUsecase();
         initializeInputMap();
     }
 
@@ -281,7 +287,7 @@ public class CreateEventActivity extends AppCompatActivity {
         setCreateEventLoading();
         EventModel newEvent = buildEventModel();
         new Thread(() -> {
-            callCreateEventUsecase(newEvent);
+            callUsecase(newEvent);
         }).start();
     }
 
@@ -325,16 +331,29 @@ public class CreateEventActivity extends AppCompatActivity {
         cancelButton.setEnabled(true);
     }
 
-    private void callCreateEventUsecase(EventModel newEvent) {
+    private void callUsecase(EventModel newEvent) {
         // Chamada ao caso de uso
         try {
-            registerNewEventUsecase.registerNewEvent(newEvent);
+            if (isEditMode) {
+                callEditUsecase(newEvent);
+            } else {
+                callCreateUsecase(newEvent);
+            }
             runOnUiThread(this::finishCreateEvent);
         } catch(Exception error) {
             runOnUiThread(() -> {
                 handleCreateEventError(error);
             });
         }
+    }
+
+    private void callEditUsecase(EventModel event) {
+        originalEvent.updateFromEditedEvent(event);
+        editEventUsecase.editEvent(originalEvent);
+    }
+
+    private void callCreateUsecase(EventModel newEvent) {
+        registerNewEventUsecase.registerNewEvent(newEvent);
     }
 
     private void resetAllFields() {
@@ -349,10 +368,10 @@ public class CreateEventActivity extends AppCompatActivity {
     private void handleCreateEventError(Exception error) {
         setCreateEventLoaded();
         resetAllFields();
-        if (error instanceof ValidationException) {
-            Toast.makeText(
+        Toast.makeText(
                 getBaseContext(), error.getMessage(), Toast.LENGTH_SHORT
-            ).show();
+        ).show();
+        if (error instanceof ValidationException) {
             View[] fields = inputMap.get(((ValidationException) error).getField());
             for (int i = 0; i < fields.length; i++) {
                 fields[i].setBackgroundTintList(null);

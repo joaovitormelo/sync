@@ -292,12 +292,24 @@ public class EventModel implements Serializable {
         return values;
     }
 
-
     public static EventModel getMock() {
         return new EventModel(
             1, "Evento 1", "Descrição", new SyncDate(07, 06, 2025), "09:00",
             "10:00",false, Color.BLUE, "Prova", true,
             false
         );
+    }
+
+    public void updateFromEditedEvent(
+        EventModel editedEvent
+    ) {
+        setTitle(editedEvent.getTitle());
+        setDescription(editedEvent.getDescription());
+        setDate(editedEvent.getDate());
+        setStartHour(editedEvent.getStartHour());
+        setEndHour(editedEvent.getEndHour());
+        setAllDay(editedEvent.isAllDay());
+        setCategory(editedEvent.getCategory());
+        setColor(editedEvent.getColor());
     }
 }
