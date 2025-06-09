@@ -45,6 +45,23 @@ public class SQLiteDatabaseAdapter implements DatabaseContract {
                     "googleImported BOOLEAN, " +
                     "googleId INTEGER, " +
                     "FOREIGN KEY (userId) REFERENCES User(id));",
+
+            "INSERT INTO User (tokenRubeus, idRubeus, idGoogle, name, email, password) VALUES " +
+                    "('token123', 1001, 2001, 'Amanda Silva', 'amanda@example.com', 'mandinha123')," +
+                    "('token456', 1002, 2002, 'Bruno Costa', 'bruno@example.com', 'bruno456')," +
+                    "('token789', 1003, 2003, 'Carla Souza', 'carla@example.com', 'carla789')," +
+                    "('tokenABC', 1004, 2004, 'Daniel Lima', 'daniel@example.com', 'danielABC')," +
+                    "('tokenXYZ', 1005, 2005, 'Eduarda Melo', 'eduarda@example.com', 'eduardaXYZ');",
+
+            "INSERT INTO Event (" +
+                    "userId, title, description, syncDate, startHour, endHour, " +
+                    "allDay, color, category, rubeusImported, rubeusId, " +
+                    "contactType, googleImported, googleId) VALUES " +
+                    "(1, 'Reunião com equipe', 'Reunião semanal de alinhamento', '2025-06-08', '09:00', '10:00', 0, 'BLUE', 'Work', 1, 501, 'ACTIVE', 1, 601)," +
+                    "(2, 'Consulta médica', 'Consulta de rotina no clínico geral', '2025-06-10', '14:00', '15:00', 0, 'GREEN', 'Health', 0, 502, 'NONE', 1, 602)," +
+                    "(3, 'Aula de inglês', 'Aula com foco em conversação', '2025-06-12', '18:00', '19:30', 0, 'YELLOW', 'Study', 1, 503, 'RECEPTIVE', 0, 603)," +
+                    "(4, 'DevMob', 'Dia todo reservado para muito mobile', '2025-06-20', '00:00', '23:59', 1, 'RED', 'Personal', 0, 504, 'NONE', 0, 604)," +
+                    "(5, 'Hackathon UTech', 'Participação no evento de programação', '2025-06-15', '08:00', '20:00', 0, 'PURPLE', 'Event', 1, 505, 'ACTIVE', 1, 605);"
     };
 
     private SQLiteDatabaseAdapter() {
