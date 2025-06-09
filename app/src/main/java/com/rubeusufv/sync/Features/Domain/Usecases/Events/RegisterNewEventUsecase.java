@@ -31,53 +31,11 @@ public class RegisterNewEventUsecase {
     }
     public void registerNewEvent(EventModel event) throws DatabaseException,
             RubeusException, GoogleException, ValidationException {
-        validateFields(event);
+        EventModel.validateEventModel(event);
         UserModel currentUser = sessionManager.getSessionUser();
         createInGoogle(event, currentUser);
         createInRubeus(event, currentUser);
         createInDatabase(event, currentUser);
-    }
-
-    private void validateFields(EventModel event) {
-        if (event.getTitle().isEmpty()) {
-            throw new ValidationException("title", "O título não pode ser vazio!");
-        }
-        if (event.getDescription().isEmpty()) {
-            throw new ValidationException("description", "A descrição não pode ser vazia!");
-        }
-        if (event.getDate() == null) {
-            throw new ValidationException("date", "A data não pode ser vazia!");
-        }
-        Log.d("TESTE", "HORA DE INÍCIO: " + event.getStartHour());
-        Log.d("TESTE", "HORA DE FIM: " + event.getEndHour());
-        Log.d("TESTE", "CATEGORIA: " + event.getCategory());
-        if (event.getStartHour().isEmpty()) {
-            throw new ValidationException("startHour", "A hora de início não pode ser vazia!");
-        }
-        if (!ValidationHelper.validateHour(event.getStartHour())) {
-            throw new ValidationException("startHour", "Informe uma hora de início válida!");
-        }
-        if (event.getEndHour().isEmpty()) {
-            throw new ValidationException("endHour", "A hora de fim não pode ser vazia!");
-        }
-        if (!ValidationHelper.validateHour(event.getEndHour())) {
-            throw new ValidationException("endHour", "Informe uma hora de fim válida!");
-        }
-        if (event.getCategory() != null && !checkValidValueForCategory(event.getCategory())) {
-            throw new ValidationException("category", "Informe uma categoria válida!");
-        }
-        if (!event.isGoogleImported() && !event.isRubeusImported()) {
-            throw new ValidationException("imported", "O evento deve ser criado em pelo menos um dos repositórios!");
-        }
-    }
-
-    private boolean checkValidValueForCategory(String category) {
-        return (
-            category.equals(EventModel.CATEGORY.TEST)||
-            category.equals(EventModel.CATEGORY.REUNION) ||
-            category.equals(EventModel.CATEGORY.LEISURE) ||
-            category.equals(EventModel.CATEGORY.WORK)
-        );
     }
 
     private void createInGoogle(EventModel event, UserModel currentUser) {

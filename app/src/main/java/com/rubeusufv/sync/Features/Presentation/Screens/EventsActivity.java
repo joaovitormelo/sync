@@ -1,5 +1,8 @@
 package com.rubeusufv.sync.Features.Presentation.Screens;
 
+import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
+
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.method.TextKeyListener;
@@ -26,16 +29,20 @@ import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.rubeusufv.sync.Core.Injector;
+import com.rubeusufv.sync.Core.Session.SessionManagerContract;
 import com.rubeusufv.sync.Features.Data.Utils.TestApiRubeus.ContatoDados;
 import com.rubeusufv.sync.Features.Data.Utils.TestApiRubeus.ContatoRequest;
 import com.rubeusufv.sync.Features.Data.Utils.TestApiRubeus.ContatoResponse;
 import com.rubeusufv.sync.Features.Data.Utils.TestApiRubeus.RubeusAPI;
 import com.rubeusufv.sync.Features.Data.Utils.TestApiRubeus.RubeusApiClient;
 import com.rubeusufv.sync.Features.Domain.Models.EventModel;
+import com.rubeusufv.sync.Features.Domain.Models.UserModel;
 import com.rubeusufv.sync.Features.Domain.Types.Month;
 import com.rubeusufv.sync.Features.Domain.Types.SyncDate;
+import com.rubeusufv.sync.Features.Domain.Usecases.Events.ExcludeEventUsecase;
 import com.rubeusufv.sync.Features.Domain.Usecases.Events.ViewEventsUsecase;
 import com.rubeusufv.sync.Features.Domain.Utils.DateParser;
+import com.rubeusufv.sync.Features.Presentation.Adapters.CallbackEventListItem;
 import com.rubeusufv.sync.Features.Presentation.Adapters.EventDayListAdapter;
 import com.rubeusufv.sync.Features.Presentation.Types.EventDayListItem;
 import com.rubeusufv.sync.R;
@@ -63,8 +70,10 @@ public class EventsActivity extends AppCompatActivity {
     ArrayList<EventModel> eventModelList;
     ArrayList<EventDayListItem> eventDayList;
     Map<SyncDate, ArrayList<EventModel>> eventsPerDayMap;
-    //VIEWS
+    //USECASES
     ViewEventsUsecase viewEventsUsecase;
+    ExcludeEventUsecase excludeEventUsecase;
+    SessionManagerContract sessionManager;
     //COMPONENTES
     ListView eventDayListView;
     ProgressBar loadingEventsBar;
@@ -83,13 +92,15 @@ public class EventsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_events);
 
+        viewEventsUsecase = Injector.getInstance().getViewEventsUsecase();
+        excludeEventUsecase = Injector.getInstance().getExcludeEventUsecase();
+        sessionManager = Injector.getInstance().getSessionManager();
+
         eventDayListView = findViewById(R.id.eventDayList);
         loadingEventsBar = findViewById(R.id.loadingEventsBar);
         configureActionBar();
         configureDrawer();
         configureFilterDropdowns();
-
-        viewEventsUsecase = Injector.getInstance().getViewEventsUsecase();
 
         // Teste da api da rubeus
         //buscarContatoPorId("21");
@@ -145,7 +156,12 @@ public class EventsActivity extends AppCompatActivity {
 
         configureActionBar();
 
+        UserModel sessionUser = sessionManager.getSessionUser();
         NavigationView navigation = findViewById(R.id.navigation_view);
+        Menu menu = navigation.getMenu();
+        MenuItem userNameText = menu.findItem(R.id.nav_name);
+        userNameText.setTitle(sessionUser.getName());
+
         navigation.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem item) {
@@ -217,10 +233,47 @@ public class EventsActivity extends AppCompatActivity {
         }
 
         eventDayListAdapter = new EventDayListAdapter(
-            getBaseContext(), R.layout.event_day_list_item, eventDayList
+            getBaseContext(), R.layout.event_day_list_item, eventDayList,
+            new CallbackEventListItem() {
+                @Override
+                public void onDeleteEvent(EventModel event) {
+                    setEventsListLoading();
+                    new Thread(() -> {
+                        callDeleteEventUsecase(event);
+                    }).start();
+                }
+
+                @Override
+                public void onEditEvent(EventModel event) {
+                    Intent it = new Intent(getBaseContext(), CreateEventActivity.class);
+                    it.addFlags(FLAG_ACTIVITY_NEW_TASK);
+                    it.putExtra("event", event);
+                    startActivity(it);
+                }
+            }, this
         );
         eventDayListView.setAdapter(eventDayListAdapter);
         setEventsListLoaded();
+    }
+
+    private void callDeleteEventUsecase(EventModel event) {
+        try {
+            excludeEventUsecase.excludeEvent(event, true, true);
+            runOnUiThread(this::finishExcludeEvent);
+        } catch(Exception error) {
+            runOnUiThread(() -> {
+                handleErrorExcludeEvent(error);
+            });
+        }
+    }
+
+    void finishExcludeEvent() {
+        loadEventList();
+    }
+
+    void handleErrorExcludeEvent(Exception error) {
+        setEventsListLoaded();
+        Toast.makeText(this, error.getMessage(), Toast.LENGTH_SHORT).show();
     }
 
     // Teste da api da rubeus

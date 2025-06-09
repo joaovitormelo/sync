@@ -30,9 +30,7 @@ public class EditEventUsecase {
         if (event.getId() == 0) {
             throw new UsecaseException("O evento deve possuir um ID no banco de dados!");
         }
-        if (!event.isGoogleImported() && !event.isRubeusImported()) {
-            throw new UsecaseException("O evento deve permanecer criado em pelo menos um dos repositórios de dados!");
-        }
+        EventModel.validateEventModel(event);
         UserModel currentUser = sessionManager.getSessionUser();
         updateInGoogle(event, currentUser);
         updateInRubeus(event, currentUser);

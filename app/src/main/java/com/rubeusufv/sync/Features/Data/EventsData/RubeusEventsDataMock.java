@@ -9,12 +9,12 @@ public class RubeusEventsDataMock implements EventsDataContract {
     @Override
     public ArrayList<EventModel> viewEvents(UserModel user, int year, int month) {
         //return new ArrayList<EventModel>();
-        EventModel e1 = EventModel.getMock();
+       /* EventModel e1 = EventModel.getMock();
         e1.setRubeusImported(true);
         e1.setId(1);
-        e1.setRubeusId(2);
+        e1.setRubeusId(2);*/
         ArrayList<EventModel> eventModelList = new ArrayList<EventModel>();
-        eventModelList.add(e1);
+        //eventModelList.add(e1);
         return eventModelList;
     }
 

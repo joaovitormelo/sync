@@ -6,9 +6,11 @@ import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
 
+import com.rubeusufv.sync.Core.Exceptions.ValidationException;
 import com.rubeusufv.sync.Features.Domain.Types.SyncDate;
 import com.rubeusufv.sync.Features.Domain.Types.Color;
 import com.rubeusufv.sync.Features.Domain.Types.ContactType;
+import com.rubeusufv.sync.Features.Domain.Utils.ValidationHelper;
 import com.rubeusufv.sync.Tools.Database.DatabaseEntry;
 
 import java.io.Serializable;
@@ -285,7 +287,11 @@ public class EventModel implements Serializable {
         values.put("category", this.category);
         values.put("rubeusImported", this.rubeusImported);
         values.put("rubeusId", this.rubeusId);
-        values.put("contactType", this.contactType.toString());
+        String contactTypeStr = null;
+        if (this.contactType != null) {
+            contactTypeStr = this.contactType.toString();
+        }
+        values.put("contactType", contactTypeStr);
         values.put("googleImported", this.googleImported);
         values.put("googleId", this.googleId);
 
@@ -311,5 +317,65 @@ public class EventModel implements Serializable {
         setAllDay(editedEvent.isAllDay());
         setCategory(editedEvent.getCategory());
         setColor(editedEvent.getColor());
+    }
+
+    public static void validateEventModel(EventModel event) {
+        if (event.getTitle().isEmpty()) {
+            throw new ValidationException("title", "O título não pode ser vazio!");
+        }
+        if (event.getDescription().isEmpty()) {
+            throw new ValidationException("description", "A descrição não pode ser vazia!");
+        }
+        if (event.getDate() == null) {
+            throw new ValidationException("date", "A data não pode ser vazia!");
+        }
+        if (event.getStartHour().isEmpty()) {
+            throw new ValidationException("startHour", "A hora de início não pode ser vazia!");
+        }
+        if (!ValidationHelper.validateHour(event.getStartHour())) {
+            throw new ValidationException("startHour", "Informe uma hora de início válida!");
+        }
+        if (event.getEndHour().isEmpty()) {
+            throw new ValidationException("endHour", "A hora de fim não pode ser vazia!");
+        }
+        if (!isStartHourBeforeOrEqualToEndHour(event.getStartHour(), event.getEndHour())) {
+            throw new ValidationException("endHour", "A hora de fim não pode ser anterior à hora de início!");
+        }
+        if (!ValidationHelper.validateHour(event.getEndHour())) {
+            throw new ValidationException("endHour", "Informe uma hora de fim válida!");
+        }
+        if (event.getCategory() != null && !checkValidValueForCategory(event.getCategory())) {
+            throw new ValidationException("category", "Informe uma categoria válida!");
+        }
+        if (!event.isGoogleImported() && !event.isRubeusImported()) {
+            throw new ValidationException("imported", "O evento deve ser criado em pelo menos um dos repositórios!");
+        }
+    }
+
+    private static boolean checkValidValueForCategory(String category) {
+        return (
+                category.equals(EventModel.CATEGORY.TEST)||
+                        category.equals(EventModel.CATEGORY.REUNION) ||
+                        category.equals(EventModel.CATEGORY.LEISURE) ||
+                        category.equals(EventModel.CATEGORY.WORK)
+        );
+    }
+
+    private static boolean isStartHourBeforeOrEqualToEndHour(String start, String end) {
+        String[] startParts = start.split(":");
+        String[] endParts = end.split(":");
+
+        int startHour = Integer.parseInt(startParts[0]);
+        int startMinute = Integer.parseInt(startParts[1]);
+        int endHour = Integer.parseInt(endParts[0]);
+        int endMinute = Integer.parseInt(endParts[1]);
+
+        if (startHour < endHour) {
+            return true;
+        } else if (startHour == endHour) {
+            return startMinute <= endMinute;
+        } else {
+            return false;
+        }
     }
 }

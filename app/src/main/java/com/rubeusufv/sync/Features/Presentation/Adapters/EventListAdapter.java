@@ -3,6 +3,8 @@ package com.rubeusufv.sync.Features.Presentation.Adapters;
 import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 import static android.view.View.INVISIBLE;
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
@@ -25,8 +27,17 @@ import com.rubeusufv.sync.R;
 import java.util.ArrayList;
 
 public class EventListAdapter extends ArrayAdapter<EventModel> {
-    public EventListAdapter(@NonNull Context context, int resource, @NonNull ArrayList<EventModel> objects) {
+    private CallbackEventListItem callback;
+    private Activity activity;
+
+    public EventListAdapter(
+            @NonNull Context context, int resource,
+            @NonNull ArrayList<EventModel> objects,
+            CallbackEventListItem callback,
+            Activity activity) {
         super(context, resource, objects);
+        this.callback = callback;
+        this.activity = activity;
     }
 
     @NonNull
@@ -76,14 +87,28 @@ public class EventListAdapter extends ArrayAdapter<EventModel> {
             googleIconWrapper.setVisibility(INVISIBLE);
         }
 
-        AppCompatImageButton btn = view.findViewById(R.id.btnEditEvent);
-        btn.setOnClickListener(new View.OnClickListener() {
+        AppCompatImageButton editBtn = view.findViewById(R.id.btnEditEvent);
+        editBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent it = new Intent(getContext(), CreateEventActivity.class);
-                it.addFlags(FLAG_ACTIVITY_NEW_TASK);
-                it.putExtra("event", eventModel);
-                getContext().startActivity(it);
+                callback.onEditEvent(eventModel);
+            }
+        });
+
+        AppCompatImageButton deleteBtn = view.findViewById(R.id.btnDeleteEvent);
+        deleteBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new AlertDialog.Builder(activity)
+                    .setTitle("Confirmar")
+                    .setMessage("Tem certeza de que quer excluir o evento?")
+                    .setPositiveButton("Sim", (dialog, which) -> {
+                        callback.onDeleteEvent(eventModel);
+                    })
+                    .setNegativeButton("Não", (dialog, which) -> {
+                        dialog.dismiss();
+                    })
+                    .show();
             }
         });
 

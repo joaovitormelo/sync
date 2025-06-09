@@ -140,7 +140,7 @@
                         app:cardElevation="2dp">
 
                         <androidx.appcompat.widget.AppCompatImageButton
-                            android:id="@+id/button2"
+                            android:id="@+id/btnDeleteEvent"
                             android:layout_margin="0dp"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"

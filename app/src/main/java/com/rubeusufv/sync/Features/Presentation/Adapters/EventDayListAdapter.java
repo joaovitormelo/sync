@@ -1,5 +1,6 @@
 package com.rubeusufv.sync.Features.Presentation.Adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,9 +20,18 @@ import java.util.ArrayList;
 
 public class EventDayListAdapter extends ArrayAdapter<EventDayListItem> {
     EventListAdapter eventListAdapter;
+    private CallbackEventListItem callback;
+    private Activity activity;
 
-    public EventDayListAdapter(@NonNull Context context, int resource, @NonNull ArrayList<EventDayListItem> objects) {
+    public EventDayListAdapter(
+        @NonNull Context context, int resource,
+        @NonNull ArrayList<EventDayListItem> objects,
+        CallbackEventListItem callback,
+        Activity activity
+    ) {
         super(context, resource, objects);
+        this.callback = callback;
+        this.activity = activity;
     }
 
     @NonNull
@@ -33,7 +43,8 @@ public class EventDayListAdapter extends ArrayAdapter<EventDayListItem> {
         }
         ListView eventListView = view.findViewById(R.id.eventModelList);
         eventListAdapter = new EventListAdapter(
-                view.getContext(), R.layout.event_list_item, eventDay.getEventList()
+            getContext(), R.layout.event_list_item, eventDay.getEventList(),
+                callback, activity
         );
         setListViewHeightBasedOnChildren(eventListView);
         eventListView.setAdapter(eventListAdapter);

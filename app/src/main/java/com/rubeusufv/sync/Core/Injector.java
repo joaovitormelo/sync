@@ -4,6 +4,7 @@ import com.rubeusufv.sync.Core.Session.SessionManagerContract;
 import com.rubeusufv.sync.Core.Session.SessionManagerMock;
 import com.rubeusufv.sync.Features.Data.AuthData.AuthDataContract;
 import com.rubeusufv.sync.Features.Data.AuthData.AuthDataMock;
+import com.rubeusufv.sync.Features.Data.EventsData.EventsData;
 import com.rubeusufv.sync.Features.Data.EventsData.EventsDataContract;
 import com.rubeusufv.sync.Features.Data.EventsData.DatabaseEventsDataMock;
 import com.rubeusufv.sync.Features.Data.EventsData.GoogleEventsDataMock;
@@ -98,4 +99,5 @@ public final class Injector {
         return this.importEventListToRepositoryUsecase;
     }
     public EnterWithoutLoginUsecase getEnterWithoutLoginUsecase() {return this.enterWithoutLoginUsecase;}
+    public SessionManagerContract getSessionManager() {return this.sessionManager;}
 }

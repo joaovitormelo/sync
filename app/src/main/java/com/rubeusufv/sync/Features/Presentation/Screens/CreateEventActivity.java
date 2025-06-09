@@ -192,6 +192,7 @@ public class CreateEventActivity extends AppCompatActivity {
             dateButton.setText(datePicker.getHeaderText());
             // Formatação para ser usado na intent
             Date date = new Date(selection);
+            date.setDate(date.getDate() + 1);
             eventDate = DateParser.dateToSyncDate(date);
         });
         if (defaultDate != null) {

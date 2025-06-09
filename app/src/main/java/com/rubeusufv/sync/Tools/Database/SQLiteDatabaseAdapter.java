@@ -72,7 +72,8 @@ public class SQLiteDatabaseAdapter implements DatabaseContract {
 
     @Override
     public void insert(String table, ContentValues values) throws DatabaseException {
-        db.insert(table, null, values);
+        long id = db.insertOrThrow(table, null, values);
+        Log.d("TESTE", "INSERTION ID: " + id);
     }
 
     @Override

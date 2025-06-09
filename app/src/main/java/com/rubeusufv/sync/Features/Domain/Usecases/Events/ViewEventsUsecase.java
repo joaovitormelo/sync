@@ -77,9 +77,10 @@ public class ViewEventsUsecase {
                             currentUser, outsideEvent
                     );
                 } catch(Exception error) {
-                    throw new DatabaseException(
+                    throw error;
+                    /*throw new DatabaseException(
                             "Não foi possível criar evento!", DevTools.getDetailsFromError(error)
-                    );
+                    );*/
                 }
                 localEvents.add(newEventModel);
             }
