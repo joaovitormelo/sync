@@ -22,6 +22,7 @@ import androidx.cardview.widget.CardView;
 
 import com.rubeusufv.sync.Features.Domain.Models.EventModel;
 import com.rubeusufv.sync.Features.Presentation.Screens.CreateEventActivity;
+import com.rubeusufv.sync.Features.Presentation.Screens.showDetails;
 import com.rubeusufv.sync.R;
 
 import java.util.ArrayList;
@@ -47,6 +48,7 @@ public class EventListAdapter extends ArrayAdapter<EventModel> {
         if (view == null){
             view = LayoutInflater.from(getContext()).inflate(R.layout.event_list_item, parent, false);
         }
+
         TextView listName = view.findViewById(R.id.eventlistName);
         TextView listTime = view.findViewById(R.id.eventListTime);
         String time = eventModel.getStartHour() + " - " + eventModel.getEndHour();
@@ -60,7 +62,6 @@ public class EventListAdapter extends ArrayAdapter<EventModel> {
         CardView googleIconWrapper = view.findViewById(R.id.googleIconWrapper);
 
         if (!eventModel.isRubeusImported()) {
-            //eventDayItem.setCardBackgroundColor(view.getResources().getColor(R.color.grey));
             rubeusIcon.setVisibility(INVISIBLE);
             rubeusIconWrapper.setVisibility(INVISIBLE);
         } else {
@@ -109,6 +110,16 @@ public class EventListAdapter extends ArrayAdapter<EventModel> {
                         dialog.dismiss();
                     })
                     .show();
+            }
+        });
+
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent it = new Intent(getContext(), showDetails.class);
+                it.putExtra("event", eventModel);
+                it.addFlags(FLAG_ACTIVITY_NEW_TASK);
+                getContext().startActivity(it);
             }
         });
 

@@ -25,6 +25,7 @@ public class SQLiteDatabaseAdapter implements DatabaseContract {
                     "idRubeus INTEGER, " +
                     "idGoogle INTEGER, " +
                     "name TEXT NOT NULL, " +
+                    "email TEXT NOT NULL UNIQUE, " +
                     "password TEXT NOT NULL);",
 
             "CREATE TABLE Event (" +
@@ -43,7 +44,24 @@ public class SQLiteDatabaseAdapter implements DatabaseContract {
                     "contactType TEXT, " +
                     "googleImported BOOLEAN, " +
                     "googleId INTEGER, " +
-                    "FOREIGN KEY (userId) REFERENCES User(id));"
+                    "FOREIGN KEY (userId) REFERENCES User(id));",
+
+            "INSERT INTO User (tokenRubeus, idRubeus, idGoogle, name, email, password) VALUES " +
+                    "('token123', 1001, 2001, 'Amanda Silva', 'amanda@example.com', 'mandinha123')," +
+                    "('token456', 1002, 2002, 'Bruno Costa', 'bruno@example.com', 'bruno456')," +
+                    "('token789', 1003, 2003, 'Carla Souza', 'carla@example.com', 'carla789')," +
+                    "('tokenABC', 1004, 2004, 'Daniel Lima', 'daniel@example.com', 'danielABC')," +
+                    "('tokenXYZ', 1005, 2005, 'Eduarda Melo', 'eduarda@example.com', 'eduardaXYZ');",
+
+            "INSERT INTO Event (" +
+                    "userId, title, description, syncDate, startHour, endHour, " +
+                    "allDay, color, category, rubeusImported, rubeusId, " +
+                    "contactType, googleImported, googleId) VALUES " +
+                    "(1, 'Reunião com equipe', 'Reunião semanal de alinhamento', '2025-06-08', '09:00', '10:00', 0, 'BLUE', 'Work', 1, 501, 'ACTIVE', 1, 601)," +
+                    "(2, 'Consulta médica', 'Consulta de rotina no clínico geral', '2025-06-10', '14:00', '15:00', 0, 'GREEN', 'Health', 0, 502, 'NONE', 1, 602)," +
+                    "(3, 'Aula de inglês', 'Aula com foco em conversação', '2025-06-12', '18:00', '19:30', 0, 'YELLOW', 'Study', 1, 503, 'RECEPTIVE', 0, 603)," +
+                    "(4, 'DevMob', 'Dia todo reservado para muito mobile', '2025-06-20', '00:00', '23:59', 1, 'RED', 'Personal', 0, 504, 'NONE', 0, 604)," +
+                    "(5, 'Hackathon UTech', 'Participação no evento de programação', '2025-06-15', '08:00', '20:00', 0, 'PURPLE', 'Event', 1, 505, 'ACTIVE', 1, 605);"
     };
 
     private SQLiteDatabaseAdapter() {
@@ -94,7 +112,7 @@ public class SQLiteDatabaseAdapter implements DatabaseContract {
                     orderBy              // ORDER BY
             );
 
-            Log.i("DATABASE", "Do a select and returned [" + cursor.getCount() + "] registers.");
+            Log.i("BANCO_DADOS", "Select retornou [" + cursor.getCount() + "] registros.");
 
             while (cursor.moveToNext()) {
                 DatabaseEntry entry = DatabaseEntry.fromCursor(cursor);
@@ -102,7 +120,7 @@ public class SQLiteDatabaseAdapter implements DatabaseContract {
             }
 
         } catch (Exception e) {
-            throw new DatabaseException("Select failed", "Something went wrong in table: " + table);
+            throw new DatabaseException("Select falhou", "Aconteceu algo errado com a tabela " + table);
         } finally {
             if (cursor != null) cursor.close();
         }
@@ -112,13 +130,13 @@ public class SQLiteDatabaseAdapter implements DatabaseContract {
     @Override
     public void update(String table, ContentValues values, String where, String[] whereArgs) throws DatabaseException {
         int count = db.update(table, values, where, whereArgs);
-        Log.i("DATABASE", "Updated [" + count + "] registers");
+        Log.i("BANCO_DADOS", "Atualizou [" + count + "] registros");
     }
 
     @Override
     public void delete(String table, String where, String[] whereArgs) throws DatabaseException {
         int count = db.delete(table, where, whereArgs);
-        Log.i("DATABASE", "Deleted [" + count + "] registers");
+        Log.i("BANCO_DADOS", "Deletou [" + count + "] registros");
     }
 
     private void open() {
