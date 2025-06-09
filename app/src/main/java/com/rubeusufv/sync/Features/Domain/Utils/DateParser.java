@@ -37,7 +37,7 @@ public class DateParser {
     }
 
     public static SyncDate dateToSyncDate(Date date) {
-        return new SyncDate(date.getDate() + 1, date.getMonth() + 1, date.getYear());
+        return new SyncDate(date.getDate(), date.getMonth() + 1, date.getYear() + 1900);
     }
 
     public static int[] extractHourAndMinute(String timeStr) {

@@ -1,7 +1,5 @@
 package com.rubeusufv.sync.Features.Data.EventsData;
 
-import android.util.Log;
-
 import com.rubeusufv.sync.Features.Domain.Models.EventModel;
 import com.rubeusufv.sync.Features.Domain.Models.UserModel;
 import com.rubeusufv.sync.Features.Domain.Types.Color;
