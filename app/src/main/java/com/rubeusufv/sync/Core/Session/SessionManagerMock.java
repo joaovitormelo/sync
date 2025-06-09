@@ -28,6 +28,7 @@ public class SessionManagerMock implements SessionManagerContract {
         } catch(InterruptedException error) {
             //
         }
-        return UserModel.getMock();
+        return null;
+        //return UserModel.getMock();
     }
 }

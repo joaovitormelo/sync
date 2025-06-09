@@ -13,10 +13,13 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.rubeusufv.sync.Features.Domain.Models.EventModel;
+import com.rubeusufv.sync.Features.Domain.Utils.DateParser;
 import com.rubeusufv.sync.Features.Presentation.Types.EventDayListItem;
 import com.rubeusufv.sync.R;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 
 public class EventDayListAdapter extends ArrayAdapter<EventDayListItem> {
     EventListAdapter eventListAdapter;
@@ -42,8 +45,19 @@ public class EventDayListAdapter extends ArrayAdapter<EventDayListItem> {
             view = LayoutInflater.from(getContext()).inflate(R.layout.event_day_list_item, parent, false);
         }
         ListView eventListView = view.findViewById(R.id.eventModelList);
+        ArrayList<EventModel> eventList = eventDay.getEventList();
+        eventList.sort(new Comparator<EventModel>() {
+            @Override
+            public int compare(EventModel o1, EventModel o2) {
+                int[] time1 = DateParser.extractHourAndMinute(o1.getStartHour());
+                int[] time2 = DateParser.extractHourAndMinute(o2.getStartHour());
+                if (time1[0] < time2[0]) return -1;
+                else if (time1[0] > time2[0]) return 1;
+                return time1[1] - time2[1];
+            }
+        });
         eventListAdapter = new EventListAdapter(
-            getContext(), R.layout.event_list_item, eventDay.getEventList(),
+            getContext(), R.layout.event_list_item, eventList,
                 callback, activity
         );
         setListViewHeightBasedOnChildren(eventListView);
