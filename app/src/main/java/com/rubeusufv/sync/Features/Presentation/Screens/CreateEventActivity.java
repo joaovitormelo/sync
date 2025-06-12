@@ -1,10 +1,12 @@
 package com.rubeusufv.sync.Features.Presentation.Screens;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -178,6 +180,8 @@ public class CreateEventActivity extends AppCompatActivity {
                     .Builder
                     .datePicker()
                     .setTitleText("Escolha uma data")
+                    //teste de cor aqui
+                    .setTheme(R.style.ThemeOverlay_MyDatePicker)
                     .setSelection(calendar.getTimeInMillis())
                     .build();
         } else {
@@ -185,7 +189,9 @@ public class CreateEventActivity extends AppCompatActivity {
                 .Builder
                 .datePicker()
                 .setTitleText("Escolha uma data")
-                .build();
+                  //teste de cor
+                    .setTheme(R.style.ThemeOverlay_MyDatePicker)
+                    .build();
         }
         dateButton.setOnClickListener(v -> datePicker.show(getSupportFragmentManager(), "DATE_PICKER"));
         datePicker.addOnPositiveButtonClickListener(selection -> {
@@ -202,6 +208,48 @@ public class CreateEventActivity extends AppCompatActivity {
     }
 
     private void configureTimePickerStart(int defaultHour, int defaultMinute) {
+        timePickerStart = new MaterialTimePicker.Builder()
+                .setTimeFormat(TimeFormat.CLOCK_24H)
+                .setHour(defaultHour)
+                .setMinute(defaultMinute)
+                .setTitleText("Escolha um horário")
+                // Em teoria era para aplicar o tema verde ali mas nao aparece amanhã eu olho isso .setThemeResId(R.style.GreenTimePicker)
+                .build();
+
+        timeButtonStart.setOnClickListener(v -> timePickerStart.show(getSupportFragmentManager(), "TIME_PICKER_START"));
+
+        timePickerStart.addOnPositiveButtonClickListener(v -> {
+            int hour = timePickerStart.getHour();
+            int minute = timePickerStart.getMinute();
+            String formattedTime = String.format(Locale.getDefault(), "%02d:%02d", hour, minute);
+            timeButtonStart.setText(formattedTime);
+        });
+    }
+
+
+    private void configureTimePickerEnd(int defaultHour, int defaultMinute) {
+        timePickerEnd = new MaterialTimePicker.Builder()
+                .setTimeFormat(TimeFormat.CLOCK_24H)
+                .setHour(defaultHour)
+                .setMinute(defaultMinute)
+                .setTitleText("Escolha horário de fim")
+                // Em teoria era para aplicar o tema verde ali mas nao aparece amanhã eu olho isso.setThemeResId(R.style.GreenTimePicker)
+                .build();
+
+        timeButtonEnd.setOnClickListener(v -> timePickerEnd.show(getSupportFragmentManager(), "TIME_PICKER_END"));
+
+        timePickerEnd.addOnPositiveButtonClickListener(v -> {
+            int hour = timePickerEnd.getHour();
+            int minute = timePickerEnd.getMinute();
+            String formattedTime = String.format(Locale.getDefault(), "%02d:%02d", hour, minute);
+            timeButtonEnd.setText(formattedTime);
+        });
+    }
+
+
+
+    /*
+    void configureTimePickerStart(int defaultHour, int defaultMinute) {
         //o horario inicial
         timePickerStart = new MaterialTimePicker.Builder()
                 .setTimeFormat(TimeFormat.CLOCK_24H)
@@ -215,9 +263,11 @@ public class CreateEventActivity extends AppCompatActivity {
             int minute = timePickerStart.getMinute();
             String formattedTime = String.format(Locale.getDefault(), "%02d:%02d", hour, minute);
             timeButtonStart.setText(formattedTime);
+            //estou tentando mudar as cores teste aqui
+            timeButtonStart.setTextColor(getResources().getColor(R.color.green));
+            timeButtonStart.setTypeface(null, Typeface.BOLD);
         });
     }
-
     private void configureTimePickerEnd(int defaultHour, int defaultMinute) {
         // o horario final
         timePickerEnd = new MaterialTimePicker.Builder()
@@ -232,8 +282,12 @@ public class CreateEventActivity extends AppCompatActivity {
             int minute = timePickerEnd.getMinute();
             String formattedTime = String.format(Locale.getDefault(), "%02d:%02d", hour, minute);
             timeButtonEnd.setText(formattedTime);
+            timeButtonStart.setTextColor(getResources().getColor(R.color.green));
+            timeButtonStart.setTypeface(null, Typeface.BOLD);
         });
     }
+
+     */
 
     private void configureRepeatDropdown() {
         // Opções de repetição

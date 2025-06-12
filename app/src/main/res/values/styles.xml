@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Tema base do seu app -->
+    <style name="AppTheme" parent="Theme.Material3.Light.NoActionBar">
+        <!-- Customize suas cores principais aqui -->
+        <item name="colorPrimary">@color/green</item>
+        <item name="colorPrimaryVariant">@color/green</item>
+        <item name="colorOnPrimary">@android:color/white</item>
+        <item name="android:textColorPrimary">@color/green</item>
+    </style>
+    <style name="GreenDropdownTextInput" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+        <item name="boxStrokeColor">@color/green</item>
+        <item name="hintTextColor">@color/green</item>
+        <item name="android:textColor">@color/green</item>
+        <item name="endIconTint">@color/green</item>
+    </style>
+
+
+
+    <style name="GreenTimePicker" parent="ThemeOverlay.MaterialComponents.Light">
+        <item name="colorPrimary">@color/green</item>
+        <item name="android:textColorPrimary">@color/green</item>
+    </style>
+
+
+
+
+    <!-- Tema customizado para o DatePicker com cor verde -->
+    <style name="ThemeOverlay.MyDatePicker" parent="ThemeOverlay.MaterialComponents.MaterialCalendar">
+        <item name="colorPrimary">@color/green</item>
+        <item name="colorOnPrimary">@android:color/white</item>
+    </style>
+
+</resources>
