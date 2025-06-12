@@ -68,7 +68,7 @@
                         android:layout_height="36dp"
                         android:layout_margin="4dp"
                         app:cardCornerRadius="18dp"
-                        app:cardBackgroundColor="@android:color/white"
+                        app:cardBackgroundColor="@color/green"
                         app:cardElevation="4dp">
 
                         <ImageView
@@ -86,7 +86,7 @@
                         android:layout_height="36dp"
                         android:layout_margin="4dp"
                         app:cardCornerRadius="18dp"
-                        app:cardBackgroundColor="@android:color/white"
+                        app:cardBackgroundColor="@color/green"
                         app:cardElevation="4dp">
 
                         <ImageView
