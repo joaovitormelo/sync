@@ -25,10 +25,12 @@ android {
             )
         }
     }
+
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
+
     buildFeatures {
         viewBinding = true
     }
@@ -42,7 +44,7 @@ dependencies {
     implementation(libs.coordinatorlayout)
     implementation(libs.play.services)
     implementation(libs.compose.theme.adapter)
-    implementation("com.google.android.material:material:1.11.0")
+    implementation(libs.applandeo.material.calendar.view)
     implementation(libs.retrofit.core)
     implementation(libs.retrofit.gson)
     implementation(libs.okhttp.core)
