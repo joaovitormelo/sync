@@ -15,7 +15,13 @@
         <item name="android:textColor">@color/green</item>
         <item name="endIconTint">@color/green</item>
     </style>
-
+    <!-- Tema customizado para o  calendario ficar com  a cor verde -->
+    <style name="CalendarCustomTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="colorPrimary">@color/green</item>
+        <item name="colorPrimaryVariant">@color/green</item>
+        <item name="colorOnPrimary">@android:color/white</item>
+        <item name="colorSecondary">@color/green</item>
+    </style>
 
 
     <style name="GreenTimePicker" parent="ThemeOverlay.MaterialComponents.Light">
