@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.applandeo.materialcalendarview.CalendarView;
 import com.applandeo.materialcalendarview.EventDay;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.rubeusufv.sync.R;
 
 import java.util.ArrayList;
@@ -22,6 +23,7 @@ public class CalendarActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
 
         setTheme(R.style.CalendarCustomTheme);
 
@@ -61,6 +63,23 @@ public class CalendarActivity extends AppCompatActivity {
 
             Toast.makeText(CalendarActivity.this, "Data clicada: " + dataSelecionada, Toast.LENGTH_SHORT).show();
 
+        });
+        BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
+        bottomNav.setSelectedItemId(R.id.nav_calendario);
+
+        bottomNav.setOnItemSelectedListener(item -> {
+            int id = item.getItemId();
+            if (id == R.id.nav_lista) {
+                startActivity(new Intent(this, EventsActivity.class));
+                overridePendingTransition(0, 0);
+                return true;
+            } else if (id == R.id.nav_add) {
+                startActivity(new Intent(this, CreateEventActivity.class));
+                return true;
+            } else if (id == R.id.nav_calendario) {
+                return true;
+            }
+            return false;
         });
     }
 }
