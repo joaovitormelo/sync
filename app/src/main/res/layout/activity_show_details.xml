@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:paddingHorizontal="24dp"
     android:background="@android:color/white"
-    tools:context=".Features.Presentation.Screens.show_details_task">
+    tools:context=".Features.Presentation.Screens.ShowDetailsTask">
 
 
     <TextView
