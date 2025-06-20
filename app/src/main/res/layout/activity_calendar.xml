@@ -9,7 +9,7 @@
     <com.applandeo.materialcalendarview.CalendarView
         android:id="@+id/calendarView"
         app:headerColor="@color/green"
-        app:todayLabelColor="@color/red"
+        app:todayLabelColor="@color/grey"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
