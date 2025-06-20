@@ -251,12 +251,12 @@ public class EventsActivity extends AppCompatActivity {
         setEventsListLoaded();
         Toast.makeText(this, error.getMessage(), Toast.LENGTH_SHORT).show();
     }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.drawer_menu, menu);
-        return true;
-    }
+// Tirei para sumir os 3 pontinhos desnecessários
+   //  @Override
+    //public boolean onCreateOptionsMenu(Menu menu) {
+      //  getMenuInflater().inflate(R.menu.drawer_menu, menu);
+       // return true;
+    //}
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
