@@ -18,10 +18,13 @@ import com.rubeusufv.sync.R;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 
 public class CalendarActivity extends AppCompatActivity {
 
@@ -73,7 +76,6 @@ public class CalendarActivity extends AppCompatActivity {
 
     private void loadEvents() {
         new Thread(() -> {
-            // Carrega os eventos do ano atual inteiro
             int year = Calendar.getInstance().get(Calendar.YEAR);
             ArrayList<EventModel> allEvents = new ArrayList<>();
             for (int month = 1; month <= 12; month++) {
@@ -81,7 +83,6 @@ public class CalendarActivity extends AppCompatActivity {
             }
 
             eventsPerDayMap = new HashMap<>();
-
             for (EventModel e : allEvents) {
                 SyncDate date = e.getDate();
                 if (!eventsPerDayMap.containsKey(date)) {
@@ -98,13 +99,45 @@ public class CalendarActivity extends AppCompatActivity {
         List<EventDay> markers = new ArrayList<>();
 
         for (SyncDate date : map.keySet()) {
+            ArrayList<EventModel> eventos = map.get(date);
+
+            Set<Integer> cores = new HashSet<>();
+            for (EventModel e : eventos) {
+                int cor = getCorID(e.getCategory());
+                cores.add(cor);
+            }
+
+            List<Integer> sorted = new ArrayList<>(cores);
+            Collections.sort(sorted);
+
+            String imageName = "marker";
+            for (int c : sorted) {
+                imageName += "_" + c;
+            }
+
+            int resId = getResources().getIdentifier(imageName, "drawable", getPackageName());
             Calendar calendar = Calendar.getInstance();
             calendar.set(date.getYear(), date.getMonth() - 1, date.getDay());
-            markers.add(new EventDay(calendar, R.drawable.marker_event));
+            markers.add(new EventDay(calendar, resId));
         }
 
         calendarView.setEvents(markers);
         setupClickListener();
+    }
+
+    private int getCorID(String categoria) {
+        switch (categoria) {
+            case EventModel.CATEGORY.TEST:
+                return 2; // vermelho
+            case EventModel.CATEGORY.REUNION:
+                return 3; // verde
+            case EventModel.CATEGORY.LEISURE:
+                return 4; // amarelo
+            case EventModel.CATEGORY.WORK:
+                return 5; // roxo
+            default:
+                return 1; // azul
+        }
     }
 
     private void setupClickListener() {
@@ -112,27 +145,28 @@ public class CalendarActivity extends AppCompatActivity {
             Calendar clickedDay = eventDay.getCalendar();
 
             SyncDate selectedDate = new SyncDate(
-                    clickedDay.get(Calendar.YEAR),
+                    clickedDay.get(Calendar.DAY_OF_MONTH),
                     clickedDay.get(Calendar.MONTH) + 1,
-                    clickedDay.get(Calendar.DAY_OF_MONTH)
+                    clickedDay.get(Calendar.YEAR)
             );
 
             if (eventsPerDayMap != null && eventsPerDayMap.containsKey(selectedDate)) {
                 ArrayList<EventModel> eventosDoDia = eventsPerDayMap.get(selectedDate);
 
-                if (eventosDoDia == null || eventosDoDia.isEmpty()) return;
+                if (eventosDoDia == null || eventosDoDia.isEmpty()) {
+                    Toast.makeText(this, "Sem eventos neste dia", Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
                 if (eventosDoDia.size() == 1) {
-                    // se for apenas  1 evento vai abrir diretamente
                     EventModel evento = eventosDoDia.get(0);
                     Intent it = new Intent(this, ShowDetailsTask.class);
                     it.putExtra("event", evento);
                     startActivity(it);
                 } else {
-                    // se for vários eventos vai  mostra AlertDialog para escolher
                     String[] titulos = new String[eventosDoDia.size()];
                     for (int i = 0; i < eventosDoDia.size(); i++) {
-                        titulos[i] = eventosDoDia.get(i).getTitle(); // ou outro campo visível
+                        titulos[i] = eventosDoDia.get(i).getTitle();
                     }
 
                     new androidx.appcompat.app.AlertDialog.Builder(this)

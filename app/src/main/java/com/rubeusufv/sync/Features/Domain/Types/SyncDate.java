@@ -5,9 +5,9 @@ import android.annotation.SuppressLint;
 import java.io.Serializable;
 
 public class SyncDate implements Serializable, Comparable<SyncDate> {
-    int day;
-    int month;
-    int year;
+    private int day;
+    private int month;
+    private int year;
 
     public SyncDate(int day, int month, int year) {
         this.day = day;
@@ -63,5 +63,23 @@ public class SyncDate implements Serializable, Comparable<SyncDate> {
         int day = Integer.parseInt(parts[2]);
 
         return new SyncDate(day, month, year);
+    }
+
+    // tive que adicionar essa parte do codigo  para usar SyncDate como chave de HashMap corretamente no meu Calendar
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+
+        SyncDate other = (SyncDate) obj;
+        return day == other.day && month == other.month && year == other.year;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = day;
+        result = 31 * result + month;
+        result = 31 * result + year;
+        return result;
     }
 }
