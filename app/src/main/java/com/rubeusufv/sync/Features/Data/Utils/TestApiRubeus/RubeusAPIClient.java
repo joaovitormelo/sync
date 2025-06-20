@@ -8,7 +8,7 @@ import okio.Buffer;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class RubeusApiClient {
+public class RubeusAPIClient {
 
     public static final String BASE_URL = "https://crmufvgrupo7.apprubeus.com.br/";
     private static final String TAG = "RUBEUS_HTTP";
@@ -33,7 +33,7 @@ public class RubeusApiClient {
                             try {
                                 Buffer buffer = new Buffer();
                                 originalRequest.body().writeTo(buffer);
-                                //Log.d(TAG, "Body enviado: " + buffer.readUtf8());
+                                Log.d(TAG, "Body enviado: " + buffer.readUtf8());
                             } catch (Exception e) {
                                 //Log.e(TAG, "Erro ao ler body: " + e.getMessage());
                             }

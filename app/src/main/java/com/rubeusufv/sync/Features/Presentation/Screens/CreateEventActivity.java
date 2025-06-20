@@ -23,27 +23,32 @@ import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.google.android.material.timepicker.MaterialTimePicker;
 import com.google.android.material.timepicker.TimeFormat;
 import com.rubeusufv.sync.Core.Exceptions.ValidationException;
-import com.rubeusufv.sync.Features.Data.Utils.TestApiRubeus.RubeusApiClient;
+import com.rubeusufv.sync.Features.Data.Utils.ApiRubeus.CreateEventRequest;
+import com.rubeusufv.sync.Features.Data.Utils.ApiRubeus.CreateEventResponse;
+import com.rubeusufv.sync.Features.Data.Utils.ApiRubeus.CustomFields;
+import com.rubeusufv.sync.Features.Data.Utils.ApiRubeus.EventData;
+import com.rubeusufv.sync.Features.Data.Utils.ApiRubeus.Person;
+import com.rubeusufv.sync.Features.Data.Utils.ApiRubeus.RubeusApi;
+import com.rubeusufv.sync.Features.Data.Utils.ApiRubeus.RubeusApiClient;
 import com.rubeusufv.sync.Features.Domain.Models.EventModel;
 import com.rubeusufv.sync.Features.Domain.Types.Color;
+import com.rubeusufv.sync.Features.Domain.Types.ContactType;
 import com.rubeusufv.sync.Features.Domain.Types.SyncDate;
-import com.rubeusufv.sync.Core.Exceptions.DatabaseException;
-import com.rubeusufv.sync.Core.Exceptions.UsecaseException;
 import com.rubeusufv.sync.Features.Domain.Usecases.Events.EditEventUsecase;
 import com.rubeusufv.sync.Features.Domain.Usecases.Events.RegisterNewEventUsecase;
 import com.rubeusufv.sync.Core.Injector;
 import com.rubeusufv.sync.Features.Domain.Utils.DateParser;
 import com.rubeusufv.sync.R;
 
-import java.text.SimpleDateFormat;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class CreateEventActivity extends AppCompatActivity {
 
@@ -71,6 +76,8 @@ public class CreateEventActivity extends AppCompatActivity {
     // CASOS DE USO
     RegisterNewEventUsecase registerNewEventUsecase;
     EditEventUsecase editEventUsecase;
+    // Api Rubeus
+    private static final String TAG = "RUBEUS_API_TEST";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,6 +95,7 @@ public class CreateEventActivity extends AppCompatActivity {
         initializeUsecases();
 
         RubeusApiClient.configurarCredenciais("7", "9e5199c5de1c58f31987f71dde804da8");
+        //createEvent(eventModel);
     }
 
     private void initializeUsecases() {
@@ -290,6 +298,7 @@ public class CreateEventActivity extends AppCompatActivity {
         new Thread(() -> {
             callUsecase(newEvent);
         }).start();
+        createEvent(newEvent);
     }
 
     private EventModel buildEventModel() {
@@ -389,4 +398,68 @@ public class CreateEventActivity extends AppCompatActivity {
     public void onCancelClick(View v) {
         finish();
     }
+
+    public void createEvent(EventModel eventModel) {
+        RubeusApi apiService = RubeusApiClient.getClient().create(RubeusApi.class);
+
+        Person pessoa = new Person("22", "22");
+
+        CustomFields camposPersonalizados = new CustomFields(
+                eventModel.getId(),
+                eventModel.getUserId(),
+                eventModel.getTitle(),
+                eventModel.getDescription(),
+                eventModel.getDate(),
+                eventModel.getStartHour(),
+                eventModel.getEndHour(),
+                eventModel.isAllDay(),
+                eventModel.getColor(),
+                eventModel.getCategory(),
+                eventModel.isRubeusImported(),
+                eventModel.getRubeusId(),
+                eventModel.getContactType(),
+                eventModel.isGoogleImported(),
+                eventModel.getGoogleId()
+        );
+
+        CreateEventRequest createEventRequest = new CreateEventRequest(
+                "104",
+                "1",
+                "104",
+                eventModel.getDescription(),
+                pessoa,
+                camposPersonalizados,
+                "7",
+                "9e5199c5de1c58f31987f71dde804da8"
+        );
+
+        // Executar a chamada síncrona em uma thread separada
+        new Thread(() -> {
+            Call<CreateEventResponse> callCreateEvent = apiService.sendEvent(createEventRequest);
+            try {
+                Response<CreateEventResponse> response = callCreateEvent.execute(); // SÍNCRONO
+
+                if (response.isSuccessful()) {
+                    CreateEventResponse createEventResponse = response.body();
+                    if (createEventResponse != null && createEventResponse.isSuccess()) {
+                        EventData eventData = createEventResponse.getData();
+                        Log.d(TAG, "Evento criado com sucesso na API da Rubeus!");
+                        Log.d(TAG, "Id: " + eventData.getId());
+                        Log.d(TAG, "Description: " + eventData.getDescricao());
+                        Log.d(TAG, "Momento: " + eventData.getMomento());
+                        Log.d(TAG, "TipoNome: " + eventData.getTipoNome());
+                    } else {
+                        Log.e(TAG, "Erro ao criar evento: response nulo ou falha lógica");
+                    }
+                } else {
+                    String errorBody = response.errorBody() != null ? response.errorBody().string() : "Erro desconhecido";
+                    Log.e(TAG, "Erro " + response.code() + ": " + errorBody);
+                }
+            } catch (Exception e) {
+                Log.e(TAG, "Erro na requisição síncrona: " + e.getMessage());
+                e.printStackTrace();
+            }
+        }).start();
+    }
+
 }

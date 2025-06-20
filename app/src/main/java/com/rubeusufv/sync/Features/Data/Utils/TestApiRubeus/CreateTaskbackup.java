@@ -44,7 +44,7 @@ public class CreateTaskbackup extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_task);
 
-        RubeusApiClient.configurarCredenciais("7", "9e5199c5de1c58f31987f71dde804da8");
+        RubeusAPIClient.configurarCredenciais("7", "9e5199c5de1c58f31987f71dde804da8");
 
         nameTask = findViewById(R.id.editTextTaskTitle);
         descriptionTask = findViewById(R.id.editTextTaskDescription);
@@ -132,7 +132,7 @@ public class CreateTaskbackup extends AppCompatActivity {
 
     public void buscarContatoPorId(String id) {
         Log.d(TAG, "Iniciando busca por contato ID: " + id);
-        RubeusAPI apiService = RubeusApiClient.getClient().create(RubeusAPI.class);
+        RubeusAPI apiService = RubeusAPIClient.getClient().create(RubeusAPI.class);
         ContatoRequest request = new ContatoRequest("9e5199c5de1c58f31987f71dde804da8", "7", id);
         Call<ContatoResponse> callContato = apiService.getContatoPorId(request);
         callContato.enqueue(new Callback<>() {

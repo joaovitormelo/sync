@@ -12,13 +12,13 @@ public class Dados implements Serializable {
 
     public Dados(){}
 
-    public String getContatoPrincipal() {
-        return contatoPrincipal;
-    }
-
-    public void setContatoPrincipal(String contatoPrincipal) {
-        this.contatoPrincipal = contatoPrincipal;
-    }
+//    public String getContatoPrincipal() {
+//        return contatoPrincipal;
+//    }
+//
+//    public void setContatoPrincipal(String contatoPrincipal) {
+//        this.contatoPrincipal = contatoPrincipal;
+//    }
 
     public String getId() {
         return id;
@@ -28,19 +28,19 @@ public class Dados implements Serializable {
         this.id = id;
     }
 
-    public List<String> getContatosSecundarios() {
-        return contatosSecundarios;
-    }
+//    public List<String> getContatosSecundarios() {
+//        return contatosSecundarios;
+//    }
+//
+//    public void setContatosSecundarios(List<String> contatosSecundarios) {
+//        this.contatosSecundarios = contatosSecundarios;
+//    }
 
-    public void setContatosSecundarios(List<String> contatosSecundarios) {
-        this.contatosSecundarios = contatosSecundarios;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
+//    public String getNome() {
+//        return nome;
+//    }
+//
+//    public void setNome(String nome) {
+//        this.nome = nome;
+//    }
 }

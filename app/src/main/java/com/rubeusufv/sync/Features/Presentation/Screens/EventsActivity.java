@@ -2,42 +2,33 @@ package com.rubeusufv.sync.Features.Presentation.Screens;
 
 import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.method.TextKeyListener;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.Spinner;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.textfield.MaterialAutoCompleteTextView;
-import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.rubeusufv.sync.Core.Injector;
 import com.rubeusufv.sync.Core.Session.SessionManagerContract;
-import com.rubeusufv.sync.Features.Data.Utils.TestApiRubeus.ContatoDados;
-import com.rubeusufv.sync.Features.Data.Utils.TestApiRubeus.ContatoRequest;
-import com.rubeusufv.sync.Features.Data.Utils.TestApiRubeus.ContatoResponse;
-import com.rubeusufv.sync.Features.Data.Utils.TestApiRubeus.RubeusAPI;
-import com.rubeusufv.sync.Features.Data.Utils.TestApiRubeus.RubeusApiClient;
+import com.rubeusufv.sync.Features.Data.Utils.ApiRubeus.EventsRequest;
+import com.rubeusufv.sync.Features.Data.Utils.ApiRubeus.EventsResponse;
+import com.rubeusufv.sync.Features.Data.Utils.ApiRubeus.RubeusApi;
+import com.rubeusufv.sync.Features.Data.Utils.ApiRubeus.RubeusApiClient;
 import com.rubeusufv.sync.Features.Domain.Models.EventModel;
 import com.rubeusufv.sync.Features.Domain.Models.UserModel;
-import com.rubeusufv.sync.Features.Domain.Types.Month;
 import com.rubeusufv.sync.Features.Domain.Types.SyncDate;
 import com.rubeusufv.sync.Features.Domain.Usecases.Events.ExcludeEventUsecase;
 import com.rubeusufv.sync.Features.Domain.Usecases.Events.ViewEventsUsecase;
@@ -46,8 +37,10 @@ import com.rubeusufv.sync.Features.Presentation.Adapters.CallbackEventListItem;
 import com.rubeusufv.sync.Features.Presentation.Adapters.EventDayListAdapter;
 import com.rubeusufv.sync.Features.Presentation.Types.EventDayListItem;
 import com.rubeusufv.sync.R;
+
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -104,6 +97,9 @@ public class EventsActivity extends AppCompatActivity {
 
         // Teste da api da rubeus
         //buscarContatoPorId("21");
+
+        // Api rubeus
+        showEvents();
     }
 
     private void configureFilterDropdowns() {
@@ -276,55 +272,7 @@ public class EventsActivity extends AppCompatActivity {
         Toast.makeText(this, error.getMessage(), Toast.LENGTH_SHORT).show();
     }
 
-    // Teste da api da rubeus
-    public void buscarContatoPorId(String id) {
-        Log.d(TAG, "Iniciando busca por contato ID: " + id);
-        RubeusAPI apiService = RubeusApiClient.getClient().create(RubeusAPI.class);
-        ContatoRequest request = new ContatoRequest("9e5199c5de1c58f31987f71dde804da8", "7", id);
-        Call<ContatoResponse> callContato = apiService.getContatoPorId(request);
 
-        /*try {
-            Response<ContatoResponse> res = callContato.execute();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }*/
-        callContato.enqueue(new Callback<>() {
-            @Override
-            public void onResponse(Call<ContatoResponse> call, Response<ContatoResponse> response) {
-                Log.d(TAG, "Resposta recebida. Código: " + response.code());
-                if (response.isSuccessful()) {
-                    ContatoResponse contatoResponse = response.body();
-                    if (contatoResponse != null) {
-                        Log.d(TAG, "Success: " + contatoResponse.isSuccess());
-                        if (contatoResponse.getDados() != null) {
-                            ContatoDados dados = contatoResponse.getDados();
-                            Log.d(TAG, "ID: " + dados.getId());
-                            Log.d(TAG, "Nome: " + dados.getNome());
-                            Log.d(TAG, "CPF: " + dados.getCpf());
-                        } else {
-                            Log.d(TAG, "Dados é null");
-                        }
-                    } else {
-                        Log.d(TAG, "Response body é null");
-                    }
-                } else {
-                    try {
-                        String errorBody = response.errorBody() != null ?
-                                response.errorBody().string() : "Erro desconhecido";
-                        Log.e(TAG, "Erro " + response.code() + ": " + errorBody);
-                    } catch (Exception e) {
-                        Log.e(TAG, "Erro ao ler response: " + e.getMessage());
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ContatoResponse> call, Throwable t) {
-                Log.e(TAG, "Falha na requisição: " + t.getMessage());
-                t.printStackTrace();
-            }
-        });
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -354,4 +302,45 @@ public class EventsActivity extends AppCompatActivity {
         Intent it = new Intent(getBaseContext(), CreateEventActivity.class);
         startActivity(it);
     }
+
+    public void showEvents() {
+        RubeusApi apiService = RubeusApiClient.getClient().create(RubeusApi.class);
+        EventsRequest eventsRequest = new EventsRequest("9e5199c5de1c58f31987f71dde804da8", "7");
+        Call<EventsResponse> callEvents = apiService.getEvents(eventsRequest);
+
+        // Executar em background!
+        new Thread(() -> {
+            try {
+                Response<EventsResponse> response = callEvents.execute(); // Síncrono
+
+                if (response.isSuccessful()) {
+                    EventsResponse eventsResponse = response.body();
+                    if (eventsResponse != null) {
+                        Log.d(TAG, "Success: " + eventsResponse.isSuccess());
+                        List<EventModel> events = eventsResponse.getDados();
+                        if (events != null && !events.isEmpty()) {
+                            for (EventModel eventModel : events) {
+                                Log.d(TAG, "Id: " + eventModel.getId());
+                                Log.d(TAG, "Título: " + eventModel.getTitle());
+                                Log.d(TAG, "Código: " + eventModel.getDescription());
+                                Log.d(TAG, "Origem: " + eventModel.getDate());
+                                Log.d(TAG, "OrigemNome: " + eventModel.getDate());
+                            }
+                        } else {
+                            Log.d(TAG, "Dados é null ou vazio");
+                        }
+                    } else {
+                        Log.d(TAG, "Response body é null");
+                    }
+                } else {
+                    String errorBody = response.errorBody() != null ? response.errorBody().string() : "Erro desconhecido";
+                    Log.e(TAG, "Erro " + response.code() + ": " + errorBody);
+                }
+            } catch (Exception e) {
+                Log.e(TAG, "Erro na requisição síncrona: " + e.getMessage());
+                e.printStackTrace();
+            }
+        }).start();
+    }
+
 }
