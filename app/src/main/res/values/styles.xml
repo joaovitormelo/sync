@@ -28,11 +28,13 @@
         <item name="colorPrimary">@color/green</item>
         <item name="android:textColorPrimary">@color/green</item>
     </style>
-
-
-
-
     <!-- Tema customizado para o DatePicker com cor verde -->
+    <style name="ThemeOverlay.MyTimePicker" parent="ThemeOverlay.MaterialComponents.TimePicker">
+        <item name="colorPrimary">@color/green</item>
+        <item name="colorOnPrimary">@android:color/white</item>
+        <item name="colorSecondary">@color/green</item>
+    </style>
+
     <style name="ThemeOverlay.MyDatePicker" parent="ThemeOverlay.MaterialComponents.MaterialCalendar">
         <item name="colorPrimary">@color/green</item>
         <item name="colorOnPrimary">@android:color/white</item>
