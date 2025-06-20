@@ -1,5 +1,6 @@
 [versions]
 agp = "8.9.0"
+applandeoMaterialCalendarView = "1.9.2"
 junit = "4.13.2"
 junitVersion = "1.2.1"
 espressoCore = "3.6.1"
@@ -14,8 +15,10 @@ composeThemeAdapter = "1.2.1"
 retrofit = "2.9.0"
 okhttp = "4.12.0"
 gson = "2.10.1"
+materialCalendarView = "2.0.1"
 
 [libraries]
+applandeo-material-calendar-view = { module = "com.applandeo:material-calendar-view", version.ref = "applandeoMaterialCalendarView" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
@@ -35,4 +38,3 @@ okhttp-logging = { group = "com.squareup.okhttp3", name = "logging-interceptor",
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 android-library = { id = "com.android.library", version.ref = "agp" }
-

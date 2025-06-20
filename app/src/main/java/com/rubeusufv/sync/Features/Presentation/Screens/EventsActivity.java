@@ -1,10 +1,12 @@
+// ===============================
+// EventsActivity.java (completo)
+// ===============================
 package com.rubeusufv.sync.Features.Presentation.Screens;
 
 import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,11 +15,13 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.google.android.material.textfield.TextInputLayout;
@@ -44,41 +48,35 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
 public class EventsActivity extends AppCompatActivity {
-    //Constantes
-    private final String[] yearOptions = {
-        "2025", "2024", "2023", "2022", "2021"
+    private final String[] yearOptions = {"2025", "2024", "2023", "2022", "2021"};
+    private final String[] monthOptions = {"Janeiro", "Fevereiro", "Março", "Maio", "Abril", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"};
+    private final String[] dayOptions = {
+            "01", "02", "03", "04", "05", "06", "07", "08", "09", "10",
+            "11", "12", "13", "14", "15", "16", "17", "18", "19", "20",
+            "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"
     };
-    private final String[] monthOptions = {
-        "Janeiro", "Fevereiro", "Março", "Maio", "Abril", "Junho", "Julho", "Agosto",
-        "Setembro", "Outubro", "Novembro", "Dezembro"
-    };
-    //Lista de eventos
+
+    private TextInputLayout dropdownDayTextInput;
+    private MaterialAutoCompleteTextView dayDropdown;
+    int currentDayPos = 0;
+
     boolean isLoading = false;
     EventDayListAdapter eventDayListAdapter;
     ArrayList<EventModel> eventModelList;
     ArrayList<EventDayListItem> eventDayList;
     Map<SyncDate, ArrayList<EventModel>> eventsPerDayMap;
-    //USECASES
+
     ViewEventsUsecase viewEventsUsecase;
     ExcludeEventUsecase excludeEventUsecase;
     SessionManagerContract sessionManager;
-    //COMPONENTES
+
     ListView eventDayListView;
     ProgressBar loadingEventsBar;
     DrawerLayout drawerLayout;
     private TextInputLayout dropdownYearTextInput, dropdownMonthTextInput;
     private MaterialAutoCompleteTextView yearDropdown, monthDropdown;
     int currentYearPos = 0, currentMonthPos = 0;
-    private static final String TAG = "RUBEUS_API_TEST";
-
-    private void onClickExit(View v) {
-        finish();
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,10 +89,31 @@ public class EventsActivity extends AppCompatActivity {
 
         eventDayListView = findViewById(R.id.eventDayList);
         loadingEventsBar = findViewById(R.id.loadingEventsBar);
+
         configureActionBar();
         configureDrawer();
         configureFilterDropdowns();
+        configureBottomNav();
+    }
 
+    private void configureBottomNav() {
+        BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
+        bottomNav.setSelectedItemId(R.id.nav_lista);
+
+        bottomNav.setOnItemSelectedListener(item -> {
+            int id = item.getItemId();
+            if (id == R.id.nav_lista) {
+                return true;
+            } else if (id == R.id.nav_add) {
+                startActivity(new Intent(this, CreateEventActivity.class));
+                return true;
+            } else if (id == R.id.nav_calendario) {
+                startActivity(new Intent(this, CalendarActivity.class));
+                overridePendingTransition(0, 0);
+                return true;
+            }
+            return false;
+        });
         // Teste da api da rubeus
         //buscarContatoPorId("21");
 
@@ -105,6 +124,7 @@ public class EventsActivity extends AppCompatActivity {
     private void configureFilterDropdowns() {
         configureYearFilter();
         configureMonthFilter();
+        configureDayFilter();
     }
 
     private void configureYearFilter() {
@@ -112,18 +132,14 @@ public class EventsActivity extends AppCompatActivity {
         yearDropdown = findViewById(R.id.dropdownYear);
         yearDropdown.setEnabled(false);
         ArrayAdapter<String> adapterRepeat = new ArrayAdapter<>(
-            this, android.R.layout.simple_dropdown_item_1line, yearOptions
-        );
+                this, android.R.layout.simple_dropdown_item_1line, yearOptions);
         yearDropdown.setAdapter(adapterRepeat);
         yearDropdown.setKeyListener(null);
         int currentYear = new Date().getYear() + 1900;
         yearDropdown.setText(String.valueOf(currentYear), false);
-        yearDropdown.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                currentYearPos = position;
-                loadEventList();
-            }
+        yearDropdown.setOnItemClickListener((parent, view, position, id) -> {
+            currentYearPos = position;
+            loadEventList();
         });
     }
 
@@ -131,25 +147,41 @@ public class EventsActivity extends AppCompatActivity {
         dropdownMonthTextInput = findViewById(R.id.dropdownMonthTextInput);
         monthDropdown = findViewById(R.id.dropdownMonth);
         ArrayAdapter<String> adapterRepeat = new ArrayAdapter<>(
-            this, android.R.layout.simple_dropdown_item_1line, monthOptions
-        );
+                this, android.R.layout.simple_dropdown_item_1line, monthOptions);
         monthDropdown.setAdapter(adapterRepeat);
         monthDropdown.setKeyListener(null);
         int currentMonth = new Date().getMonth();
         monthDropdown.setText(monthOptions[currentMonth], false);
         currentMonthPos = currentMonth;
-        monthDropdown.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                currentMonthPos = position;
-                loadEventList();
-            }
+        monthDropdown.setOnItemClickListener((parent, view, position, id) -> {
+            currentMonthPos = position;
+            loadEventList();
+        });
+    }
+    private void configureDayFilter() {
+        dropdownDayTextInput = findViewById(R.id.dropdownDayTextInput);
+        dayDropdown = findViewById(R.id.dropdownDay);
+
+        ArrayAdapter<String> adapterDay = new ArrayAdapter<>(
+                this, android.R.layout.simple_dropdown_item_1line, dayOptions);
+
+        dayDropdown.setAdapter(adapterDay);
+        dayDropdown.setKeyListener(null);
+
+        // Define o dia atual como selecionado
+        int currentDay = new Date().getDate() - 1;
+        dayDropdown.setText(dayOptions[currentDay], false);
+        currentDayPos = currentDay;
+
+        dayDropdown.setOnItemClickListener((parent, view, position, id) -> {
+            currentDayPos = position;
+            loadEventList();
         });
     }
 
-    private void configureDrawer() {
-        drawerLayout = findViewById(R.id.drawer_layout);  // inicialize o DrawerLayout para tratar o menu
 
+    private void configureDrawer() {
+        drawerLayout = findViewById(R.id.drawer_layout);
         configureActionBar();
 
         UserModel sessionUser = sessionManager.getSessionUser();
@@ -158,23 +190,18 @@ public class EventsActivity extends AppCompatActivity {
         MenuItem userNameText = menu.findItem(R.id.nav_name);
         userNameText.setTitle(sessionUser.getName());
 
-        navigation.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(MenuItem item) {
-                int id = item.getItemId();
-
-                if (id == R.id.nav_logout) {
-                    finish();
-                }
-                return true;
+        navigation.setNavigationItemSelectedListener(item -> {
+            int id = item.getItemId();
+            if (id == R.id.nav_logout) {
+                finish();
             }
+            return true;
         });
     }
 
     private void configureActionBar() {
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        Toolbar myToolbar = findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
-
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.baseline_dehaze_24);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
@@ -184,6 +211,7 @@ public class EventsActivity extends AppCompatActivity {
         super.onStart();
         loadEventList();
     }
+
     private void setEventsListLoading() {
         isLoading = true;
         loadingEventsBar.setVisibility(View.VISIBLE);
@@ -203,9 +231,9 @@ public class EventsActivity extends AppCompatActivity {
     private void loadEventList() {
         setEventsListLoading();
         int year = Integer.parseInt(yearOptions[currentYearPos]);
-        new Thread(() -> {
-            callLoadEventsUsecase(year, currentMonthPos);
-        }).start();
+        new Thread(() -> callLoadEventsUsecase(year, currentMonthPos)).start();
+        String selectedDay = dayOptions[currentDayPos];
+
     }
 
     private void callLoadEventsUsecase(int year, int month) {
@@ -216,7 +244,6 @@ public class EventsActivity extends AppCompatActivity {
     private void updateEventListView() {
         eventsPerDayMap = new TreeMap<>();
         for (EventModel e : eventModelList) {
-            Date eventDate = DateParser.fromSyncDate(e.getDate());
             ArrayList<EventModel> eventModels = eventsPerDayMap.get(e.getDate());
             if (eventModels == null) eventModels = new ArrayList<>();
             eventModels.add(e);
@@ -229,25 +256,23 @@ public class EventsActivity extends AppCompatActivity {
         }
 
         eventDayListAdapter = new EventDayListAdapter(
-            getBaseContext(), R.layout.event_day_list_item, eventDayList,
-            new CallbackEventListItem() {
-                @Override
-                public void onDeleteEvent(EventModel event) {
-                    setEventsListLoading();
-                    new Thread(() -> {
-                        callDeleteEventUsecase(event);
-                    }).start();
-                }
+                getBaseContext(), R.layout.event_day_list_item, eventDayList,
+                new CallbackEventListItem() {
+                    @Override
+                    public void onDeleteEvent(EventModel event) {
+                        setEventsListLoading();
+                        new Thread(() -> callDeleteEventUsecase(event)).start();
+                    }
 
-                @Override
-                public void onEditEvent(EventModel event) {
-                    Intent it = new Intent(getBaseContext(), CreateEventActivity.class);
-                    it.addFlags(FLAG_ACTIVITY_NEW_TASK);
-                    it.putExtra("event", event);
-                    startActivity(it);
-                }
-            }, this
-        );
+                    @Override
+                    public void onEditEvent(EventModel event) {
+                        Intent it = new Intent(getBaseContext(), CreateEventActivity.class);
+                        it.addFlags(FLAG_ACTIVITY_NEW_TASK);
+                        it.putExtra("event", event);
+                        startActivity(it);
+                    }
+                }, this);
+
         eventDayListView.setAdapter(eventDayListAdapter);
         setEventsListLoaded();
     }
@@ -256,10 +281,8 @@ public class EventsActivity extends AppCompatActivity {
         try {
             excludeEventUsecase.excludeEvent(event, true, true);
             runOnUiThread(this::finishExcludeEvent);
-        } catch(Exception error) {
-            runOnUiThread(() -> {
-                handleErrorExcludeEvent(error);
-            });
+        } catch (Exception error) {
+            runOnUiThread(() -> handleErrorExcludeEvent(error));
         }
     }
 
@@ -271,22 +294,15 @@ public class EventsActivity extends AppCompatActivity {
         setEventsListLoaded();
         Toast.makeText(this, error.getMessage(), Toast.LENGTH_SHORT).show();
     }
+// Tirei para sumir os 3 pontinhos desnecessários
+   //  @Override
+    //public boolean onCreateOptionsMenu(Menu menu) {
+      //  getMenuInflater().inflate(R.menu.drawer_menu, menu);
+       // return true;
+    //}
 
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.drawer_menu, menu);
-        return true;
-    }
-
-    // Captura o clique no ícone da ActionBar para abrir/fechar o drawer
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        CharSequence title = item.getTitle();
-        String text;
-        if (title == null) text = "Abertura";
-        else text = title.toString();
         if (item.getItemId() == android.R.id.home) {
             if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
                 drawerLayout.closeDrawer(GravityCompat.START);

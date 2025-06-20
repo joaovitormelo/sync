@@ -1,6 +1,6 @@
-<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
+
 
     <application
         android:name=".Core.SyncApplication"
@@ -9,10 +9,13 @@
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_laucher"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_laucher_round"
+        android:roundIcon="@mipmap/ic_laucher"
         android:supportsRtl="true"
         android:theme="@style/Theme.Sync"
         tools:targetApi="31">
+        <activity
+            android:name=".Features.Presentation.Screens.CalendarActivity"
+            android:exported="false" />
         <activity
             android:name=".Features.Presentation.Screens.edit_task"
             android:exported="false" />
@@ -31,6 +34,7 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -44,5 +48,6 @@
             android:name=".Features.Presentation.Screens.MainActivity"
             android:exported="false" />
     </application>
+
 
 </manifest>

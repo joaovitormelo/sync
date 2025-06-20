@@ -1,10 +1,12 @@
 package com.rubeusufv.sync.Features.Presentation.Screens;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -186,6 +188,8 @@ public class CreateEventActivity extends AppCompatActivity {
                     .Builder
                     .datePicker()
                     .setTitleText("Escolha uma data")
+                    //teste de cor aqui
+                    .setTheme(R.style.ThemeOverlay_MyDatePicker)
                     .setSelection(calendar.getTimeInMillis())
                     .build();
         } else {
@@ -193,7 +197,9 @@ public class CreateEventActivity extends AppCompatActivity {
                 .Builder
                 .datePicker()
                 .setTitleText("Escolha uma data")
-                .build();
+                  //teste de cor
+                    .setTheme(R.style.ThemeOverlay_MyDatePicker)
+                    .build();
         }
         dateButton.setOnClickListener(v -> datePicker.show(getSupportFragmentManager(), "DATE_PICKER"));
         datePicker.addOnPositiveButtonClickListener(selection -> {
@@ -210,14 +216,18 @@ public class CreateEventActivity extends AppCompatActivity {
     }
 
     private void configureTimePickerStart(int defaultHour, int defaultMinute) {
-        //o horario inicial
+
+
         timePickerStart = new MaterialTimePicker.Builder()
                 .setTimeFormat(TimeFormat.CLOCK_24H)
                 .setHour(defaultHour)
                 .setMinute(defaultMinute)
                 .setTitleText("Escolha um horário")
+                .setTheme(R.style.ThemeOverlay_MyTimePicker) // <-- Adiciona o tema
                 .build();
+
         timeButtonStart.setOnClickListener(v -> timePickerStart.show(getSupportFragmentManager(), "TIME_PICKER_START"));
+
         timePickerStart.addOnPositiveButtonClickListener(v -> {
             int hour = timePickerStart.getHour();
             int minute = timePickerStart.getMinute();
@@ -226,15 +236,20 @@ public class CreateEventActivity extends AppCompatActivity {
         });
     }
 
+
     private void configureTimePickerEnd(int defaultHour, int defaultMinute) {
-        // o horario final
+
         timePickerEnd = new MaterialTimePicker.Builder()
                 .setTimeFormat(TimeFormat.CLOCK_24H)
                 .setHour(defaultHour)
                 .setMinute(defaultMinute)
                 .setTitleText("Escolha horário de fim")
+                .setTheme(R.style.ThemeOverlay_MyTimePicker) // <-- Adiciona o tema
                 .build();
+
+
         timeButtonEnd.setOnClickListener(v -> timePickerEnd.show(getSupportFragmentManager(), "TIME_PICKER_END"));
+
         timePickerEnd.addOnPositiveButtonClickListener(v -> {
             int hour = timePickerEnd.getHour();
             int minute = timePickerEnd.getMinute();
@@ -242,6 +257,10 @@ public class CreateEventActivity extends AppCompatActivity {
             timeButtonEnd.setText(formattedTime);
         });
     }
+
+
+
+
 
     private void configureRepeatDropdown() {
         // Opções de repetição

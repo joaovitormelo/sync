@@ -192,7 +192,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+                    style="@style/GreenDropdownTextInput">
+
+                   <!-- style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+                   -->
 
                     <com.google.android.material.textfield.MaterialAutoCompleteTextView
                         android:id="@+id/repeatDropdown"
@@ -271,8 +274,10 @@
                     android:layout_marginStart="8dp"
                     android:layout_toEndOf="@id/categoryIcon"
                     android:layout_toStartOf="@id/eventColor"
+                    style="@style/GreenDropdownTextInput"
+                    >
 
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+                   <!-- style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">-->
 
                     <com.google.android.material.textfield.MaterialAutoCompleteTextView
                         android:id="@+id/categoryDropdown"

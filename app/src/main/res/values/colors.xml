@@ -10,5 +10,6 @@
     <color name="red">#99001d</color>
     <color name="bege">#F5F5DC</color>
     <color name="yellow">#FFB946</color>
+    <color name="transparent">#00000000</color>
 
 </resources>
