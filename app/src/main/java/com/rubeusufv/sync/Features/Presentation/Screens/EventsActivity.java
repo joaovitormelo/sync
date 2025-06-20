@@ -46,6 +46,15 @@ import java.util.TreeMap;
 public class EventsActivity extends AppCompatActivity {
     private final String[] yearOptions = {"2025", "2024", "2023", "2022", "2021"};
     private final String[] monthOptions = {"Janeiro", "Fevereiro", "Março", "Maio", "Abril", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"};
+    private final String[] dayOptions = {
+            "01", "02", "03", "04", "05", "06", "07", "08", "09", "10",
+            "11", "12", "13", "14", "15", "16", "17", "18", "19", "20",
+            "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"
+    };
+
+    private TextInputLayout dropdownDayTextInput;
+    private MaterialAutoCompleteTextView dayDropdown;
+    int currentDayPos = 0;
 
     boolean isLoading = false;
     EventDayListAdapter eventDayListAdapter;
@@ -105,6 +114,7 @@ public class EventsActivity extends AppCompatActivity {
     private void configureFilterDropdowns() {
         configureYearFilter();
         configureMonthFilter();
+        configureDayFilter();
     }
 
     private void configureYearFilter() {
@@ -138,6 +148,27 @@ public class EventsActivity extends AppCompatActivity {
             loadEventList();
         });
     }
+    private void configureDayFilter() {
+        dropdownDayTextInput = findViewById(R.id.dropdownDayTextInput);
+        dayDropdown = findViewById(R.id.dropdownDay);
+
+        ArrayAdapter<String> adapterDay = new ArrayAdapter<>(
+                this, android.R.layout.simple_dropdown_item_1line, dayOptions);
+
+        dayDropdown.setAdapter(adapterDay);
+        dayDropdown.setKeyListener(null);
+
+        // Define o dia atual como selecionado
+        int currentDay = new Date().getDate() - 1;
+        dayDropdown.setText(dayOptions[currentDay], false);
+        currentDayPos = currentDay;
+
+        dayDropdown.setOnItemClickListener((parent, view, position, id) -> {
+            currentDayPos = position;
+            loadEventList();
+        });
+    }
+
 
     private void configureDrawer() {
         drawerLayout = findViewById(R.id.drawer_layout);
@@ -191,6 +222,8 @@ public class EventsActivity extends AppCompatActivity {
         setEventsListLoading();
         int year = Integer.parseInt(yearOptions[currentYearPos]);
         new Thread(() -> callLoadEventsUsecase(year, currentMonthPos)).start();
+        String selectedDay = dayOptions[currentDayPos];
+
     }
 
     private void callLoadEventsUsecase(int year, int month) {

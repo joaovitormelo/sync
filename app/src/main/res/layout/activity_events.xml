@@ -16,18 +16,20 @@
         <RelativeLayout
             android:id="@+id/relative_content_area"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:padding="0dp">
 
+            <!-- Toolbar -->
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/my_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:background="@color/green"
                 android:elevation="4dp"
-                android:fitsSystemWindows="true"
                 android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
                 android:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
+            <!-- Filtros: Dia | Mês | Ano -->
             <LinearLayout
                 android:id="@+id/filters"
                 android:layout_below="@id/my_toolbar"
@@ -37,87 +39,115 @@
                 android:padding="8dp"
                 android:gravity="center_vertical">
 
+                <!-- Dia -->
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/dropdownYearTextInput"
+                    android:id="@+id/dropdownDayTextInput"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:layout_marginEnd="4dp"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
 
                     <com.google.android.material.textfield.MaterialAutoCompleteTextView
-                        android:id="@+id/dropdownYear"
+                        android:id="@+id/dropdownDay"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:inputType="none"
                         android:background="@android:color/transparent"
                         android:textColor="@color/green"
                         android:textColorHint="@color/green"
                         android:textSize="16sp"
-                        android:gravity="center"
-                        android:padding="8dp" />
+                        android:padding="8dp"
+                        android:gravity="center" />
                 </com.google.android.material.textfield.TextInputLayout>
 
+                <!-- Mês -->
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/dropdownMonthTextInput"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:layout_marginStart="8dp"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginEnd="4dp"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
 
                     <com.google.android.material.textfield.MaterialAutoCompleteTextView
                         android:id="@+id/dropdownMonth"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:inputType="none"
                         android:background="@android:color/transparent"
                         android:textColor="@color/green"
                         android:textColorHint="@color/green"
                         android:textSize="16sp"
-                        android:gravity="center"
-                        android:padding="8dp" />
+                        android:padding="8dp"
+                        android:gravity="center" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- Ano -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/dropdownYearTextInput"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="4dp"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+
+                    <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                        android:id="@+id/dropdownYear"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="none"
+                        android:background="@android:color/transparent"
+                        android:textColor="@color/green"
+                        android:textColorHint="@color/green"
+                        android:textSize="16sp"
+                        android:padding="8dp"
+                        android:gravity="center" />
                 </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
 
-            <RelativeLayout
-                android:layout_below="@id/filters"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <ProgressBar
-                    android:id="@+id/loadingEventsBar"
-                    style="?android:attr/progressBarStyleLarge"
-                    android:layout_centerInParent="true"
-                    android:visibility="visible"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-            </RelativeLayout>
-
+            <!-- Lista de eventos -->
             <ListView
                 android:id="@+id/eventDayList"
+                android:layout_below="@id/filters"
+                android:layout_above="@id/bottom_navigation"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_below="@id/filters"
-                android:visibility="gone"
                 android:divider="@android:color/transparent"
+                android:visibility="gone"
                 tools:listitem="@layout/event_day_list_item" />
+
+
+            <ProgressBar
+                android:id="@+id/loadingEventsBar"
+                style="?android:attr/progressBarStyleLarge"
+                android:layout_centerInParent="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="visible" />
+
+            <!-- Bottom Navigation Fixo -->
+            <com.google.android.material.bottomnavigation.BottomNavigationView
+                android:id="@+id/bottom_navigation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:background="?android:attr/windowBackground"
+                app:menu="@menu/menu_bottom"
+                app:itemIconTint="@color/red"
+                app:itemTextColor="@color/green" />
         </RelativeLayout>
-
-
-        <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:id="@+id/bottom_navigation"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:background="?android:attr/windowBackground"
-            app:menu="@menu/menu_bottom" />
-
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
+    <!-- Drawer lateral -->
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/navigation_view"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:fitsSystemWindows="true"
         android:background="@android:color/white"
+        android:fitsSystemWindows="true"
         app:menu="@menu/drawer_menu" />
+
 </androidx.drawerlayout.widget.DrawerLayout>
