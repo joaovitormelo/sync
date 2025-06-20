@@ -65,7 +65,7 @@ public class EventListAdapter extends ArrayAdapter<EventModel> {
             rubeusIcon.setVisibility(INVISIBLE);
             rubeusIconWrapper.setVisibility(INVISIBLE);
         } else {
-            switch (eventModel.getColor()) {
+            switch (EventModel.getColorFromCategory(eventModel.getCategory())) {
                 case GREEN:
                     eventDayItem.setCardBackgroundColor(view.getResources().getColor(R.color.green));
                     break;
@@ -78,10 +78,13 @@ public class EventListAdapter extends ArrayAdapter<EventModel> {
                 case PURPLE:
                     eventDayItem.setCardBackgroundColor(view.getResources().getColor(R.color.purple));
                     break;
+                case RED:
                 default:
                     eventDayItem.setCardBackgroundColor(view.getResources().getColor(R.color.red));
                     break;
             }
+
+
         }
         if (!eventModel.isGoogleImported()) {
             googleIcon.setVisibility(INVISIBLE);

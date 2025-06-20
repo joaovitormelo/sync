@@ -2,7 +2,10 @@ package com.rubeusufv.sync.Features.Presentation.Screens;
 
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -34,11 +37,9 @@ public class CalendarActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         setTheme(R.style.CalendarCustomTheme);
         super.onCreate(savedInstanceState);
 
-        // Força o idioma para pt-BR
         Locale locale = new Locale("pt", "BR");
         Locale.setDefault(locale);
         Configuration config = getResources().getConfiguration();
@@ -104,6 +105,8 @@ public class CalendarActivity extends AppCompatActivity {
             Set<Integer> cores = new HashSet<>();
             for (EventModel e : eventos) {
                 int cor = getCorID(e.getCategory());
+                Log.d("CALENDAR_DEBUG", "Evento: " + e.getTitle() + " Categoria: " + e.getCategory() + " Cor ID: " + getCorID(e.getCategory()));
+
                 cores.add(cor);
             }
 
@@ -140,6 +143,21 @@ public class CalendarActivity extends AppCompatActivity {
         }
     }
 
+    private int getColorValue(int corID) {
+        switch (corID) {
+            case 2:
+                return getColor(R.color.red);
+            case 3:
+                return getColor(R.color.green);
+            case 4:
+                return getColor(R.color.yellow);
+            case 5:
+                return getColor(R.color.purple);
+            default:
+                return getColor(R.color.blue);
+        }
+    }
+
     private void setupClickListener() {
         calendarView.setOnDayClickListener(eventDay -> {
             Calendar clickedDay = eventDay.getCalendar();
@@ -160,20 +178,30 @@ public class CalendarActivity extends AppCompatActivity {
 
                 if (eventosDoDia.size() == 1) {
                     EventModel evento = eventosDoDia.get(0);
-                    Intent it = new Intent(this, ShowDetailsTask.class);
+                    Intent it = new Intent(this, showDetails.class);
                     it.putExtra("event", evento);
                     startActivity(it);
                 } else {
                     String[] titulos = new String[eventosDoDia.size()];
+                    int[] cores = new int[eventosDoDia.size()];
+
                     for (int i = 0; i < eventosDoDia.size(); i++) {
                         titulos[i] = eventosDoDia.get(i).getTitle();
+                        cores[i] = getColorValue(getCorID(eventosDoDia.get(i).getCategory()));
                     }
 
                     new androidx.appcompat.app.AlertDialog.Builder(this)
                             .setTitle("Selecione um evento")
-                            .setItems(titulos, (dialog, which) -> {
+                            .setAdapter(new android.widget.ArrayAdapter<String>(this, android.R.layout.select_dialog_item, titulos) {
+                                @Override
+                                public android.view.View getView(int position, android.view.View convertView, android.view.ViewGroup parent) {
+                                    android.view.View view = super.getView(position, convertView, parent);
+                                    ((TextView) view).setTextColor(cores[position]);
+                                    return view;
+                                }
+                            }, (dialog, which) -> {
                                 EventModel eventoSelecionado = eventosDoDia.get(which);
-                                Intent it = new Intent(this, ShowDetailsTask.class);
+                                Intent it = new Intent(this, showDetails.class);
                                 it.putExtra("event", eventoSelecionado);
                                 startActivity(it);
                             })
