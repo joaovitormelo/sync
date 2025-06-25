@@ -57,10 +57,11 @@ public class CalendarActivity extends AppCompatActivity {
 
     private void setupBottomNavigation() {
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
-        bottomNav.setSelectedItemId(R.id.nav_calendario);
+        bottomNav.setSelectedItemId(R.id.nav_lista);
 
         bottomNav.setOnItemSelectedListener(item -> {
             int id = item.getItemId();
+            Log.d("TEST", String.valueOf(id));
             if (id == R.id.nav_lista) {
                 startActivity(new Intent(this, EventsActivity.class));
                 overridePendingTransition(0, 0);

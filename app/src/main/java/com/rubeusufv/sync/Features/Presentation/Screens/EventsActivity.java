@@ -7,10 +7,10 @@ import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -36,7 +36,6 @@ import com.rubeusufv.sync.Features.Domain.Models.UserModel;
 import com.rubeusufv.sync.Features.Domain.Types.SyncDate;
 import com.rubeusufv.sync.Features.Domain.Usecases.Events.ExcludeEventUsecase;
 import com.rubeusufv.sync.Features.Domain.Usecases.Events.ViewEventsUsecase;
-import com.rubeusufv.sync.Features.Domain.Utils.DateParser;
 import com.rubeusufv.sync.Features.Presentation.Adapters.CallbackEventListItem;
 import com.rubeusufv.sync.Features.Presentation.Adapters.EventDayListAdapter;
 import com.rubeusufv.sync.Features.Presentation.Types.EventDayListItem;
@@ -98,7 +97,7 @@ public class EventsActivity extends AppCompatActivity {
 
     private void configureBottomNav() {
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
-        bottomNav.setSelectedItemId(R.id.nav_lista);
+        /*bottomNav.setSelectedItemId(R.id.nav_lista);
 
         bottomNav.setOnItemSelectedListener(item -> {
             int id = item.getItemId();
@@ -113,7 +112,7 @@ public class EventsActivity extends AppCompatActivity {
                 return true;
             }
             return false;
-        });
+        });*/
         // Teste da api da rubeus
         //buscarContatoPorId("21");
 
@@ -322,7 +321,7 @@ public class EventsActivity extends AppCompatActivity {
     public void showEvents() {
         RubeusApi apiService = RubeusApiClient.getClient().create(RubeusApi.class);
         EventsRequest eventsRequest = new EventsRequest("9e5199c5de1c58f31987f71dde804da8", "7");
-        Call<EventsResponse> callEvents = apiService.getEvents(eventsRequest);
+        /*Call<EventsResponse> callEvents = apiService.getEvents(eventsRequest);
 
         // Executar em background!
         new Thread(() -> {
@@ -356,7 +355,7 @@ public class EventsActivity extends AppCompatActivity {
                 Log.e(TAG, "Erro na requisição síncrona: " + e.getMessage());
                 e.printStackTrace();
             }
-        }).start();
+        }).start();*/
     }
 
 }
