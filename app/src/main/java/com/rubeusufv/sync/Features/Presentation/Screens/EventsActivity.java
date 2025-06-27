@@ -97,7 +97,7 @@ public class EventsActivity extends AppCompatActivity {
 
     private void configureBottomNav() {
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
-        /*bottomNav.setSelectedItemId(R.id.nav_lista);
+        bottomNav.setSelectedItemId(R.id.nav_lista);
 
         bottomNav.setOnItemSelectedListener(item -> {
             int id = item.getItemId();
@@ -112,7 +112,7 @@ public class EventsActivity extends AppCompatActivity {
                 return true;
             }
             return false;
-        });*/
+        });
         // Teste da api da rubeus
         //buscarContatoPorId("21");
 
