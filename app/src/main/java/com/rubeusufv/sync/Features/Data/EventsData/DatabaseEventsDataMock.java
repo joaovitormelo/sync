@@ -5,6 +5,7 @@ import android.util.Log;
 import com.rubeusufv.sync.Features.Domain.Models.EventModel;
 import com.rubeusufv.sync.Features.Domain.Models.UserModel;
 import com.rubeusufv.sync.Features.Domain.Types.Color;
+import com.rubeusufv.sync.Features.Domain.Types.SyncDate;
 import com.rubeusufv.sync.Features.Domain.Utils.DateParser;
 
 import java.util.ArrayList;
@@ -23,13 +24,17 @@ public class DatabaseEventsDataMock implements EventsDataContract {
         e1.setId(1);
         e1.setRubeusId(1);
         e1.setTitle("Aula 1");
-        e1.setColor(Color.GREEN);
+        e1.setColor(Color.RED);
 
         EventModel e2 = EventModel.getMock();
         e2.setTitle("Visita Gabriel");
-        e2.setColor(Color.YELLOW);
+        e2.setColor(Color.GREEN);
+        e2.setCategory(EventModel.CATEGORY.REUNION);
+        e2.setDate(SyncDate.fromString("2025-06-09"));
         e2.setId(2);
-        e2.setRubeusId(5);
+        e2.setGoogleId(5);
+        e2.setGoogleImported(true);
+        e2.setRubeusImported(false);
 
         eventList.add(e1);
         eventList.add(e2);
