@@ -381,6 +381,51 @@
                 </LinearLayout>
                 -->
             </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/googleFields"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+            >
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#CCCCCC"
+                    android:layout_marginBottom="5dp"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/googleFieldsLabel"
+                    android:layout_marginBottom="24dp"
+                    android:textSize="16sp"
+                    />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    >
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/location_icon"
+                        android:contentDescription="@string/locationIconDescription" />
+                    <EditText
+                        android:id="@+id/editTextLocation"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:hint="@string/taskLocation"
+                        android:inputType="text"
+                        android:textColor="@color/green"
+                        android:textColorHint="@color/green"
+                        android:textSize="16sp"
+                        android:background="@null" />
+                </LinearLayout>
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 

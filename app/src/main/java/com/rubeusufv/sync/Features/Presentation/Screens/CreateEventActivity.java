@@ -346,7 +346,8 @@ public class CreateEventActivity extends AppCompatActivity {
                 eventColor,
                 selectedCategory,
                 importToRubeus,
-                importToGoogle
+                importToGoogle,
+                null
         );
     }
 

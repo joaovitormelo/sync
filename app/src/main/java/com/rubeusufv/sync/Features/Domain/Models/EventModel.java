@@ -31,6 +31,7 @@ public class EventModel implements Serializable {
     private ContactType contactType;
     private boolean googleImported;
     private int googleId;
+    private String location;
 
     protected EventModel(Parcel in) {
         id = in.readInt();
@@ -45,6 +46,7 @@ public class EventModel implements Serializable {
         rubeusId = in.readInt();
         googleImported = in.readByte() != 0;
         googleId = in.readInt();
+        location = in.readString();
     }
 
     public int getId() {
@@ -167,6 +169,14 @@ public class EventModel implements Serializable {
         this.userId = userId;
     }
 
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
     public static class CATEGORY {
         public static final String TEST = "Prova";
         public static final String REUNION = "Reunião";
@@ -180,7 +190,7 @@ public class EventModel implements Serializable {
             int id, int userId, String title, String description, SyncDate syncDate, String startHour,
             String endHour, boolean allDay, Color color, String category,
             boolean rubeusImported, int rubeusId, ContactType contactType,
-            boolean googleImported, int googleId
+            boolean googleImported, int googleId, String location
     ) {
         this.id = id;
         this.userId = userId;
@@ -197,12 +207,13 @@ public class EventModel implements Serializable {
         this.contactType = contactType;
         this.googleImported = googleImported;
         this.googleId = googleId;
+        this.location = location;
     }
 
     public EventModel(
             int userId, String title, String description, SyncDate syncDate, String startHour,
             String endHour, boolean allDay, Color color, String category,
-            boolean rubeusImported, boolean googleImported
+            boolean rubeusImported, boolean googleImported, String location
     ) {
         this.userId = userId;
         this.title = title;
@@ -215,6 +226,7 @@ public class EventModel implements Serializable {
         this.category = category;
         this.rubeusImported = rubeusImported;
         this.googleImported = googleImported;
+        this.location = location;
     }
 
     public static Color getColorFromCategory(String selectedCategory) {
@@ -277,6 +289,8 @@ public class EventModel implements Serializable {
             }
         }
 
+        event.location = entry.getAsString("location");
+
         return event;
     }
 
@@ -301,6 +315,7 @@ public class EventModel implements Serializable {
         values.put("contactType", contactTypeStr);
         values.put("googleImported", this.googleImported);
         values.put("googleId", this.googleId);
+        values.put("location", this.location);
 
         return values;
     }
@@ -309,7 +324,7 @@ public class EventModel implements Serializable {
         return new EventModel(
             1, "Evento 1", "Descrição", new SyncDate(07, 06, 2025), "09:00",
             "10:00",false, Color.BLUE, "Prova", true,
-            false
+            false, null
         );
     }
 
@@ -324,6 +339,7 @@ public class EventModel implements Serializable {
         setAllDay(editedEvent.isAllDay());
         setCategory(editedEvent.getCategory());
         setColor(editedEvent.getColor());
+        setLocation(editedEvent.getLocation());
     }
 
     public static void validateEventModel(EventModel event) {

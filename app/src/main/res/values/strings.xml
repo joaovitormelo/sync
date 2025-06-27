@@ -169,4 +169,7 @@
         "when a userModel tries to pick up one of cards.\n\n"
     </string>
     <string name="action_settings">Settings</string>
+    <string name="taskLocation">Localização</string>
+    <string name="locationIconDescription">Ícone de localização</string>
+    <string name="googleFieldsLabel">Campos Google</string>
 </resources>
