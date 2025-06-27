@@ -123,7 +123,7 @@ public class EventsActivity extends AppCompatActivity {
     private void configureFilterDropdowns() {
         configureYearFilter();
         configureMonthFilter();
-        configureDayFilter();
+        //configureDayFilter();
     }
 
     private void configureYearFilter() {

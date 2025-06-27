@@ -172,4 +172,5 @@
     <string name="taskLocation">Localização</string>
     <string name="locationIconDescription">Ícone de localização</string>
     <string name="googleFieldsLabel">Campos Google</string>
+    <string name="wait_for_events_loading_calendar">Aguarde o carregamento dos eventos...</string>
 </resources>

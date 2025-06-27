@@ -37,7 +37,7 @@ public class DatabaseEventsDataMock implements EventsDataContract {
 
     public ArrayList<EventModel> viewEvents(UserModel user, int year, int month) {
         try {
-            Thread.sleep(2000);
+            Thread.sleep(200);
         } catch (InterruptedException error) {
             // Simulated delay
         }

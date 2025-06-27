@@ -5,6 +5,8 @@ import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,6 +34,7 @@ import java.util.Set;
 public class CalendarActivity extends AppCompatActivity {
 
     private CalendarView calendarView;
+    private ProgressBar calendarLoadingBar;
     private ViewEventsUsecase viewEventsUsecase;
     private Map<SyncDate, ArrayList<EventModel>> eventsPerDayMap;
 
@@ -50,6 +53,7 @@ public class CalendarActivity extends AppCompatActivity {
 
         viewEventsUsecase = Injector.getInstance().getViewEventsUsecase();
         calendarView = findViewById(R.id.calendarView);
+        calendarLoadingBar = findViewById(R.id.calendarLoadingBar);
 
         setupBottomNavigation();
         loadEvents();
@@ -61,7 +65,6 @@ public class CalendarActivity extends AppCompatActivity {
 
         bottomNav.setOnItemSelectedListener(item -> {
             int id = item.getItemId();
-            Log.d("TEST", String.valueOf(id));
             if (id == R.id.nav_lista) {
                 startActivity(new Intent(this, EventsActivity.class));
                 overridePendingTransition(0, 0);
@@ -77,6 +80,7 @@ public class CalendarActivity extends AppCompatActivity {
     }
 
     private void loadEvents() {
+        setLoadingCalendar();
         new Thread(() -> {
             int year = Calendar.getInstance().get(Calendar.YEAR);
             ArrayList<EventModel> allEvents = new ArrayList<>();
@@ -97,6 +101,17 @@ public class CalendarActivity extends AppCompatActivity {
         }).start();
     }
 
+    private void setLoadingCalendar() {
+        calendarLoadingBar.setVisibility(View.VISIBLE);
+        calendarView.setVisibility(View.GONE);
+    }
+
+    private void setLoadedCalendar() {
+        calendarLoadingBar.setVisibility(View.GONE);
+        calendarView.setVisibility(View.VISIBLE);
+    }
+
+
     private void markEventsOnCalendar(Map<SyncDate, ArrayList<EventModel>> map) {
         List<EventDay> markers = new ArrayList<>();
 
@@ -105,6 +120,7 @@ public class CalendarActivity extends AppCompatActivity {
 
             Set<Integer> cores = new HashSet<>();
             for (EventModel e : eventos) {
+                Log.d("TEST", e.getTitle());
                 int cor = getCorID(e.getCategory());
                 Log.d("CALENDAR_DEBUG", "Evento: " + e.getTitle() + " Categoria: " + e.getCategory() + " Cor ID: " + getCorID(e.getCategory()));
 
@@ -127,6 +143,7 @@ public class CalendarActivity extends AppCompatActivity {
 
         calendarView.setEvents(markers);
         setupClickListener();
+        setLoadedCalendar();
     }
 
     private int getCorID(String categoria) {
