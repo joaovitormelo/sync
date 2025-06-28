@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rubeusDivider"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#CCCCCC"
+        android:layout_marginBottom="5dp"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:layout_toStartOf="@id/rubeusSectionIcon"
+        />
+    <ImageView
+        android:id="@+id/rubeusSectionIcon"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:src="@drawable/rubbeus"
+        android:layout_centerInParent="true"
+        />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#CCCCCC"
+        android:layout_marginBottom="5dp"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:layout_toEndOf="@id/rubeusSectionIcon"
+        />
+</RelativeLayout>

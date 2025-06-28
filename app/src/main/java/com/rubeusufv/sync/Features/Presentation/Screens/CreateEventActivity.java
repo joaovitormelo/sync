@@ -59,7 +59,8 @@ public class CreateEventActivity extends AppCompatActivity {
     private TextView nameTask, headerText;
     private EditText descriptionTask;
     private MaterialButton dateButton, timeButtonStart, timeButtonEnd;
-    private MaterialAutoCompleteTextView repeatDropdown, categoryDropdown;
+    private MaterialAutoCompleteTextView repeatDropdown, categoryDropdown,
+    rubeusTypeDropdown;
     View colorDisplay;
     private String dateTaskString;
     private SyncDate eventDate;
@@ -71,10 +72,15 @@ public class CreateEventActivity extends AppCompatActivity {
     ProgressBar createEventLoadingBar;
     Button saveButton, cancelButton;
     Drawable borderRed;
-    private LinearLayout googleFieldsSection;
+    private LinearLayout googleFieldsSection, rubeusFieldsSection;
     private EditText locationEditText;
     // VARIÁVEIS
-    String[] categoryOptions = {"Selecione uma categoria", "Reunião", "Prova", "Lazer", "Trabalho"};
+    String[] categoryOptions = {
+        "Selecione uma categoria", "Reunião", "Prova", "Lazer", "Trabalho"
+    };
+    String[] rubeusTypeOptions = {
+        "Selecione um tipo", "Ligação", "E-mail", "Mensagem", "Visita", "Tarefa"
+    };
     Map<String, View[]> inputMap;
     boolean isEditMode = false;
     EventModel originalEvent;
@@ -106,6 +112,16 @@ public class CreateEventActivity extends AppCompatActivity {
         configureCategoryDropdown();
         configureDatePicker(null);
         configureGoogleImportedCheckbox();
+        configureRubeusImportedCheckbox();
+        configureRubeusTypeDropdown();
+    }
+
+    private void configureRubeusTypeDropdown() {
+        ArrayAdapter<String> adapterRepeat = new ArrayAdapter<>(
+                this, android.R.layout.simple_dropdown_item_1line, rubeusTypeOptions
+        );
+        rubeusTypeDropdown.setAdapter(adapterRepeat);
+        rubeusTypeDropdown.setText(rubeusTypeOptions[0], false);
     }
 
     private void configureGoogleImportedCheckbox() {
@@ -115,10 +131,20 @@ public class CreateEventActivity extends AppCompatActivity {
             }
         );
     }
+    private void configureRubeusImportedCheckbox() {
+        importToRubeusCheckbox.setOnCheckedChangeListener(
+                (btn, value) -> {
+                    toggleRubeusFieldsVisibility(value);
+                }
+        );
+    }
 
     private void toggleGoogleFieldsVisibility(boolean show) {
         googleFieldsSection.setVisibility(show ? View.VISIBLE : View.GONE);
-        locationEditText.setText(null);
+    }
+
+    private void toggleRubeusFieldsVisibility(boolean show) {
+        rubeusFieldsSection.setVisibility(show ? View.VISIBLE : View.GONE);
     }
 
     private void initializeUsecases() {
@@ -134,6 +160,8 @@ public class CreateEventActivity extends AppCompatActivity {
         isEditMode = true;
         originalEvent = event;
         loadFieldValues(event);
+        toggleGoogleFieldsVisibility(event.isGoogleImported());
+        toggleRubeusFieldsVisibility(event.isRubeusImported());
     }
 
     private void loadFieldValues(EventModel event) {
@@ -145,11 +173,14 @@ public class CreateEventActivity extends AppCompatActivity {
         allDayCheckbox.setChecked(event.isAllDay());
         importToGoogleCheckbox.setChecked(event.isGoogleImported());
         importToGoogleCheckbox.setEnabled(false);
-        toggleGoogleFieldsVisibility(event.isGoogleImported());
         importToRubeusCheckbox.setChecked(event.isRubeusImported());
         importToRubeusCheckbox.setEnabled(false);
         selectCategory(event.getCategory());
         locationEditText.setText(event.getLocation());
+        String rubeusType;
+        if (event.getRubeusType() == 0) rubeusType = rubeusTypeOptions[0];
+        else rubeusType = EventModel.rubeusTypeToStr(event.getRubeusType());
+        rubeusTypeDropdown.setText(rubeusType, false);
     }
 
     private void selectCategory(String category) {
@@ -189,6 +220,8 @@ public class CreateEventActivity extends AppCompatActivity {
         borderRed = getResources().getDrawable(R.drawable.border_red);
         googleFieldsSection = findViewById(R.id.googleFields);
         locationEditText = findViewById(R.id.editTextLocation);
+        rubeusFieldsSection = findViewById(R.id.rubeusFields);
+        rubeusTypeDropdown = findViewById(R.id.rubeusTypeDropdown);
         initializeInputMap();
     }
 
@@ -203,6 +236,7 @@ public class CreateEventActivity extends AppCompatActivity {
         inputMap.put("category", new View[]{categoryDropdown});
         inputMap.put("imported", new View[]{importToRubeusCheckbox, importToGoogleCheckbox});
         inputMap.put("location", new View[]{locationEditText});
+        inputMap.put("rubeusType", new View[]{rubeusTypeDropdown});
     }
 
     private void configureDatePicker(Date defaultDate) {
@@ -282,10 +316,6 @@ public class CreateEventActivity extends AppCompatActivity {
         });
     }
 
-
-
-
-
     private void configureRepeatDropdown() {
         // Opções de repetição
         String[] repeatOptions = {
@@ -359,6 +389,7 @@ public class CreateEventActivity extends AppCompatActivity {
         boolean importToGoogle = importToGoogleCheckbox.isChecked();
         boolean importToRubeus = importToRubeusCheckbox.isChecked();
         String location = locationEditText.getText().toString();
+        String rubeusType = rubeusTypeDropdown.getText().toString();
 
         return new EventModel(
                 0,
@@ -372,7 +403,8 @@ public class CreateEventActivity extends AppCompatActivity {
                 selectedCategory,
                 importToRubeus,
                 importToGoogle,
-                location
+                location,
+                EventModel.strToRubeusType(rubeusType)
         );
     }
 

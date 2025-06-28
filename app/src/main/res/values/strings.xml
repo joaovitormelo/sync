@@ -175,4 +175,5 @@
     <string name="wait_for_events_loading_calendar">Aguarde o carregamento dos eventos...</string>
     <string name="locationLabelDetails">Localização</string>
     <string name="googleMeetMockDetails">Google Meet</string>
+    <string name="rubeusTypeIconLabel">Ícone de tipo da Rubeus</string>
 </resources>

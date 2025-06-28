@@ -32,6 +32,7 @@ public class EventModel implements Serializable {
     private boolean googleImported;
     private int googleId;
     private String location;
+    private int rubeusType;
 
     protected EventModel(Parcel in) {
         id = in.readInt();
@@ -47,6 +48,7 @@ public class EventModel implements Serializable {
         googleImported = in.readByte() != 0;
         googleId = in.readInt();
         location = in.readString();
+        rubeusType = in.readInt();
     }
 
     public int getId() {
@@ -177,11 +179,61 @@ public class EventModel implements Serializable {
         this.location = location;
     }
 
+    public int getRubeusType() {
+        return rubeusType;
+    }
+
+    public void setRubeusType(int rubeusType) {
+        this.rubeusType = rubeusType;
+    }
+
     public static class CATEGORY {
         public static final String TEST = "Prova";
         public static final String REUNION = "Reunião";
         public static final String LEISURE = "Lazer";
         public static final String WORK = "Trabalho";
+    }
+
+    public static class RUBEUS_TYPE {
+        public static final int CALL = 1;
+        public static final int EMAIL = 2;
+        public static final int MESSAGE = 3;
+        public static final int VISIT = 4;
+        public static final int TASK = 5;
+    }
+
+    public static String rubeusTypeToStr(int rubeusType) {
+        switch(rubeusType) {
+            case RUBEUS_TYPE.CALL:
+                return "Ligação";
+            case RUBEUS_TYPE.EMAIL:
+                return "E-mail";
+            case RUBEUS_TYPE.MESSAGE:
+                return "Mensagem";
+            case RUBEUS_TYPE.VISIT:
+                return "Visita";
+            case RUBEUS_TYPE.TASK:
+                return "Tarefa";
+            default:
+                return null;
+        }
+    }
+
+    public static int strToRubeusType(String str) {
+        switch(str) {
+            case "Ligação":
+                return RUBEUS_TYPE.CALL;
+            case "E-mail":
+                return RUBEUS_TYPE.EMAIL;
+            case "Mensagem":
+                return RUBEUS_TYPE.MESSAGE;
+            case "Visita":
+                return RUBEUS_TYPE.VISIT;
+            case "Tarefa":
+                return RUBEUS_TYPE.TASK;
+            default:
+                return 0;
+        }
     }
 
     public EventModel(){};
@@ -190,7 +242,7 @@ public class EventModel implements Serializable {
             int id, int userId, String title, String description, SyncDate syncDate, String startHour,
             String endHour, boolean allDay, Color color, String category,
             boolean rubeusImported, int rubeusId, ContactType contactType,
-            boolean googleImported, int googleId, String location
+            boolean googleImported, int googleId, String location, int rubeusType
     ) {
         this.id = id;
         this.userId = userId;
@@ -208,12 +260,14 @@ public class EventModel implements Serializable {
         this.googleImported = googleImported;
         this.googleId = googleId;
         this.location = location;
+        this.rubeusType = rubeusType;
     }
 
     public EventModel(
             int userId, String title, String description, SyncDate syncDate, String startHour,
             String endHour, boolean allDay, Color color, String category,
-            boolean rubeusImported, boolean googleImported, String location
+            boolean rubeusImported, boolean googleImported, String location,
+            int rubeusType
     ) {
         this.userId = userId;
         this.title = title;
@@ -227,6 +281,7 @@ public class EventModel implements Serializable {
         this.rubeusImported = rubeusImported;
         this.googleImported = googleImported;
         this.location = location;
+        this.rubeusType = rubeusType;
     }
 
     public static Color getColorFromCategory(String selectedCategory) {
@@ -290,6 +345,7 @@ public class EventModel implements Serializable {
         }
 
         event.location = entry.getAsString("location");
+        event.rubeusType = entry.getAsInteger("rubeusType");
 
         return event;
     }
@@ -316,6 +372,7 @@ public class EventModel implements Serializable {
         values.put("googleImported", this.googleImported);
         values.put("googleId", this.googleId);
         values.put("location", this.location);
+        values.put("rubeusType", this.rubeusType);
 
         return values;
     }
@@ -324,7 +381,7 @@ public class EventModel implements Serializable {
         return new EventModel(
             1, "Evento 1", "Descrição", new SyncDate(07, 06, 2025), "09:00",
             "10:00",false, Color.BLUE, "Prova", true,
-            false, null
+            false, null, 0
         );
     }
 
@@ -340,6 +397,7 @@ public class EventModel implements Serializable {
         setCategory(editedEvent.getCategory());
         setColor(editedEvent.getColor());
         setLocation(editedEvent.getLocation());
+        setRubeusType(editedEvent.getRubeusType());
     }
 
     public static void validateEventModel(EventModel event) {

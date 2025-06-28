@@ -382,6 +382,53 @@
                 -->
             </LinearLayout>
 
+
+
+            <LinearLayout
+                android:id="@+id/rubeusFields"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone"
+                >
+                <include
+                    layout="@layout/rubeus_divider"
+                    />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:background="@android:color/transparent">
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:contentDescription="@string/rubeusTypeIconLabel"
+                        android:src="@drawable/rubeus_type_icon" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        style="@style/GreenDropdownTextInput">
+
+                        <!-- style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+                        -->
+
+                        <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                            android:id="@+id/rubeusTypeDropdown"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@android:color/transparent"
+                            android:textColor="@color/green"
+                            android:textColorHint="@color/green"
+                            android:textSize="16sp" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
+            </LinearLayout>
+
             <LinearLayout
                 android:id="@+id/googleFields"
                 android:layout_width="match_parent"
