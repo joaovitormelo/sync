@@ -389,20 +389,10 @@
                 android:orientation="vertical"
                 android:visibility="gone"
             >
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="#CCCCCC"
-                    android:layout_marginBottom="5dp"
-                    />
+                <include
+                    layout="@layout/google_divider"
+                />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/googleFieldsLabel"
-                    android:layout_marginBottom="24dp"
-                    android:textSize="16sp"
-                    />
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
