@@ -50,7 +50,7 @@
     <string name="weekly">Semanal</string>
     <string name="repeat">Repetição</string>
     <string name="detailsEvent">Detalhes do evento</string>
-    <string name="synchronizedd">Sincronizado com:</string>
+    <string name="synchronizedd">Sincronizado com</string>
     <string name="synchronizeddGoogleandRubeus">Google e Rubeus </string>
     <string name="repeat_example">Semanalmente</string>
     <string name="locationexample">Pavilhão de Aulas II - Avenida PH Rolfs</string>
@@ -173,4 +173,6 @@
     <string name="locationIconDescription">Ícone de localização</string>
     <string name="googleFieldsLabel">Campos Google</string>
     <string name="wait_for_events_loading_calendar">Aguarde o carregamento dos eventos...</string>
+    <string name="locationLabelDetails">Localização</string>
+    <string name="googleMeetMockDetails">Google Meet</string>
 </resources>

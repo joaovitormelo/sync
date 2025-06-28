@@ -26,6 +26,7 @@
         android:layout_height="match_parent"
         android:layout_below="@id/textViewScreenTitle"
         android:layout_marginTop="24dp"
+        android:layout_above="@id/buttonLayoutDetails"
         android:layout_marginBottom="24dp">
 
         <LinearLayout
@@ -185,7 +186,35 @@
                 android:text="@string/synchronizeddGoogleandRubeus"
                 android:textColor="@color/green"
                 android:textSize="16sp"
-                android:layout_marginBottom="24dp" />
+                android:layout_marginBottom="12sp"/>
+
+            <LinearLayout
+                android:id="@+id/googleSection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                >
+                <include
+                    layout="@layout/google_divider"
+                />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/locationLabelDetails"
+                    android:textStyle="bold"
+                    android:textColor="@color/green"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/textViewLocationDetails"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/googleMeetMockDetails"
+                    android:textColor="@color/green"
+                    android:textSize="16sp"
+                    android:layout_marginBottom="12sp"/>
+            </LinearLayout>
 
         </LinearLayout>
 
