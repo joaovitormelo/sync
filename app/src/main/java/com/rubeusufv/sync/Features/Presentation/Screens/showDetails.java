@@ -2,7 +2,9 @@ package com.rubeusufv.sync.Features.Presentation.Screens;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
@@ -20,8 +22,10 @@ import com.rubeusufv.sync.R;
 public class showDetails extends AppCompatActivity {
 
     private TextView title, description, date, time, category, notification,
-            repeat, synced, locationTextView;
-    private Button button1, button2;
+            repeat, synced, locationTextView, rubeusTypeTextView;
+    private Button cancelBtn;
+    private LinearLayout rubeusSection, googleSection;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,6 +45,10 @@ public class showDetails extends AppCompatActivity {
         repeat = (TextView) findViewById(R.id.textViewRepeat);
         synced = (TextView) findViewById(R.id.textViewSyncedWith);
         locationTextView = findViewById(R.id.textViewLocationDetails);
+        rubeusTypeTextView = findViewById(R.id.textViewRubeusTypeDetails);
+        rubeusSection = findViewById(R.id.rubeusSectionDetails);
+        googleSection = findViewById(R.id.googleSectionDetails);
+        cancelBtn = findViewById(R.id.btnReturnDetail);
     }
 
     private void configureScreen() {
@@ -49,7 +57,20 @@ public class showDetails extends AppCompatActivity {
         EventModel event = (EventModel) it.getSerializableExtra("event");
 
         assert event != null;
+        cancelBtn.setOnClickListener(v -> {
+            finish();
+        });
         loadFieldValues(event);
+        toggleRubeusSectionVisibility(event.isRubeusImported());
+        toggleGoogleSectionVisibility(event.isGoogleImported());
+    }
+
+    private void toggleRubeusSectionVisibility(boolean value) {
+        rubeusSection.setVisibility(value ? View.VISIBLE : View.GONE);
+    }
+
+    private void toggleGoogleSectionVisibility(boolean value) {
+        googleSection.setVisibility(value ? View.VISIBLE : View.GONE);
     }
 
     private void loadFieldValues(EventModel event) {
@@ -60,7 +81,6 @@ public class showDetails extends AppCompatActivity {
         String timeComplete = event.getStartHour() + " - " + event.getEndHour();
         time.setText(timeComplete);
 
-        locationTextView.setText(event.getLocation());
         category.setText(event.getCategory());
         notification.setText("Ativada");
         repeat.setText("Não");
@@ -73,5 +93,10 @@ public class showDetails extends AppCompatActivity {
             syncedWhere += "Google";
         }
         synced.setText(syncedWhere);
+
+        locationTextView.setText(event.getLocation());
+        rubeusTypeTextView.setText(
+                EventModel.rubeusTypeToStr(event.getRubeusType())
+        );
     }
 }

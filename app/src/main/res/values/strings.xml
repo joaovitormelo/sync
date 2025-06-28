@@ -176,4 +176,6 @@
     <string name="locationLabelDetails">Localização</string>
     <string name="googleMeetMockDetails">Google Meet</string>
     <string name="rubeusTypeIconLabel">Ícone de tipo da Rubeus</string>
+    <string name="rubeusTypeLabelDetails">Tipo</string>
+    <string name="rubeusTypeMockDetails">Visita</string>
 </resources>

@@ -172,7 +172,35 @@
                 android:layout_marginBottom="12sp"/>
 
             <LinearLayout
-                android:id="@+id/googleSection"
+                android:id="@+id/rubeusSectionDetails"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                >
+                <include
+                    layout="@layout/rubeus_divider"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/rubeusTypeLabelDetails"
+                    android:textStyle="bold"
+                    android:textColor="@color/green"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/textViewRubeusTypeDetails"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/rubeusTypeMockDetails"
+                    android:textColor="@color/green"
+                    android:textSize="16sp"
+                    android:layout_marginBottom="12sp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/googleSectionDetails"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
