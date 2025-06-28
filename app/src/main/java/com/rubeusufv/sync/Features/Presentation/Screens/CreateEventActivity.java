@@ -13,6 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -70,6 +71,8 @@ public class CreateEventActivity extends AppCompatActivity {
     ProgressBar createEventLoadingBar;
     Button saveButton, cancelButton;
     Drawable borderRed;
+    private LinearLayout googleFieldsSection;
+    private EditText locationEditText;
     // VARIÁVEIS
     String[] categoryOptions = {"Selecione uma categoria", "Reunião", "Prova", "Lazer", "Trabalho"};
     Map<String, View[]> inputMap;
@@ -86,6 +89,15 @@ public class CreateEventActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_task);
 
+        configureInputs();
+        configureEditMode();
+        initializeUsecases();
+
+        RubeusApiClient.configurarCredenciais("7", "9e5199c5de1c58f31987f71dde804da8");
+        //createEvent(eventModel);
+    }
+
+    private void configureInputs() {
         Date now = new Date();
         initializeInstances();
         configureTimePickerStart(now.getHours(), now.getMinutes());
@@ -93,11 +105,20 @@ public class CreateEventActivity extends AppCompatActivity {
         configureRepeatDropdown();
         configureCategoryDropdown();
         configureDatePicker(null);
-        configureEditMode();
-        initializeUsecases();
+        configureGoogleImportedCheckbox();
+    }
 
-        RubeusApiClient.configurarCredenciais("7", "9e5199c5de1c58f31987f71dde804da8");
-        //createEvent(eventModel);
+    private void configureGoogleImportedCheckbox() {
+        importToGoogleCheckbox.setOnCheckedChangeListener(
+            (btn, value) -> {
+                toggleGoogleFieldsVisibility(value);
+            }
+        );
+    }
+
+    private void toggleGoogleFieldsVisibility(boolean show) {
+        googleFieldsSection.setVisibility(show ? View.VISIBLE : View.GONE);
+        locationEditText.setText(null);
     }
 
     private void initializeUsecases() {
@@ -124,9 +145,11 @@ public class CreateEventActivity extends AppCompatActivity {
         allDayCheckbox.setChecked(event.isAllDay());
         importToGoogleCheckbox.setChecked(event.isGoogleImported());
         importToGoogleCheckbox.setEnabled(false);
+        toggleGoogleFieldsVisibility(event.isGoogleImported());
         importToRubeusCheckbox.setChecked(event.isRubeusImported());
         importToRubeusCheckbox.setEnabled(false);
         selectCategory(event.getCategory());
+        locationEditText.setText(event.getLocation());
     }
 
     private void selectCategory(String category) {
@@ -164,6 +187,8 @@ public class CreateEventActivity extends AppCompatActivity {
         saveButton = findViewById(R.id.btnSave);
         cancelButton = findViewById(R.id.btnCancel);
         borderRed = getResources().getDrawable(R.drawable.border_red);
+        googleFieldsSection = findViewById(R.id.googleFields);
+        locationEditText = findViewById(R.id.editTextLocation);
         initializeInputMap();
     }
 
@@ -177,6 +202,7 @@ public class CreateEventActivity extends AppCompatActivity {
         inputMap.put("repeat", new View[]{repeatDropdown});
         inputMap.put("category", new View[]{categoryDropdown});
         inputMap.put("imported", new View[]{importToRubeusCheckbox, importToGoogleCheckbox});
+        inputMap.put("location", new View[]{locationEditText});
     }
 
     private void configureDatePicker(Date defaultDate) {
@@ -216,8 +242,6 @@ public class CreateEventActivity extends AppCompatActivity {
     }
 
     private void configureTimePickerStart(int defaultHour, int defaultMinute) {
-
-
         timePickerStart = new MaterialTimePicker.Builder()
                 .setTimeFormat(TimeFormat.CLOCK_24H)
                 .setHour(defaultHour)
@@ -334,6 +358,7 @@ public class CreateEventActivity extends AppCompatActivity {
         boolean allDay = allDayCheckbox.isChecked();
         boolean importToGoogle = importToGoogleCheckbox.isChecked();
         boolean importToRubeus = importToRubeusCheckbox.isChecked();
+        String location = locationEditText.getText().toString();
 
         return new EventModel(
                 0,
@@ -347,7 +372,7 @@ public class CreateEventActivity extends AppCompatActivity {
                 selectedCategory,
                 importToRubeus,
                 importToGoogle,
-                null
+                location
         );
     }
 

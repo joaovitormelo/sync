@@ -102,6 +102,7 @@ public class EventsActivity extends AppCompatActivity {
         bottomNav.setOnItemSelectedListener(item -> {
             int id = item.getItemId();
             if (id == R.id.nav_lista) {
+                loadEventList();
                 return true;
             } else if (id == R.id.nav_add) {
                 startActivity(new Intent(this, CreateEventActivity.class));
@@ -231,8 +232,7 @@ public class EventsActivity extends AppCompatActivity {
         setEventsListLoading();
         int year = Integer.parseInt(yearOptions[currentYearPos]);
         new Thread(() -> callLoadEventsUsecase(year, currentMonthPos)).start();
-        String selectedDay = dayOptions[currentDayPos];
-
+        //String selectedDay = dayOptions[currentDayPos];
     }
 
     private void callLoadEventsUsecase(int year, int month) {

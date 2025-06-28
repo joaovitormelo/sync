@@ -377,10 +377,10 @@ public class EventModel implements Serializable {
 
     private static boolean checkValidValueForCategory(String category) {
         return (
-                category.equals(EventModel.CATEGORY.TEST)||
-                        category.equals(EventModel.CATEGORY.REUNION) ||
-                        category.equals(EventModel.CATEGORY.LEISURE) ||
-                        category.equals(EventModel.CATEGORY.WORK)
+            category.equals(EventModel.CATEGORY.TEST)||
+            category.equals(EventModel.CATEGORY.REUNION) ||
+            category.equals(EventModel.CATEGORY.LEISURE) ||
+            category.equals(EventModel.CATEGORY.WORK)
         );
     }
 
