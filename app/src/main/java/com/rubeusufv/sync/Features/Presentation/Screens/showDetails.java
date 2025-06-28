@@ -19,7 +19,8 @@ import com.rubeusufv.sync.R;
 
 public class showDetails extends AppCompatActivity {
 
-    private TextView title, description, date, time, location, category, notification, repeat, synced;
+    private TextView title, description, date, time, category, notification,
+            repeat, synced, locationTextView;
     private Button button1, button2;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,11 +36,11 @@ public class showDetails extends AppCompatActivity {
         description = (TextView) findViewById(R.id.textViewDescription);
         date = (TextView) findViewById(R.id.textViewDate);
         time = (TextView) findViewById(R.id.textViewTime);
-        location = (TextView) findViewById(R.id.textViewLocation);
         category = (TextView) findViewById(R.id.textViewCategory);
         notification = (TextView) findViewById(R.id.textViewNotification);
         repeat = (TextView) findViewById(R.id.textViewRepeat);
         synced = (TextView) findViewById(R.id.textViewSyncedWith);
+        locationTextView = findViewById(R.id.textViewLocationDetails);
     }
 
     private void configureScreen() {
@@ -59,7 +60,7 @@ public class showDetails extends AppCompatActivity {
         String timeComplete = event.getStartHour() + " - " + event.getEndHour();
         time.setText(timeComplete);
 
-        location.setText("Local");
+        locationTextView.setText(event.getLocation());
         category.setText(event.getCategory());
         notification.setText("Ativada");
         repeat.setText("Não");
